@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/24"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cr.ac.ucr.sga.controller.CourseController">
+
+    <!-- CENTRO: Tabla -->
+    <center>
+        <TableView fx:id="tblCourses">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="150"/>
+                <TableColumn fx:id="colName" text="Nombre" prefWidth="250"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- DERECHA: Formulario -->
+    <right>
+        <VBox spacing="10" style="-fx-padding: 15;">
+
+            <Label text="Gestión de Cursos" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+            <Label text="ID"/>
+            <TextField fx:id="txtId" promptText="Ingrese ID"/>
+
+            <Label text="Nombre"/>
+            <TextField fx:id="txtName" promptText="Ingrese nombre"/>
+
+            <HBox spacing="10">
+                <Button fx:id="btnSave" text="Guardar" onAction="#onSave"/>
+                <Button fx:id="btnUpdate" text="Actualizar" onAction="#onUpdate"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Button fx:id="btnDelete" text="Eliminar" onAction="#onDelete"/>
+                <Button fx:id="btnClear" text="Limpiar" onAction="#onClear"/>
+            </HBox>
+
+        </VBox>
+    </right>
+
+</BorderPane>
