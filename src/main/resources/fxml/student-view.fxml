@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cr.ac.ucr.sga.controller.StudentController"
+            prefWidth="1200"
+            prefHeight="700"
+            styleClass="root-pane"
+            stylesheets="@../styles.css">
+    <!-- HEADER -->
+    <top>
+
+        <HBox alignment="CENTER_LEFT"
+              spacing="15"
+              styleClass="header-bar">
+
+            <Label text="SGA"
+                   styleClass="header-badge"/>
+
+            <VBox spacing="2">
+
+                <Label text="Sistema de Gestión Académica"
+                       styleClass="header-title"/>
+
+                <Label text="Administración de estudiantes"
+                       styleClass="header-sub"/>
+
+            </VBox>
+
+        </HBox>
+
+    </top>
+
+    <!-- CENTER -->
+    <center>
+
+        <VBox spacing="20"
+              padding="20">
+
+            <!-- FORM PANEL -->
+
+            <VBox spacing="18"
+                  styleClass="panel">
+
+                <Label text="Registro de Estudiantes"
+                       styleClass="panel-title"/>
+
+                <GridPane hgap="18"
+                          vgap="12">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+
+                    <!-- ID -->
+
+                    <Label text="Identificación"
+                           styleClass="section-label"
+                           GridPane.rowIndex="0"
+                           GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="txtId"
+                               promptText="Ingrese identificación"
+                               GridPane.rowIndex="1"
+                               GridPane.columnIndex="0"/>
+
+                    <!-- NAME -->
+
+                    <Label text="Nombre Completo"
+                           styleClass="section-label"
+                           GridPane.rowIndex="0"
+                           GridPane.columnIndex="1"/>
+
+                    <TextField fx:id="txtName"
+                               promptText="Ingrese nombre completo"
+                               GridPane.rowIndex="1"
+                               GridPane.columnIndex="1"/>
+
+                    <!-- AGE -->
+
+                    <Label text="Edad"
+                           styleClass="section-label"
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="txtAge"
+                               promptText="Ingrese edad"
+                               GridPane.rowIndex="3"
+                               GridPane.columnIndex="0"/>
+
+                    <!-- CARNET -->
+
+                    <Label text="Carnet"
+                           styleClass="section-label"
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="1"/>
+
+                    <TextField fx:id="txtCarnet"
+                               promptText="Ingrese carnet"
+                               GridPane.rowIndex="3"
+                               GridPane.columnIndex="1"/>
+
+                </GridPane>
+
+                <!-- BUTTONS -->
+
+                <HBox spacing="12">
+
+                    <Button text="Agregar"
+                            fx:id="btnAdd"
+                            styleClass="btn-primary"/>
+
+                    <Button text="Actualizar"
+                            fx:id="btnUpdate"
+                            styleClass="btn-accent"/>
+
+                    <Button text="Eliminar"
+                            fx:id="btnDelete"
+                            styleClass="btn-gray"/>
+
+                    <Button text="Limpiar"
+                            fx:id="btnClear"
+                            styleClass="btn-ghost"/>
+
+                </HBox>
+
+            </VBox>
+
+            <!-- TABLE PANEL -->
+
+            <VBox spacing="10"
+                  styleClass="panel">
+
+                <HBox alignment="CENTER_LEFT"
+                      spacing="10">
+
+                    <Label text="Lista de Estudiantes"
+                           styleClass="panel-title"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Label text="0 registros"
+                           fx:id="lblCount"
+                           styleClass="header-tag"/>
+
+                </HBox>
+
+                <!-- TABLE -->
+
+                <VBox styleClass="custom-table-container">
+
+                    <TableView fx:id="tblStudents"
+                               styleClass="custom-table"
+                               prefHeight="350">
+
+                        <columns>
+
+                            <TableColumn fx:id="colId"
+                                         text="ID"
+                                         prefWidth="180"/>
+
+                            <TableColumn fx:id="colName"
+                                         text="Nombre"
+                                         prefWidth="280"/>
+
+                            <TableColumn fx:id="colAge"
+                                         text="Edad"
+                                         prefWidth="120"/>
+
+                            <TableColumn fx:id="colCarnet"
+                                         text="Carnet"
+                                         prefWidth="180"/>
+
+                        </columns>
+
+                    </TableView>
+
+                </VBox>
+
+            </VBox>
+
+        </VBox>
+
+    </center>
+
+    <!-- FOOTER -->
+
+    <bottom>
+
+        <HBox alignment="CENTER_LEFT"
+              styleClass="status-bar">
+
+            <Label text="IF3001 - Proyecto Grupo 3"
+                   styleClass="status-left"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label text="Universidad de Costa Rica"
+                   styleClass="status-right"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>
