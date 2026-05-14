@@ -1,39 +1,63 @@
 package cr.ac.ucr.sga.model.entities;
 
+import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 public class AcademicRecord {
 
-        private Student student;
-        private LinkedList<Course> courses;
+    private final Student student;
+    private final DoublyLinkedList<Course> courses;
 
-        // Constructor
-        public AcademicRecord(Student student) {
-            this.student = student;
-            this.courses = new LinkedList<>();
+    public AcademicRecord(Student student) {
+
+        if (student == null) {
+            throw new IllegalArgumentException("El estudiante no puede ser null");
         }
 
-        // Getters & Setters
-        public Student getStudent() {
-            return student;
+        this.student = student;
+        this.courses = new DoublyLinkedList<>();
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public DoublyLinkedList<Course> getCourses() {
+        return courses;
+    }
+
+    // Agregar curso
+    public void addCourse(Course course) {
+
+        if (course == null) {
+            throw new IllegalArgumentException("El curso no puede ser null");
         }
 
-        public void setStudent(Student student) {
-            this.student = student;
-        }
+        courses.add(course);
+    }
 
-        public LinkedList<Course> getCourses() {
-            return courses;
-        }
+    // Eliminar curso
+    public void removeCourse(Course course) throws ListException {
+        courses.remove(course);
+    }
 
-        public void setCourses(LinkedList<Course> courses) {
-            this.courses = courses;
-        }
+    // Cantidad de cursos
+    public int totalCourses() throws ListException {
+        return courses.size();
+    }
 
-        // Agregar curso
-        public void addCourse(Course course) {
-            courses.add(course);
+    @Override
+    public String toString() {
+        try {
+            return "AcademicRecord{" +
+                    "student=" + student +
+                    ", totalCourses=" + courses.size() +
+                    '}';
+        } catch (ListException e) {
+            throw new RuntimeException(e);
         }
+    }
 
 
     }

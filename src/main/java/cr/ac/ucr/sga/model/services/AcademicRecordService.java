@@ -6,26 +6,54 @@ import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 public class AcademicRecordService {
-    private DoublyLinkedList<AcademicRecord> records;
 
-    // Constructor
-    public AcademicRecordService() {
+    // SINGLETON
+    private static AcademicRecordService instance;
+
+    private final DoublyLinkedList<AcademicRecord> records;
+
+    // Constructor privado
+    private AcademicRecordService() {
         this.records = new DoublyLinkedList<>();
+    }
+
+    // Obtener única instancia
+    public static AcademicRecordService getInstance() {
+
+        if (instance == null) {
+            instance = new AcademicRecordService();
+        }
+
+        return instance;
     }
 
     // Agregar historial académico
     public void addAcademicRecord(AcademicRecord record) {
+
+        if (record == null) {
+            throw new IllegalArgumentException("El historial no puede ser null");
+        }
+
         records.add(record);
     }
 
-    // Buscar historial por cédula o ID
-    public AcademicRecord findByStudentId(String studentId) throws ListException {
+    // Buscar historial por ID del estudiante
+    public AcademicRecord findByStudentId(String studentId)
+            throws ListException {
+
+        if (studentId == null || studentId.isBlank()) {
+            throw new IllegalArgumentException("El ID no puede estar vacío");
+        }
+
+        if (records.isEmpty()) {
+            return null;
+        }
 
         for (int i = 1; i <= records.size(); i++) {
 
             AcademicRecord record = records.get(i);
 
-            if (record.getStudent().getId().equals(studentId)) {
+            if (studentId.equals(record.getStudent().getId())) {
                 return record;
             }
         }
@@ -37,11 +65,17 @@ public class AcademicRecordService {
     public boolean enrollCourse(String studentId, Course course)
             throws ListException {
 
+        if (course == null) {
+            throw new IllegalArgumentException("El curso no puede ser null");
+        }
+
         AcademicRecord record = findByStudentId(studentId);
 
         if (record != null) {
 
-            record.getCourses().add(course);
+            // Usar método encapsulado
+            record.addCourse(course);
+
             return true;
         }
 
@@ -54,53 +88,51 @@ public class AcademicRecordService {
 
         AcademicRecord record = findByStudentId(studentId);
 
-        if (record != null) {
+        if (record == null) {
+            return false;
+        }
 
-            for (int i = 1; i <= record.getCourses().size(); i++) {
+        if (record.getCourses().isEmpty()) {
+            return false;
+        }
 
-                Course c = record.getCourses().get(i);
+        for (int i = 1; i <= record.getCourses().size(); i++) {
 
-                if (c.getId().equals(courseCode)) {
+            Course course = record.getCourses().get(i);
 
-                    record.getCourses().remove(c);
-                    return true;
-                }
+            if (courseCode.equals(course.getId())) {
+
+                // Usar método encapsulado
+                record.removeCourse(course);
+
+                return true;
             }
         }
 
         return false;
     }
 
-    // Mostrar historiales
-    public void showAllRecords() throws ListException {
-
-        if (records.isEmpty()) {
-            System.out.println("No hay historiales registrados");
-            return;
-        }
-
-        for (int i = 1; i <= records.size(); i++) {
-
-            System.out.println(records.get(i));
-        }
+    // Obtener todos los historiales
+    public DoublyLinkedList<AcademicRecord> getRecords() {
+        return records;
     }
 
     // Cantidad de historiales
-    public int size() throws ListException {
+    public int size() {
 
         if (records.isEmpty()) {
             return 0;
         }
 
-        return records.size();
+        try {
+            return records.size();
+        } catch (ListException e) {
+            return 0;
+        }
     }
 
     // Verificar si está vacío
     public boolean isEmpty() {
         return records.isEmpty();
     }
-
-
-
-
 }
