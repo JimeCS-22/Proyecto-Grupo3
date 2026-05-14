@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            styleClass="root-pane">
+
+    <top>
+
+        <HBox spacing="15"
+              alignment="CENTER_LEFT"
+              styleClass="header-bar">
+
+            <Label text="SGA"
+                   styleClass="header-badge"/>
+
+            <VBox spacing="2">
+
+                <Label text="Sistema de Gestión Académica"
+                       styleClass="header-title"/>
+
+                <Label text="Proyecto Final IF-3001"
+                       styleClass="header-sub"/>
+
+            </VBox>
+
+        </HBox>
+
+    </top>
+
+    <center>
+
+        <TabPane styleClass="main-tabs">
+
+            <!-- STUDENTS -->
+
+            <Tab text="Estudiantes"
+                 closable="false">
+
+                <fx:include source="student-view.fxml"/>
+
+            </Tab>
+
+            <!-- COURSES -->
+
+            <Tab text="Cursos"
+                 closable="false">
+
+                <fx:include source="course-view.fxml"/>
+
+            </Tab>
+
+        </TabPane>
+
+    </center>
+
+</BorderPane>

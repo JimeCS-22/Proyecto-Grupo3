@@ -16,9 +16,9 @@ public class HelloApplication extends Application {
 
     private void star2(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/fxml/course.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/views/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1100, 720);
-        scene.getStylesheets().add(HelloApplication.class.getResource("/styles.css").toExternalForm());
+        scene.getStylesheets().add(HelloApplication.class.getResource("styles.css").toExternalForm());
         stage.setTitle("Proyecto Final IF-3001 Algoritmos y Estructuras de Datos");
         stage.setScene(scene);
         stage.show();

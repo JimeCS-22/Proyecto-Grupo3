@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cr.ac.ucr.sga.controller.CourseController"
+            styleClass="root-pane">
+
+    <top>
+        <HBox spacing="15"
+              alignment="CENTER_LEFT"
+              styleClass="header-bar">
+
+            <Label text="SGA"
+                   styleClass="header-badge"/>
+
+            <VBox spacing="2">
+                <Label text="Gestión de Cursos"
+                       styleClass="header-title"/>
+
+                <Label text="Administración académica"
+                       styleClass="header-sub"/>
+            </VBox>
+
+        </HBox>
+    </top>
+
+    <center>
+
+        <HBox spacing="20"
+              padding="20">
+
+            <!-- PANEL IZQUIERDO -->
+
+            <VBox spacing="15"
+                  prefWidth="320"
+                  styleClass="panel">
+
+                <Label text="Información del Curso"
+                       styleClass="panel-title"/>
+
+                <Separator/>
+
+                <VBox spacing="5">
+
+                    <Label text="Código"
+                           styleClass="section-label"/>
+
+                    <TextField fx:id="txtId"
+                               promptText="Ej: IF3001"/>
+                </VBox>
+
+                <VBox spacing="5">
+
+                    <Label text="Nombre"
+                           styleClass="section-label"/>
+
+                    <TextField fx:id="txtName"
+                               promptText="Nombre del curso"/>
+                </VBox>
+
+                <VBox spacing="5">
+
+                    <Label text="Créditos"
+                           styleClass="section-label"/>
+
+                    <TextField fx:id="txtCredits"
+                               promptText="Cantidad de créditos"/>
+                </VBox>
+
+                <Separator/>
+
+                <HBox spacing="10">
+
+                    <Button fx:id="btnAdd"
+                            text="Agregar"
+                            onAction="#addCourse"
+                            styleClass="btn-primary"/>
+
+                    <Button fx:id="btnUpdate"
+                            text="Actualizar"
+                            onAction="#updateCourse"
+                            styleClass="btn-accent"/>
+                </HBox>
+
+                <HBox spacing="10">
+
+                    <Button fx:id="btnDelete"
+                            text="Eliminar"
+                            onAction="#deleteCourse"
+                            styleClass="btn-gray"/>
+
+                    <Button fx:id="btnClear"
+                            text="Limpiar"
+                            onAction="#clearFields"
+                            styleClass="btn-ghost"/>
+                </HBox>
+
+                <Separator/>
+
+                <VBox spacing="5"
+                      styleClass="stat-card blue-card">
+
+                    <Label text="TOTAL DE CURSOS"
+                           styleClass="stat-label"/>
+
+                    <Label fx:id="lblCount"
+                           text="0 registros"
+                           styleClass="stat-value-sm"/>
+                </VBox>
+
+            </VBox>
+
+            <!-- TABLA -->
+
+            <VBox spacing="10"
+                  HBox.hgrow="ALWAYS">
+
+                <Label text="Lista de Cursos"
+                       styleClass="panel-title"/>
+
+                <StackPane styleClass="custom-table-container"
+                           VBox.vgrow="ALWAYS">
+
+                    <TableView fx:id="tblCourses"
+                               styleClass="custom-table">
+
+                        <columns>
+
+                            <TableColumn fx:id="colId"
+                                         text="Código"
+                                         prefWidth="180"/>
+
+                            <TableColumn fx:id="colName"
+                                         text="Nombre"
+                                         prefWidth="450"/>
+
+                            <TableColumn fx:id="colCredits"
+                                         text="Créditos"
+                                         prefWidth="150"/>
+
+                        </columns>
+
+                    </TableView>
+
+                </StackPane>
+
+            </VBox>
+
+        </HBox>
+
+    </center>
+
+</BorderPane>
