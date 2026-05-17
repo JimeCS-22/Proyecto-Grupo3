@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="cr.ac.ucr.sga.controller.LoginController"
+           stylesheets="@/styles.css"
+           prefWidth="900"
+           prefHeight="600"
+           styleClass="root-pane">
+
+    <!-- Fondo -->
+    <VBox alignment="CENTER"
+          spacing="20"
+          style="-fx-background-color: linear-gradient(to bottom right, #0D1B4B, #1F3868);">
+
+        <!-- Card principal -->
+        <VBox spacing="18"
+              alignment="CENTER"
+              maxWidth="420"
+              styleClass="panel"
+              style="-fx-padding: 35; -fx-background-radius: 18;">
+
+            <!-- Logo/Título -->
+            <VBox alignment="CENTER" spacing="8">
+
+                <Label text="SGA"
+                       style="-fx-font-size: 42px;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #0D1B4B;" />
+
+                <Label text="Sistema de Gestión Académica"
+                       styleClass="panel-title"/>
+
+                <Label text="Universidad de Costa Rica"
+                       style="-fx-text-fill: #8896A5;
+                              -fx-font-size: 13px;" />
+            </VBox>
+
+            <Separator prefWidth="320"/>
+
+            <!-- Usuario -->
+            <VBox spacing="6" alignment="CENTER_LEFT">
+
+                <Label text="Usuario"
+                       styleClass="section-label"/>
+
+                <TextField fx:id="txtUsername"
+                           promptText="Ingrese su usuario"
+                           prefWidth="320"
+                           style="-fx-pref-height: 42;
+                                  -fx-background-radius: 10;
+                                  -fx-font-size: 14px;" />
+            </VBox>
+
+            <!-- Password -->
+            <VBox spacing="6" alignment="CENTER_LEFT">
+
+                <Label text="Contraseña"
+                       styleClass="section-label"/>
+
+                <PasswordField fx:id="txtPassword"
+                               promptText="Ingrese su contraseña"
+                               prefWidth="320"
+                               style="-fx-pref-height: 42;
+                                      -fx-background-radius: 10;
+                                      -fx-font-size: 14px;" />
+            </VBox>
+
+            <!-- Botón -->
+            <Button text="Iniciar Sesión"
+                    onAction="#onLogin"
+                    prefWidth="320"
+                    prefHeight="45"
+                    styleClass="btn-primary"
+                    style="-fx-font-size: 15px;
+                           -fx-background-radius: 12;" />
+
+            <!-- Estado -->
+            <Label fx:id="lblStatus"
+                   text=""
+                   style="-fx-text-fill: #E74C3C;
+                          -fx-font-size: 13px;
+                          -fx-font-weight: bold;" />
+
+            <!-- Usuarios demo -->
+            <VBox spacing="4"
+                  alignment="CENTER_LEFT"
+                  styleClass="info-box"
+                  prefWidth="320">
+
+                <Label text="Usuarios de prueba"
+                       styleClass="info-title"/>
+
+                <Label text="ADMIN → admin / 123"
+                       styleClass="info-item"/>
+
+                <Label text="PROFESOR → profesor / 123"
+                       styleClass="info-item"/>
+
+                <Label text="ESTUDIANTE → estudiante / 123"
+                       styleClass="info-item"/>
+            </VBox>
+
+        </VBox>
+
+    </VBox>
+
+</StackPane>

@@ -15,6 +15,8 @@ public class Course {
         this.grade = builder.grade;
         this.status = builder.status;
     }
+    public Course() {
+    }
 
     public String getId() {
         return id;

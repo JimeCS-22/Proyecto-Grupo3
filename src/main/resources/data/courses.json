@@ -2,16 +2,31 @@
   {
     "id": "1",
     "name": "Algoritmos",
-    "credits": 0
+    "credits": 0,
+    "grade": 0.0
   },
   {
     "id": "2",
     "name": "Matematicas",
-    "credits": 0
+    "credits": 0,
+    "grade": 0.0
   },
   {
     "id": "3",
     "name": "Teatro",
-    "credits": 0
+    "credits": 0,
+    "grade": 0.0
+  },
+  {
+    "id": "52",
+    "name": "Semniario ",
+    "credits": 5,
+    "grade": 0.0
+  },
+  {
+    "id": "333",
+    "name": "X",
+    "credits": 10,
+    "grade": 0.0
   }
 ]

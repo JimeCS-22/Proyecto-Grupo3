@@ -8,19 +8,42 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
 
-        star2(stage);
+        loadLogin(stage);
     }
 
-    private void star2(Stage stage) throws IOException {
+    private void loadLogin(Stage stage)
+            throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/views/main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1100, 720);
-        scene.getStylesheets().add(HelloApplication.class.getResource("styles.css").toExternalForm());
-        stage.setTitle("Proyecto Final IF-3001 Algoritmos y Estructuras de Datos");
+        FXMLLoader loader =
+                new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "/views/login-view.fxml"
+                        )
+                );
+
+        Scene scene =
+                new Scene(
+                        loader.load(),
+                        900,
+                        600
+                );
+
+        scene.getStylesheets().add(
+                HelloApplication.class
+                        .getResource("/styles.css")
+                        .toExternalForm()
+        );
+
+        stage.setTitle(
+                "Sistema de Gestión Académica"
+        );
+
         stage.setScene(scene);
+
         stage.show();
     }
 

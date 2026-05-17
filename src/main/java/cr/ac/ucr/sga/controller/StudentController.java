@@ -56,10 +56,8 @@ public class StudentController implements Initializable {
     @FXML
     private Label lblCount;
 
-    // DATA
     private final StudentData studentData = new StudentData();
 
-    // TABLE DATA
     private final ObservableList<Student> studentList =
             FXCollections.observableArrayList();
 
@@ -71,10 +69,12 @@ public class StudentController implements Initializable {
         loadStudents();
 
         tableListener();
+
+        System.out.println("StudentController iniciado");
     }
 
     // =========================
-    // TABLE CONFIG
+    // TABLE
     // =========================
 
     private void initializeTable() {
@@ -95,7 +95,7 @@ public class StudentController implements Initializable {
     }
 
     // =========================
-    // LOAD DATA
+    // LOAD
     // =========================
 
     private void loadStudents() {
@@ -113,6 +113,8 @@ public class StudentController implements Initializable {
 
     @FXML
     private void addStudent() {
+
+        System.out.println("Botón agregar funcionando");
 
         try {
 
@@ -175,12 +177,11 @@ public class StudentController implements Initializable {
     // UPDATE
     // =========================
 
-
     @FXML
     private void updateStudent() {
 
-        Student selected = tblStudents.getSelectionModel()
-                .getSelectedItem();
+        Student selected =
+                tblStudents.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
 
@@ -231,8 +232,8 @@ public class StudentController implements Initializable {
     @FXML
     private void deleteStudent() {
 
-        Student selected = tblStudents.getSelectionModel()
-                .getSelectedItem();
+        Student selected =
+                tblStudents.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
 
@@ -280,7 +281,7 @@ public class StudentController implements Initializable {
     }
 
     // =========================
-    // TABLE LISTENER
+    // LISTENER
     // =========================
 
     private void tableListener() {

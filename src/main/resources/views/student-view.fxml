@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="cr.ac.ucr.sga.controller.StudentController"
@@ -11,7 +10,9 @@
             prefHeight="700"
             styleClass="root-pane"
             stylesheets="@../styles.css">
+
     <!-- HEADER -->
+
     <top>
 
         <HBox alignment="CENTER_LEFT"
@@ -36,10 +37,17 @@
     </top>
 
     <!-- CENTER -->
+
     <center>
 
-        <VBox spacing="20"
-              padding="20">
+        <VBox spacing="20">
+
+            <padding>
+                <Insets top="20"
+                        right="20"
+                        bottom="20"
+                        left="20"/>
+            </padding>
 
             <!-- FORM PANEL -->
 
@@ -113,18 +121,22 @@
 
                     <Button text="Agregar"
                             fx:id="btnAdd"
+                            onAction="#addStudent"
                             styleClass="btn-primary"/>
 
                     <Button text="Actualizar"
                             fx:id="btnUpdate"
+                            onAction="#updateStudent"
                             styleClass="btn-accent"/>
 
                     <Button text="Eliminar"
                             fx:id="btnDelete"
+                            onAction="#deleteStudent"
                             styleClass="btn-gray"/>
 
                     <Button text="Limpiar"
                             fx:id="btnClear"
+                            onAction="#clearFields"
                             styleClass="btn-ghost"/>
 
                 </HBox>

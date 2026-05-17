@@ -9,7 +9,10 @@
             fx:controller="cr.ac.ucr.sga.controller.CourseController"
             styleClass="root-pane">
 
+    <!-- TOP -->
+
     <top>
+
         <HBox spacing="15"
               alignment="CENTER_LEFT"
               styleClass="header-bar">
@@ -18,20 +21,31 @@
                    styleClass="header-badge"/>
 
             <VBox spacing="2">
+
                 <Label text="Gestión de Cursos"
                        styleClass="header-title"/>
 
                 <Label text="Administración académica"
                        styleClass="header-sub"/>
+
             </VBox>
 
         </HBox>
+
     </top>
+
+    <!-- CENTER -->
 
     <center>
 
-        <HBox spacing="20"
-              padding="20">
+        <HBox spacing="20">
+
+            <padding>
+                <Insets top="20.0"
+                        right="20.0"
+                        bottom="20.0"
+                        left="20.0"/>
+            </padding>
 
             <!-- PANEL IZQUIERDO -->
 
@@ -51,6 +65,7 @@
 
                     <TextField fx:id="txtId"
                                promptText="Ej: IF3001"/>
+
                 </VBox>
 
                 <VBox spacing="5">
@@ -60,6 +75,7 @@
 
                     <TextField fx:id="txtName"
                                promptText="Nombre del curso"/>
+
                 </VBox>
 
                 <VBox spacing="5">
@@ -69,6 +85,7 @@
 
                     <TextField fx:id="txtCredits"
                                promptText="Cantidad de créditos"/>
+
                 </VBox>
 
                 <Separator/>
@@ -84,6 +101,7 @@
                             text="Actualizar"
                             onAction="#updateCourse"
                             styleClass="btn-accent"/>
+
                 </HBox>
 
                 <HBox spacing="10">
@@ -97,6 +115,7 @@
                             text="Limpiar"
                             onAction="#clearFields"
                             styleClass="btn-ghost"/>
+
                 </HBox>
 
                 <Separator/>
@@ -110,6 +129,7 @@
                     <Label fx:id="lblCount"
                            text="0 registros"
                            styleClass="stat-value-sm"/>
+
                 </VBox>
 
             </VBox>
