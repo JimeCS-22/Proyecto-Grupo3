@@ -42,7 +42,7 @@ public class CircularDoublyLinkedList<T> implements List<T>, Cloneable {
     @Override
     public int size() throws ListException {
         if(isEmpty()){
-            throw new ListException("Circular Doubly Linked List is empty");
+            return 0;
         }
         Node<T> aux = head;
         int count=0;

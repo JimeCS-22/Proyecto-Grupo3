@@ -2,10 +2,13 @@ package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.model.entities.Role;
 import cr.ac.ucr.sga.model.entities.User;
+import cr.ac.ucr.sga.model.services.SessionHistoryService;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
 
@@ -31,17 +34,36 @@ public class MainController implements Initializable {
 
     private User currentUser;
 
+    @FXML
+    private TabPane mainTabs;
+
+    private final SessionHistoryService historyService = SessionHistoryService.getInstance();
+    private boolean ignoreTabChange = false;
+
     @Override
     public void initialize(
             URL url,
             ResourceBundle resourceBundle
     ) {
 
+        mainTabs.getSelectionModel().selectedIndexProperty().addListener((obs, oldIndex, newIndex) -> {
+            if (!ignoreTabChange && newIndex != null) {
+                try {
+                    historyService.addTabIndex(newIndex.intValue());
+                } catch (ListException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         System.out.println(
                 "Sistema iniciado correctamente"
         );
-
-        loadStudentView();
+        try {
+            historyService.addTabIndex(mainTabs.getSelectionModel().getSelectedIndex());
+        } catch (ListException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // =====================================================
@@ -104,53 +126,6 @@ public class MainController implements Initializable {
         }
     }
 
-    // =====================================================
-    // LOAD STUDENT VIEW
-    // =====================================================
-
-    @FXML
-    public void loadStudentView() {
-
-        try {
-
-            Parent view =
-                    FXMLLoader.load(
-                            getClass().getResource(
-                                    "/views/student-view.fxml"
-                            )
-                    );
-
-            rootPane.setCenter(view);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
-
-    // =====================================================
-    // LOAD COURSE VIEW
-    // =====================================================
-
-    @FXML
-    public void loadCourseView() {
-
-        try {
-
-            Parent view =
-                    FXMLLoader.load(
-                            getClass().getResource(
-                                    "/views/course-view.fxml"
-                            )
-                    );
-
-            rootPane.setCenter(view);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
 
     // =====================================================
     // LOAD ACADEMIC VIEW
@@ -175,4 +150,37 @@ public class MainController implements Initializable {
                 "Vista de usuarios próximamente..."
         );
     }
+
+    // =====================================================
+    // SESSION HISTORY SERVICES
+    // =====================================================
+
+    @FXML
+    public void goBack() {
+        try {
+            Integer prevIndex = historyService.backTab();
+            if (prevIndex != null) {
+                ignoreTabChange = true;
+                mainTabs.getSelectionModel().select(prevIndex);
+                ignoreTabChange = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goForward() {
+        try {
+            Integer nextIndex = historyService.forwardTab();
+            if (nextIndex != null) {
+                ignoreTabChange = true;
+                mainTabs.getSelectionModel().select(nextIndex);
+                ignoreTabChange = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
