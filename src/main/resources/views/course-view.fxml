@@ -4,33 +4,104 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="cr.ac.ucr.sga.controller.CourseController"
-            styleClass="root-pane">
+            styleClass="root-pane"
+            stylesheets="@../styles.css">
 
     <!-- TOP -->
 
     <top>
 
-        <HBox spacing="15"
-              alignment="CENTER_LEFT"
-              styleClass="header-bar">
+        <VBox spacing="15"
+              styleClass="panel">
 
-            <Label text="SGA"
-                   styleClass="header-badge"/>
+            <padding>
+                <Insets top="20"
+                        right="20"
+                        bottom="20"
+                        left="20"/>
+            </padding>
 
-            <VBox spacing="2">
+            <Label text="Administración de Cursos"
+                   styleClass="panel-title"/>
 
-                <Label text="Gestión de Cursos"
-                       styleClass="header-title"/>
+            <GridPane hgap="15"
+                      vgap="10">
 
-                <Label text="Administración académica"
-                       styleClass="header-sub"/>
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
 
-            </VBox>
+                <!-- Código -->
 
-        </HBox>
+                <Label text="Código"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="txtId"
+                           promptText="Código del curso"
+                           GridPane.rowIndex="1"
+                           GridPane.columnIndex="0"/>
+
+                <!-- Nombre -->
+
+                <Label text="Nombre"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="1"/>
+
+                <TextField fx:id="txtName"
+                           promptText="Nombre del curso"
+                           GridPane.rowIndex="1"
+                           GridPane.columnIndex="1"/>
+
+                <!-- Créditos -->
+
+                <Label text="Créditos"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="txtCredits"
+                           promptText="Cantidad de créditos"
+                           GridPane.rowIndex="3"
+                           GridPane.columnIndex="0"/>
+
+                <!-- Estado -->
+
+                <Label text="Estado"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="1"/>
+
+                <ComboBox fx:id="cmbStatus"
+                          GridPane.rowIndex="3"
+                          GridPane.columnIndex="1"/>
+
+            </GridPane>
+
+            <!-- BOTONES -->
+
+            <HBox spacing="10">
+
+                <Button text="Agregar"
+                        onAction="#addCourse"
+                        styleClass="btn-primary"/>
+
+                <Button text="Actualizar"
+                        onAction="#updateCourse"
+                        styleClass="btn-accent"/>
+
+                <Button text="Eliminar"
+                        onAction="#deleteCourse"
+                        styleClass="btn-gray"/>
+
+                <Button text="Limpiar"
+                        onAction="#clearFields"
+                        styleClass="btn-ghost"/>
+
+            </HBox>
+
+        </VBox>
 
     </top>
 
@@ -38,139 +109,28 @@
 
     <center>
 
-        <HBox spacing="20">
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background-color: transparent;">
 
-            <padding>
-                <Insets top="20.0"
-                        right="20.0"
-                        bottom="20.0"
-                        left="20.0"/>
-            </padding>
+            <content>
 
-            <!-- PANEL IZQUIERDO -->
+                <FlowPane fx:id="coursesContainer"
+                          hgap="20"
+                          vgap="20"
+                          prefWrapLength="1000">
 
-            <VBox spacing="15"
-                  prefWidth="320"
-                  styleClass="panel">
+                    <padding>
+                        <Insets top="20"
+                                right="20"
+                                bottom="20"
+                                left="20"/>
+                    </padding>
 
-                <Label text="Información del Curso"
-                       styleClass="panel-title"/>
+                </FlowPane>
 
-                <Separator/>
+            </content>
 
-                <VBox spacing="5">
-
-                    <Label text="Código"
-                           styleClass="section-label"/>
-
-                    <TextField fx:id="txtId"
-                               promptText="Ej: IF3001"/>
-
-                </VBox>
-
-                <VBox spacing="5">
-
-                    <Label text="Nombre"
-                           styleClass="section-label"/>
-
-                    <TextField fx:id="txtName"
-                               promptText="Nombre del curso"/>
-
-                </VBox>
-
-                <VBox spacing="5">
-
-                    <Label text="Créditos"
-                           styleClass="section-label"/>
-
-                    <TextField fx:id="txtCredits"
-                               promptText="Cantidad de créditos"/>
-
-                </VBox>
-
-                <Separator/>
-
-                <HBox spacing="10">
-
-                    <Button fx:id="btnAdd"
-                            text="Agregar"
-                            onAction="#addCourse"
-                            styleClass="btn-primary"/>
-
-                    <Button fx:id="btnUpdate"
-                            text="Actualizar"
-                            onAction="#updateCourse"
-                            styleClass="btn-accent"/>
-
-                </HBox>
-
-                <HBox spacing="10">
-
-                    <Button fx:id="btnDelete"
-                            text="Eliminar"
-                            onAction="#deleteCourse"
-                            styleClass="btn-gray"/>
-
-                    <Button fx:id="btnClear"
-                            text="Limpiar"
-                            onAction="#clearFields"
-                            styleClass="btn-ghost"/>
-
-                </HBox>
-
-                <Separator/>
-
-                <VBox spacing="5"
-                      styleClass="stat-card blue-card">
-
-                    <Label text="TOTAL DE CURSOS"
-                           styleClass="stat-label"/>
-
-                    <Label fx:id="lblCount"
-                           text="0 registros"
-                           styleClass="stat-value-sm"/>
-
-                </VBox>
-
-            </VBox>
-
-            <!-- TABLA -->
-
-            <VBox spacing="10"
-                  HBox.hgrow="ALWAYS">
-
-                <Label text="Lista de Cursos"
-                       styleClass="panel-title"/>
-
-                <StackPane styleClass="custom-table-container"
-                           VBox.vgrow="ALWAYS">
-
-                    <TableView fx:id="tblCourses"
-                               styleClass="custom-table">
-
-                        <columns>
-
-                            <TableColumn fx:id="colId"
-                                         text="Código"
-                                         prefWidth="180"/>
-
-                            <TableColumn fx:id="colName"
-                                         text="Nombre"
-                                         prefWidth="450"/>
-
-                            <TableColumn fx:id="colCredits"
-                                         text="Créditos"
-                                         prefWidth="150"/>
-
-                        </columns>
-
-                    </TableView>
-
-                </StackPane>
-
-            </VBox>
-
-        </HBox>
+        </ScrollPane>
 
     </center>
 

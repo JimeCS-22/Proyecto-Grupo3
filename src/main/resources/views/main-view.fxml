@@ -34,12 +34,14 @@
 
             <!-- STUDENTS -->
             <Tab closable="false" text="Estudiantes">
-                <fx:include source="student-view.fxml" />
+                <fx:include source="student-view.fxml"
+                styleClass="tab-pane"/>
             </Tab>
 
             <!-- COURSES -->
             <Tab closable="false" text="Cursos">
-                <fx:include source="course-view.fxml" />
+                <fx:include source="course-view.fxml"
+                styleClass="tab-pane"/>
             </Tab>
 
         </TabPane>

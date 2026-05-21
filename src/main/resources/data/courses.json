@@ -1,11 +1,5 @@
 [
   {
-    "id": "1",
-    "name": "Algoritmos",
-    "credits": 0,
-    "grade": 0.0
-  },
-  {
     "id": "2",
     "name": "Matematicas",
     "credits": 0,
@@ -24,9 +18,17 @@
     "grade": 0.0
   },
   {
-    "id": "333",
-    "name": "X",
-    "credits": 10,
-    "grade": 0.0
+    "id": "IF-1301",
+    "name": "Desarrollo ",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo"
+  },
+  {
+    "id": "6",
+    "name": "h",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo"
   }
 ]

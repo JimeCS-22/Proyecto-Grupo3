@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cr.ac.ucr.sga.controller.CourseCardController"
+      spacing="10"
+      prefWidth="280"
+      styleClass="course-card">
+
+    <!-- Imagen -->
+
+    <ImageView fx:id="imgCourse"
+               fitWidth="280"
+               fitHeight="150"
+               preserveRatio="false"/>
+
+    <!-- Info -->
+
+    <VBox spacing="5">
+
+        <padding>
+            <Insets top="10"
+                    right="10"
+                    bottom="10"
+                    left="10"/>
+        </padding>
+
+        <Label fx:id="lblName"
+               text="Nombre Curso"
+               styleClass="course-title"/>
+
+        <Label fx:id="lblCode"
+               text="IF3001"
+               styleClass="course-subtitle"/>
+
+        <HBox spacing="10">
+
+            <Label fx:id="lblCredits"
+                   text="4 créditos"
+                   styleClass="course-tag"/>
+
+            <Label fx:id="lblStatus"
+                   text="Activo"
+                   styleClass="course-tag-active"/>
+
+        </HBox>
+        <Button text="Ver detalles"
+                onAction="#showDetails"
+                styleClass="btn-primary"/>
+
+    </VBox>
+
+</VBox>
