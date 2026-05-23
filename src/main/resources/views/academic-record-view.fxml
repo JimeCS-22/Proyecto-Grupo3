@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cr.ac.ucr.sga.controller.RecordController"
+            stylesheets="@../styles.css"
+            styleClass="root">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <top>
+
+        <HBox spacing="20"
+              alignment="CENTER_LEFT"
+              styleClass="header-bar">
+
+            <padding>
+                <Insets top="18" right="24" bottom="18" left="24"/>
+            </padding>
+
+            <Label text="SGA"
+                   styleClass="header-badge"/>
+
+            <VBox spacing="2">
+
+                <Label text="Expediente Académico"
+                       styleClass="header-title"/>
+
+                <Label text="Historial ordenado cronológicamente"
+                       styleClass="header-sub"/>
+
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="Exportar PDF"
+                    styleClass="btn-secondary"/>
+
+        </HBox>
+
+    </top>
+
+    <!-- =========================
+         CONTENT
+    ========================== -->
+
+    <center>
+
+        <VBox spacing="20">
+
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
+
+            <!-- =========================
+                 RESUMEN SUPERIOR
+            ========================== -->
+
+            <HBox spacing="20">
+
+                <!-- CARD 1 -->
+
+                <VBox spacing="10"
+                      styleClass="card"
+                      prefWidth="240">
+
+                    <Label text="Promedio General"
+                           styleClass="subtitle"/>
+
+                    <Label text="89.5"
+                           style="-fx-font-size: 32px;
+                                  -fx-font-weight: bold;
+                                  -fx-text-fill: #5562EA;"/>
+
+                    <Label text="Excelente rendimiento"
+                           styleClass="badge"/>
+
+                </VBox>
+
+                <!-- CARD 2 -->
+
+                <VBox spacing="10"
+                      styleClass="card"
+                      prefWidth="240">
+
+                    <Label text="Créditos Aprobados"
+                           styleClass="subtitle"/>
+
+                    <Label text="84"
+                           style="-fx-font-size: 32px;
+                                  -fx-font-weight: bold;
+                                  -fx-text-fill: #2DBE8D;"/>
+
+                    <Label text="75% completado"
+                           styleClass="badge"/>
+
+                </VBox>
+
+                <!-- CARD 3 -->
+
+                <VBox spacing="10"
+                      styleClass="card"
+                      prefWidth="240">
+
+                    <Label text="Cursos Matriculados"
+                           styleClass="subtitle"/>
+
+                    <Label text="6"
+                           style="-fx-font-size: 32px;
+                                  -fx-font-weight: bold;
+                                  -fx-text-fill: #E85D75;"/>
+
+                    <Label text="Ciclo I - 2026"
+                           styleClass="badge"/>
+
+                </VBox>
+
+            </HBox>
+
+            <!-- =========================
+                 FILTROS
+            ========================== -->
+
+            <HBox spacing="15"
+                  alignment="CENTER_LEFT">
+
+                <TextField promptText="Buscar curso..."
+                           prefWidth="250"/>
+
+                <ComboBox promptText="Filtrar por ciclo"
+                          prefWidth="180"/>
+
+                <ComboBox promptText="Estado"
+                          prefWidth="180"/>
+
+                <Button text="Aplicar filtros"/>
+
+            </HBox>
+
+            <!-- =========================
+                 TIMELINE
+            ========================== -->
+
+            <ScrollPane fitToWidth="true"
+                        style="-fx-background-color:transparent;
+                               -fx-background:transparent;">
+
+                <content>
+
+                    <VBox spacing="18">
+
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <!-- =========================
+                             SEMESTRE CARD
+                        ========================== -->
+
+                        <VBox spacing="15"
+                              styleClass="card">
+
+                            <HBox alignment="CENTER_LEFT">
+
+                                <VBox spacing="3">
+
+                                    <Label text="Ciclo I - 2026"
+                                           style="-fx-font-size: 20px;
+                                                  -fx-font-weight: bold;"/>
+
+                                    <Label text="6 cursos matriculados"
+                                           styleClass="subtitle"/>
+
+                                </VBox>
+
+                                <Region HBox.hgrow="ALWAYS"/>
+
+                                <Label text="Promedio: 91"
+                                       styleClass="badge"/>
+
+                            </HBox>
+
+                            <!-- TABLA -->
+
+                            <TableView prefHeight="260">
+
+                                <columns>
+
+                                    <TableColumn text="Código"
+                                                 prefWidth="120"/>
+
+                                    <TableColumn text="Curso"
+                                                 prefWidth="320"/>
+
+                                    <TableColumn text="Créditos"
+                                                 prefWidth="100"/>
+
+                                    <TableColumn text="Nota"
+                                                 prefWidth="100"/>
+
+                                    <TableColumn text="Estado"
+                                                 prefWidth="160"/>
+
+                                </columns>
+
+                            </TableView>
+
+                        </VBox>
+
+                        <!-- =========================
+                             SEGUNDO CICLO
+                        ========================== -->
+
+                        <VBox spacing="15"
+                              styleClass="card">
+
+                            <HBox alignment="CENTER_LEFT">
+
+                                <VBox spacing="3">
+
+                                    <Label text="Ciclo II - 2025"
+                                           style="-fx-font-size: 20px;
+                                                  -fx-font-weight: bold;"/>
+
+                                    <Label text="5 cursos aprobados"
+                                           styleClass="subtitle"/>
+
+                                </VBox>
+
+                                <Region HBox.hgrow="ALWAYS"/>
+
+                                <Label text="Promedio: 87"
+                                       styleClass="badge"/>
+
+                            </HBox>
+
+                            <TableView prefHeight="240">
+
+                                <columns>
+
+                                    <TableColumn text="Código"
+                                                 prefWidth="120"/>
+
+                                    <TableColumn text="Curso"
+                                                 prefWidth="320"/>
+
+                                    <TableColumn text="Créditos"
+                                                 prefWidth="100"/>
+
+                                    <TableColumn text="Nota"
+                                                 prefWidth="100"/>
+
+                                    <TableColumn text="Estado"
+                                                 prefWidth="160"/>
+
+                                </columns>
+
+                            </TableView>
+
+                        </VBox>
+
+                    </VBox>
+
+                </content>
+
+            </ScrollPane>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>

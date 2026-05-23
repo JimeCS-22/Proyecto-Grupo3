@@ -44,6 +44,11 @@
                 styleClass="tab-pane"/>
             </Tab>
 
+            <!-- ACADEMIC RECORD -->
+            <Tab closable="false" text="Expediente">
+                <fx:include source="academic-record-view.fxml"/>
+            </Tab>
+
         </TabPane>
 
     </center>
