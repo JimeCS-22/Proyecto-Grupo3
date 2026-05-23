@@ -1,20 +1,19 @@
 package cr.ac.ucr.sga.model.entities;
 
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
-import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AcademicRecord {
 
     private final Student student;
-    private final DoublyLinkedList<Course> courses;
+    private DoublyLinkedList<Course> courses;
 
     public AcademicRecord(Student student) {
-
         if (student == null) {
             throw new IllegalArgumentException("El estudiante no puede ser null");
         }
-
         this.student = student;
         this.courses = new DoublyLinkedList<>();
     }
@@ -27,24 +26,50 @@ public class AcademicRecord {
         return courses;
     }
 
-    // Agregar curso
-    public void addCourse(Course course) {
+    // ------- SERIALIZACIÓN SEGURA -------
+    // Convierte cursos a lista estándar solo si hay cursos
+    public List<Course> getCoursesAsList() {
+        List<Course> list = new ArrayList<>();
+        try {
+            if (!courses.isEmpty()) {
+                int size = courses.size();
+                for (int i = 1; i <= size; i++) {
+                    list.add(courses.get(i));
+                }
+            }
+        } catch (ListException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
+    // Inicializa los cursos desde una lista estándar
+    public void setCoursesFromList(List<Course> list) {
+        this.courses = new DoublyLinkedList<>();
+        if (list != null) {
+            for (Course c : list) {
+                courses.add(c);
+            }
+        }
+    }
+
+    // ------- OPERACIONES -------
+    public void addCourse(Course course) {
         if (course == null) {
             throw new IllegalArgumentException("El curso no puede ser null");
         }
-
         courses.add(course);
     }
 
-    // Eliminar curso
     public void removeCourse(Course course) throws ListException {
         courses.remove(course);
     }
 
-    // Cantidad de cursos
     public int totalCourses() throws ListException {
-        return courses.size();
+        if (!courses.isEmpty()) {
+            return courses.size();
+        }
+        return 0;
     }
 
     @Override
@@ -52,13 +77,10 @@ public class AcademicRecord {
         try {
             return "AcademicRecord{" +
                     "student=" + student +
-                    ", totalCourses=" + courses.size() +
+                    ", totalCourses=" + (courses.isEmpty() ? 0 : courses.size()) +
                     '}';
         } catch (ListException e) {
             throw new RuntimeException(e);
         }
     }
-
-
-    }
-
+}

@@ -13,5 +13,10 @@
     "username": "JimeCS",
     "password": "1234",
     "role": "STUDENT"
+  },
+  {
+    "username": "JP",
+    "password": "1234",
+    "role": "STUDENT"
   }
 ]

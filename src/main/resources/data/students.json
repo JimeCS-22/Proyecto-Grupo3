@@ -3,32 +3,24 @@
     "id": "119520051",
     "name": "Jimena Calvo Soto",
     "carnet": "C4L408",
-    "age": 21
-  },
-  {
-    "id": "3000000",
-    "name": "Harry",
-    "carnet": "c4lo00",
-    "age": 25
-  },
-  {
-    "id": "123",
-    "name": "Alexander",
-    "carnet": "C24249",
-    "age": 21
-  },
-  {
-    "id": "1233",
-    "name": "Luis",
-    "carnet": "C23244",
-    "age": 23
+    "age": 21,
+    "username": "Jimena",
+    "password": "1234"
   },
   {
     "id": "303260704",
-    "name": "Jimena Calvo Soto",
+    "name": "Shirley Calvo",
     "carnet": "C4L408",
     "age": 21,
-    "username": "JimeCS",
+    "username": "SCS",
+    "password": "1234"
+  },
+  {
+    "id": "3032505555",
+    "name": "Juan Pablo Ramos",
+    "carnet": "C5L890",
+    "age": 20,
+    "username": "JP",
     "password": "1234"
   }
 ]
