@@ -176,4 +176,20 @@ public class StudentData {
 
         return students.size();
     }
+
+    public Student findByUsername(String username) {
+
+        for (int i = 0; i < students.size(); i++) {
+
+            Student student = students.get(i);
+
+            if (student.getUsername()
+                    .equalsIgnoreCase(username)) {
+
+                return student;
+            }
+        }
+
+        return null;
+    }
 }

@@ -1,7 +1,10 @@
 package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.model.data.StudentData;
+import cr.ac.ucr.sga.model.data.UserData;
+import cr.ac.ucr.sga.model.entities.Role;
 import cr.ac.ucr.sga.model.entities.Student;
+import cr.ac.ucr.sga.model.entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,6 +30,9 @@ public class StudentController implements Initializable {
     private TableColumn<Student, String> colName;
 
     @FXML
+    private TableColumn<Student, String> colUsername;
+
+    @FXML
     private TableView<Student> tblStudents;
 
     @FXML
@@ -40,6 +46,12 @@ public class StudentController implements Initializable {
 
     @FXML
     private TextField txtName;
+
+    @FXML
+    private TextField txtUsername;
+
+    @FXML
+    private PasswordField txtPassword;
 
     @FXML
     private Button btnAdd;
@@ -56,7 +68,11 @@ public class StudentController implements Initializable {
     @FXML
     private Label lblCount;
 
-    private final StudentData studentData = new StudentData();
+    private final StudentData studentData =
+            new StudentData();
+
+    private final UserData userData =
+            new UserData();
 
     private final ObservableList<Student> studentList =
             FXCollections.observableArrayList();
@@ -91,6 +107,9 @@ public class StudentController implements Initializable {
         colCarnet.setCellValueFactory(
                 new PropertyValueFactory<>("carnet"));
 
+        colUsername.setCellValueFactory(
+                new PropertyValueFactory<>("username"));
+
         tblStudents.setItems(studentList);
     }
 
@@ -102,7 +121,9 @@ public class StudentController implements Initializable {
 
         studentList.clear();
 
-        studentList.addAll(studentData.getAllStudents());
+        studentList.addAll(
+                studentData.getAllStudents()
+        );
 
         updateCount();
     }
@@ -114,25 +135,51 @@ public class StudentController implements Initializable {
     @FXML
     private void addStudent() {
 
-        System.out.println("Botón agregar funcionando");
-
         try {
 
-            String id = txtId.getText();
-            String name = txtName.getText();
-            int age = Integer.parseInt(txtAge.getText());
-            String carnet = txtCarnet.getText();
+            String id =
+                    txtId.getText();
 
-            Student student = new Student.Builder()
-                    .setId(id)
-                    .setName(name)
-                    .setAge(age)
-                    .setCarnet(carnet)
-                    .build();
+            String name =
+                    txtName.getText();
 
-            Student added = studentData.addStudent(student);
+            int age =
+                    Integer.parseInt(
+                            txtAge.getText()
+                    );
+
+            String carnet =
+                    txtCarnet.getText();
+
+            String username =
+                    txtUsername.getText();
+
+            String password =
+                    txtPassword.getText();
+
+            Student student =
+                    new Student.Builder()
+                            .setId(id)
+                            .setName(name)
+                            .setAge(age)
+                            .setCarnet(carnet)
+                            .setUsername(username)
+                            .setPassword(password)
+                            .build();
+
+            Student added =
+                    studentData.addStudent(student);
 
             if (added != null) {
+
+                User user =
+                        new User(
+                                username,
+                                password,
+                                Role.STUDENT
+                        );
+
+                userData.addUser(user);
 
                 studentList.add(added);
 
@@ -181,7 +228,8 @@ public class StudentController implements Initializable {
     private void updateStudent() {
 
         Student selected =
-                tblStudents.getSelectionModel().getSelectedItem();
+                tblStudents.getSelectionModel()
+                        .getSelectedItem();
 
         if (selected == null) {
 
@@ -196,12 +244,19 @@ public class StudentController implements Initializable {
 
         try {
 
-            Student updatedStudent = new Student.Builder()
-                    .setId(selected.getId())
-                    .setName(txtName.getText())
-                    .setAge(Integer.parseInt(txtAge.getText()))
-                    .setCarnet(txtCarnet.getText())
-                    .build();
+            Student updatedStudent =
+                    new Student.Builder()
+                            .setId(selected.getId())
+                            .setName(txtName.getText())
+                            .setAge(
+                                    Integer.parseInt(
+                                            txtAge.getText()
+                                    )
+                            )
+                            .setCarnet(txtCarnet.getText())
+                            .setUsername(txtUsername.getText())
+                            .setPassword(txtPassword.getText())
+                            .build();
 
             studentData.updateStudent(updatedStudent);
 
@@ -233,7 +288,8 @@ public class StudentController implements Initializable {
     private void deleteStudent() {
 
         Student selected =
-                tblStudents.getSelectionModel().getSelectedItem();
+                tblStudents.getSelectionModel()
+                        .getSelectedItem();
 
         if (selected == null) {
 
@@ -247,7 +303,9 @@ public class StudentController implements Initializable {
         }
 
         boolean removed =
-                studentData.deleteStudent(selected.getId());
+                studentData.deleteStudent(
+                        selected.getId()
+                );
 
         if (removed) {
 
@@ -276,8 +334,11 @@ public class StudentController implements Initializable {
         txtName.clear();
         txtAge.clear();
         txtCarnet.clear();
+        txtUsername.clear();
+        txtPassword.clear();
 
-        tblStudents.getSelectionModel().clearSelection();
+        tblStudents.getSelectionModel()
+                .clearSelection();
     }
 
     // =========================
@@ -288,20 +349,36 @@ public class StudentController implements Initializable {
 
         tblStudents.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((observable, oldValue, student) -> {
+                .addListener(
+                        (observable, oldValue, student) -> {
 
-                    if (student != null) {
+                            if (student != null) {
 
-                        txtId.setText(student.getId());
+                                txtId.setText(
+                                        student.getId());
 
-                        txtName.setText(student.getName());
+                                txtName.setText(
+                                        student.getName());
 
-                        txtAge.setText(
-                                String.valueOf(student.getAge()));
+                                txtAge.setText(
+                                        String.valueOf(
+                                                student.getAge()
+                                        )
+                                );
 
-                        txtCarnet.setText(student.getCarnet());
-                    }
-                });
+                                txtCarnet.setText(
+                                        student.getCarnet()
+                                );
+
+                                txtUsername.setText(
+                                        student.getUsername()
+                                );
+
+                                txtPassword.setText(
+                                        student.getPassword()
+                                );
+                            }
+                        });
     }
 
     // =========================
@@ -311,7 +388,8 @@ public class StudentController implements Initializable {
     private void updateCount() {
 
         lblCount.setText(
-                studentList.size() + " registros"
+                studentList.size()
+                        + " registros"
         );
     }
 
@@ -325,7 +403,8 @@ public class StudentController implements Initializable {
             String message
     ) {
 
-        Alert alert = new Alert(type);
+        Alert alert =
+                new Alert(type);
 
         alert.setTitle(title);
 

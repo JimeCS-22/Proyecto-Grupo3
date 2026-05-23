@@ -22,5 +22,13 @@
     "name": "Luis",
     "carnet": "C23244",
     "age": 23
+  },
+  {
+    "id": "303260704",
+    "name": "Jimena Calvo Soto",
+    "carnet": "C4L408",
+    "age": 21,
+    "username": "JimeCS",
+    "password": "1234"
   }
 ]

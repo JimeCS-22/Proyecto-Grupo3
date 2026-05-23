@@ -19,6 +19,13 @@
               spacing="15"
               styleClass="header-bar">
 
+            <padding>
+                <Insets top="20"
+                        right="20"
+                        bottom="20"
+                        left="20"/>
+            </padding>
+
             <Label text="SGA"
                    styleClass="header-badge"/>
 
@@ -33,6 +40,7 @@
             </VBox>
 
         </HBox>
+
     </top>
 
     <!-- CENTER -->
@@ -112,6 +120,30 @@
                                GridPane.rowIndex="3"
                                GridPane.columnIndex="1"/>
 
+                    <!-- USERNAME -->
+
+                    <Label text="Usuario"
+                           styleClass="section-label"
+                           GridPane.rowIndex="4"
+                           GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="txtUsername"
+                               promptText="Ingrese usuario"
+                               GridPane.rowIndex="5"
+                               GridPane.columnIndex="0"/>
+
+                    <!-- PASSWORD -->
+
+                    <Label text="Contraseña"
+                           styleClass="section-label"
+                           GridPane.rowIndex="4"
+                           GridPane.columnIndex="1"/>
+
+                    <PasswordField fx:id="txtPassword"
+                                   promptText="Ingrese contraseña"
+                                   GridPane.rowIndex="5"
+                                   GridPane.columnIndex="1"/>
+
                 </GridPane>
 
                 <!-- BUTTONS -->
@@ -161,8 +193,6 @@
 
                 </HBox>
 
-                <!-- TABLE -->
-
                 <VBox styleClass="custom-table-container">
 
                     <TableView fx:id="tblStudents"
@@ -173,19 +203,23 @@
 
                             <TableColumn fx:id="colId"
                                          text="ID"
-                                         prefWidth="180"/>
+                                         prefWidth="150"/>
 
                             <TableColumn fx:id="colName"
                                          text="Nombre"
-                                         prefWidth="280"/>
+                                         prefWidth="240"/>
 
                             <TableColumn fx:id="colAge"
                                          text="Edad"
-                                         prefWidth="120"/>
+                                         prefWidth="100"/>
 
                             <TableColumn fx:id="colCarnet"
                                          text="Carnet"
-                                         prefWidth="180"/>
+                                         prefWidth="170"/>
+
+                            <TableColumn fx:id="colUsername"
+                                         text="Usuario"
+                                         prefWidth="170"/>
 
                         </columns>
 
@@ -198,24 +232,5 @@
         </VBox>
 
     </center>
-
-    <!-- FOOTER -->
-
-    <bottom>
-
-        <HBox alignment="CENTER_LEFT"
-              styleClass="status-bar">
-
-            <Label text="IF3001 - Proyecto Grupo 3"
-                   styleClass="status-left"/>
-
-            <Region HBox.hgrow="ALWAYS"/>
-
-            <Label text="Universidad de Costa Rica"
-                   styleClass="status-right"/>
-
-        </HBox>
-
-    </bottom>
 
 </BorderPane>

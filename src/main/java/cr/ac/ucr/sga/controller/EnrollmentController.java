@@ -113,7 +113,7 @@ public class EnrollmentController implements Initializable {
 
             int size = studentData.getAllStudents().size();
 
-            for (int i = 1; i <= size; i++) {
+            for (int i = 1; i < size; i++) {
 
                 Student student =
                         studentData.getAllStudents().get(i);
@@ -137,7 +137,7 @@ public class EnrollmentController implements Initializable {
 
             int size = courseData.getAllCourses().size();
 
-            for (int i = 1; i <= size; i++) {
+            for (int i = 1; i < size; i++) {
 
                 Course course =
                         courseData.getAllCourses().get(i);
@@ -227,7 +227,7 @@ public class EnrollmentController implements Initializable {
 
             int size = recordData.getAll().size();
 
-            for (int i = 1; i <= size; i++) {
+            for (int i = 1; i < size; i++) {
 
                 AcademicRecord record =
                         recordData.getAll().get(i);
@@ -235,7 +235,7 @@ public class EnrollmentController implements Initializable {
                 int coursesSize =
                         record.getCourses().size();
 
-                for (int j = 1; j <= coursesSize; j++) {
+                for (int j = 0; j < coursesSize; j++) {
 
                     Course course =
                             record.getCourses().get(j);

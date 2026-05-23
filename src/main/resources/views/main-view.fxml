@@ -4,54 +4,103 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<BorderPane fx:id="rootPane" styleClass="root-pane" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.MainController">
+<BorderPane fx:id="rootPane"
+            styleClass="root-pane"
+            stylesheets="@../styles.css"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cr.ac.ucr.sga.controller.MainController">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
 
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-bar">
 
-            <Label styleClass="header-badge" text="SGA" />
+        <HBox alignment="CENTER_LEFT"
+              spacing="15"
+              styleClass="header-bar">
+
+            <Label styleClass="header-badge"
+                   text="SGA"/>
 
             <VBox spacing="2">
 
-                <Label styleClass="header-title" text="Sistema de Gestión Académica" />
+                <Label styleClass="header-title"
+                       text="Sistema de Gestión Académica"/>
 
-                <Label styleClass="header-sub" text="Proyecto Final IF-3001" />
+                <Label styleClass="header-sub"
+                       text="Proyecto Final IF-3001"/>
 
             </VBox>
 
-            <Button onAction="#goBack" styleClass="btn-gray" stylesheets="@../styles.css" text="🡰 Atrás" />
-            <Button onAction="#goForward" styleClass="btn-gray" text="Adelante 🡲" />
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="🡰 Atrás"
+                    onAction="#goBack"
+                    styleClass="btn-gray"/>
+
+            <Button text="Adelante 🡲"
+                    onAction="#goForward"
+                    styleClass="btn-gray"/>
+
+            <Button text="Cerrar Sesión"
+                    onAction="#logout"
+                    styleClass="btn-danger"/>
+
         </HBox>
+
     </top>
+
+    <!-- =========================
+         TABS
+    ========================== -->
 
     <center>
 
-        <TabPane fx:id="mainTabs" styleClass="main-tabs">
+        <TabPane fx:id="mainTabs"
+                 styleClass="main-tabs">
 
-            <!-- STUDENTS -->
-            <Tab closable="false" text="Estudiantes">
-                <fx:include source="student-view.fxml"
-                styleClass="tab-pane"/>
+            <!-- ESTUDIANTES -->
+
+            <Tab closable="false"
+                 text="Estudiantes">
+
+                <fx:include source="student-view.fxml"/>
+
             </Tab>
 
-            <!-- COURSES -->
-            <Tab closable="false" text="Cursos">
-                <fx:include source="course-view.fxml"
-                styleClass="tab-pane"/>
+            <!-- CURSOS -->
+
+            <Tab closable="false"
+                 text="Cursos">
+
+                <fx:include source="course-view.fxml"/>
+
             </Tab>
 
-            <Tab closable="false" text="Matrícula">
+            <!-- MATRÍCULA -->
+
+            <Tab closable="false"
+                 text="Matrícula">
+
                 <fx:include source="enrollment-view.fxml"/>
+
             </Tab>
 
-            <!-- ACADEMIC RECORD -->
-            <Tab closable="false" text="Expediente">
+            <!-- EXPEDIENTE -->
+
+            <Tab closable="false"
+                 text="Expediente">
+
                 <AnchorPane fx:id="expedienteContent"/>
+
             </Tab>
 
         </TabPane>

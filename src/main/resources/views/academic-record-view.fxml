@@ -20,7 +20,10 @@
               styleClass="header-bar">
 
             <padding>
-                <Insets top="18" right="24" bottom="18" left="24"/>
+                <Insets top="18"
+                        right="24"
+                        bottom="18"
+                        left="24"/>
             </padding>
 
             <Label text="SGA"
@@ -35,11 +38,25 @@
                        styleClass="header-sub"/>
 
                 <Label fx:id="lblStudentInfo"
-                       styleClass="header-badge" />
+                       styleClass="header-badge"/>
 
             </VBox>
 
             <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- SOLO ADMIN -->
+
+            <VBox spacing="5"
+                  alignment="CENTER_RIGHT">
+
+                <Label text="Seleccionar estudiante"
+                       styleClass="subtitle"/>
+
+                <ComboBox fx:id="cmbStudents"
+                          prefWidth="250"
+                          onAction="#onStudentSelected"/>
+
+            </VBox>
 
             <Button text="Exportar PDF"
                     styleClass="btn-secondary"/>
@@ -57,46 +74,76 @@
         <VBox spacing="20">
 
             <padding>
-                <Insets top="25" right="25" bottom="25" left="25"/>
+                <Insets top="25"
+                        right="25"
+                        bottom="25"
+                        left="25"/>
             </padding>
 
-            <!-- =========================
-                 RESUMEN SUPERIOR
-            ========================== -->
+            <!-- RESUMEN -->
 
             <HBox spacing="20">
 
-                <!-- CARD 1 -->
+                <!-- PROMEDIO -->
 
                 <VBox spacing="10"
                       styleClass="card"
                       prefWidth="240">
-                    <Label text="Promedio General" styleClass="subtitle"/>
-                    <Label fx:id="lblAvg" style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#5562EA;"/>
-                    <Label fx:id="lblAvgDesc" styleClass="badge"/>
+
+                    <Label text="Promedio General"
+                           styleClass="subtitle"/>
+
+                    <Label fx:id="lblAvg"
+                           style="-fx-font-size:32px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#5562EA;"/>
+
+                    <Label fx:id="lblAvgDesc"
+                           styleClass="badge"/>
+
                 </VBox>
 
-                <!-- CARD 2 -->
+                <!-- CREDITOS -->
 
-                <VBox spacing="10" styleClass="card" prefWidth="240">
-                    <Label text="Créditos Aprobados" styleClass="subtitle"/>
-                    <Label fx:id="lblCredits" style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#2DBE8D;"/>
-                    <Label fx:id="lblCreditosDesc" styleClass="badge"/>
+                <VBox spacing="10"
+                      styleClass="card"
+                      prefWidth="240">
+
+                    <Label text="Créditos Aprobados"
+                           styleClass="subtitle"/>
+
+                    <Label fx:id="lblCredits"
+                           style="-fx-font-size:32px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#2DBE8D;"/>
+
+                    <Label fx:id="lblCreditosDesc"
+                           styleClass="badge"/>
+
                 </VBox>
 
-                <!-- CARD 3 -->
+                <!-- CURSOS -->
 
-                <VBox spacing="10" styleClass="card" prefWidth="240">
-                    <Label text="Cursos Matriculados" styleClass="subtitle"/>
-                    <Label fx:id="lblCount" style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#E85D75;"/>
-                    <Label fx:id="lblCiclo" styleClass="badge"/>
+                <VBox spacing="10"
+                      styleClass="card"
+                      prefWidth="240">
+
+                    <Label text="Cursos Matriculados"
+                           styleClass="subtitle"/>
+
+                    <Label fx:id="lblCount"
+                           style="-fx-font-size:32px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#E85D75;"/>
+
+                    <Label fx:id="lblCiclo"
+                           styleClass="badge"/>
+
                 </VBox>
 
             </HBox>
 
-            <!-- =========================
-                 FILTROS
-            ========================== -->
+            <!-- FILTROS -->
 
             <HBox spacing="15"
                   alignment="CENTER_LEFT">
@@ -114,120 +161,61 @@
 
             </HBox>
 
-            <!-- =========================
-                 TIMELINE
-            ========================== -->
+            <!-- TABLA -->
 
-            <ScrollPane fitToWidth="true"
-                        style="-fx-background-color:transparent;
-                               -fx-background:transparent;">
+            <VBox spacing="15"
+                  styleClass="card">
 
-                <content>
+                <HBox alignment="CENTER_LEFT">
 
-                    <VBox spacing="18">
+                    <VBox spacing="3">
 
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
+                        <Label text="Cursos del Estudiante"
+                               style="-fx-font-size: 20px;
+                                      -fx-font-weight: bold;"/>
 
-                        <!-- =========================
-                             SEMESTRE CARD
-                        ========================== -->
-
-                        <VBox spacing="15"
-                              styleClass="card">
-
-                            <HBox alignment="CENTER_LEFT">
-
-                                <VBox spacing="3">
-
-                                    <Label text="Ciclo I - 2026"
-                                           style="-fx-font-size: 20px;
-                                                  -fx-font-weight: bold;"/>
-
-                                    <Label text="6 cursos matriculados"
-                                           styleClass="subtitle"/>
-
-                                </VBox>
-
-                                <Region HBox.hgrow="ALWAYS"/>
-
-                                <Label text="Promedio: 91"
-                                       styleClass="badge"/>
-
-                            </HBox>
-
-                            <!-- TABLA -->
-
-                            <TableView fx:id="tblCourses" prefHeight="260">
-                                <columns>
-                                    <TableColumn fx:id="colCode" text="Código" prefWidth="120"/>
-                                    <TableColumn fx:id="colName" text="Curso" prefWidth="320"/>
-                                    <TableColumn fx:id="colCredits" text="Créditos" prefWidth="100"/>
-                                    <TableColumn fx:id="colGrade" text="Nota" prefWidth="100"/>
-                                    <TableColumn fx:id="colStatus" text="Estado" prefWidth="160"/>
-                                </columns>
-                            </TableView>
-
-                        </VBox>
-
-                        <!-- =========================
-                             SEGUNDO CICLO
-                        ========================== -->
-
-                        <VBox spacing="15"
-                              styleClass="card">
-
-                            <HBox alignment="CENTER_LEFT">
-
-                                <VBox spacing="3">
-
-                                    <Label text="Ciclo II - 2025"
-                                           style="-fx-font-size: 20px;
-                                                  -fx-font-weight: bold;"/>
-
-                                    <Label text="5 cursos aprobados"
-                                           styleClass="subtitle"/>
-
-                                </VBox>
-
-                                <Region HBox.hgrow="ALWAYS"/>
-
-                                <Label text="Promedio: 87"
-                                       styleClass="badge"/>
-
-                            </HBox>
-
-                            <TableView prefHeight="240">
-
-                                <columns>
-
-                                    <TableColumn text="Código"
-                                                 prefWidth="120"/>
-
-                                    <TableColumn text="Curso"
-                                                 prefWidth="320"/>
-
-                                    <TableColumn text="Créditos"
-                                                 prefWidth="100"/>
-
-                                    <TableColumn text="Nota"
-                                                 prefWidth="100"/>
-
-                                    <TableColumn text="Estado"
-                                                 prefWidth="160"/>
-
-                                </columns>
-
-                            </TableView>
-
-                        </VBox>
+                        <Label text="Historial académico"
+                               styleClass="subtitle"/>
 
                     </VBox>
 
-                </content>
+                    <Region HBox.hgrow="ALWAYS"/>
 
-            </ScrollPane>
+                    <Label text="Expediente"
+                           styleClass="badge"/>
+
+                </HBox>
+
+                <TableView fx:id="tblCourses"
+                           prefHeight="400">
+
+                    <columns>
+
+                        <TableColumn fx:id="colCode"
+                                     text="Código"
+                                     prefWidth="120"/>
+
+                        <TableColumn fx:id="colName"
+                                     text="Curso"
+                                     prefWidth="320"/>
+
+                        <TableColumn fx:id="colCredits"
+                                     text="Créditos"
+                                     prefWidth="100"/>
+
+                        <TableColumn fx:id="colGrade"
+                                     text="Nota"
+                                     prefWidth="100"/>
+
+                        <TableColumn fx:id="colStatus"
+                                     text="Estado"
+                                     prefWidth="160"/>
+
+                    </columns>
+
+                </TableView>
+
+            </VBox>
 
         </VBox>
 

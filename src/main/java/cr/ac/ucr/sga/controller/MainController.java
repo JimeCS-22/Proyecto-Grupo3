@@ -12,6 +12,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -111,4 +115,35 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void logout() {
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/views/login-view.fxml"
+                    )
+            );
+
+            Parent root = loader.load();
+
+            Stage stage =
+                    (Stage) rootPane.getScene().getWindow();
+
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+
+            stage.setTitle("Login");
+
+            stage.show();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
 }

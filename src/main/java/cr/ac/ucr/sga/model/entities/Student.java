@@ -8,17 +8,26 @@ public class Student {
     private String carnet;
     private int age;
 
+    // NUEVO
+    private String username;
+    private String password;
+
     // Constructor vacío para Gson
     public Student() {
     }
 
     // Constructor privado usado por Builder
     private Student(Builder builder) {
+
         this.id = builder.id;
         this.name = builder.name;
         this.email = builder.email;
         this.carnet = builder.carnet;
         this.age = builder.age;
+
+        // NUEVO
+        this.username = builder.username;
+        this.password = builder.password;
     }
 
     // =========================
@@ -45,6 +54,16 @@ public class Student {
         return age;
     }
 
+    // NUEVOS GETTERS
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     // =========================
     // TO STRING
     // =========================
@@ -58,6 +77,7 @@ public class Student {
                 ", email='" + email + '\'' +
                 ", carnet='" + carnet + '\'' +
                 ", age=" + age +
+                ", username='" + username + '\'' +
                 '}';
     }
 
@@ -72,6 +92,10 @@ public class Student {
         private String email;
         private String carnet;
         private int age;
+
+        // NUEVOS
+        private String username;
+        private String password;
 
         public Builder setId(String id) {
             this.id = id;
@@ -98,19 +122,47 @@ public class Student {
             return this;
         }
 
+        // NUEVOS SETTERS
+
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
         public Student build() {
 
             // Validaciones
 
             if (id == null || id.isBlank()) {
+
                 throw new IllegalArgumentException(
                         "El ID no puede estar vacío"
                 );
             }
 
             if (name == null || name.isBlank()) {
+
                 throw new IllegalArgumentException(
                         "El nombre no puede estar vacío"
+                );
+            }
+
+            if (username == null || username.isBlank()) {
+
+                throw new IllegalArgumentException(
+                        "El usuario no puede estar vacío"
+                );
+            }
+
+            if (password == null || password.isBlank()) {
+
+                throw new IllegalArgumentException(
+                        "La contraseña no puede estar vacía"
                 );
             }
 
@@ -122,6 +174,4 @@ public class Student {
             return name;
         }
     }
-
-
 }
