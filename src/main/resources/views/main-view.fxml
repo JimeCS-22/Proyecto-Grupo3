@@ -45,6 +45,10 @@
                 styleClass="tab-pane"/>
             </Tab>
 
+            <Tab closable="false" text="Matrícula">
+                <fx:include source="enrollment-view.fxml"/>
+            </Tab>
+
             <!-- ACADEMIC RECORD -->
             <Tab closable="false" text="Expediente">
                 <AnchorPane fx:id="expedienteContent"/>

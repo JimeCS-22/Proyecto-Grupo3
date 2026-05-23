@@ -116,5 +116,12 @@ public class Student {
 
             return new Student(this);
         }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
+
+
 }

@@ -99,5 +99,10 @@ public class Course {
 
             return new Course(this);
         }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }

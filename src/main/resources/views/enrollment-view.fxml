@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cr.ac.ucr.sga.controller.EnrollmentController"
+            stylesheets="@../styles.css"
+            styleClass="root">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <top>
+
+        <HBox spacing="20"
+              alignment="CENTER_LEFT"
+              styleClass="header-bar">
+
+            <padding>
+                <Insets top="18" right="24" bottom="18" left="24"/>
+            </padding>
+
+            <Label text="SGA"
+                   styleClass="header-badge"/>
+
+            <VBox spacing="2">
+
+                <Label text="Matrícula Académica"
+                       styleClass="header-title"/>
+
+                <Label text="Asignación de cursos a estudiantes"
+                       styleClass="header-sub"/>
+
+            </VBox>
+
+        </HBox>
+
+    </top>
+
+    <!-- =========================
+         CONTENT
+    ========================== -->
+
+    <center>
+
+        <VBox spacing="20">
+
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
+
+            <!-- FORM -->
+
+            <VBox spacing="20"
+                  styleClass="card"
+                  prefWidth="500">
+
+                <Label text="Asignar Curso"
+                       style="-fx-font-size: 20px;
+                              -fx-font-weight: bold;"/>
+
+                <!-- ESTUDIANTE -->
+
+                <VBox spacing="8">
+
+                    <Label text="Seleccionar Estudiante"
+                           styleClass="subtitle"/>
+
+                    <ComboBox fx:id="cmbStudents"
+                              promptText="Seleccione un estudiante"/>
+                </VBox>
+
+                <!-- CURSO -->
+
+                <VBox spacing="8">
+
+                    <Label text="Seleccionar Curso"
+                           styleClass="subtitle"/>
+
+                    <ComboBox fx:id="cmbCourses"
+                              promptText="Seleccione un curso"/>
+                </VBox>
+
+                <!-- BUTTON -->
+
+                <Button text="Asignar Curso"
+                        onAction="#assignCourse"
+                        styleClass="btn-success"/>
+
+            </VBox>
+
+            <!-- TABLE -->
+
+            <VBox spacing="15"
+                  styleClass="card">
+
+                <Label text="Cursos Asignados"
+                       style="-fx-font-size: 18px;
+                              -fx-font-weight: bold;"/>
+
+                <TableView fx:id="tblEnrollments"
+                           prefHeight="350">
+
+                    <columns>
+
+                        <TableColumn fx:id="colStudent"
+                                     text="Estudiante"
+                                     prefWidth="280"/>
+
+                        <TableColumn fx:id="colCourse"
+                                     text="Curso"
+                                     prefWidth="280"/>
+
+                        <TableColumn fx:id="colCredits"
+                                     text="Créditos"
+                                     prefWidth="120"/>
+
+                    </columns>
+
+                </TableView>
+
+            </VBox>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>
