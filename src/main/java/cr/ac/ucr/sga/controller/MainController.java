@@ -8,9 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.control.Button;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,18 +20,6 @@ public class MainController implements Initializable {
 
     @FXML
     private BorderPane rootPane;
-
-    @FXML
-    private Button btnStudents;
-
-    @FXML
-    private Button btnCourses;
-
-    @FXML
-    private Button btnAcademic;
-
-    @FXML
-    private Button btnUsers;
 
     private User currentUser;
 
@@ -41,11 +30,8 @@ public class MainController implements Initializable {
     private boolean ignoreTabChange = false;
 
     @Override
-    public void initialize(
-            URL url,
-            ResourceBundle resourceBundle
-    ) {
-
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Registrar historial de pestañas
         mainTabs.getSelectionModel().selectedIndexProperty().addListener((obs, oldIndex, newIndex) -> {
             if (!ignoreTabChange && newIndex != null) {
                 try {
@@ -56,105 +42,48 @@ public class MainController implements Initializable {
             }
         });
 
-        System.out.println(
-                "Sistema iniciado correctamente"
-        );
+        System.out.println("Sistema iniciado correctamente");
         try {
             historyService.addTabIndex(mainTabs.getSelectionModel().getSelectedIndex());
         } catch (ListException e) {
             throw new RuntimeException(e);
         }
+
+        mainTabs.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+            if (newTab != null && "Expediente".equals(newTab.getText()) && currentUser != null) {
+                try {
+                    AnchorPane contenido = (AnchorPane) newTab.getContent();
+                    if (contenido.getChildren().isEmpty()) {
+                        FXMLLoader expedienteLoader = new FXMLLoader(getClass().getResource("/views/academic-record-view.fxml"));
+                        Parent expediente = expedienteLoader.load();
+                        RecordController recordController = expedienteLoader.getController();
+                        recordController.setUser(currentUser);
+                        contenido.getChildren().add(expediente);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    // =====================================================
-    // SET USER
-    // =====================================================
-
+    // ========== SET USER ==========
     public void setUser(User user) {
-
         this.currentUser = user;
-
-        configurePermissions();
+        applyAccessByRole();
     }
 
-    // =====================================================
-    // CONFIGURAR PERMISOS
-    // =====================================================
+    // ========== CONTROL DE ACCESO POR ROL ==========
 
-    private void configurePermissions() {
-
-        if (currentUser == null) {
-            return;
-        }
-
-        // ADMIN
-        if (currentUser.getRole() == Role.ADMIN) {
-
-            btnStudents.setVisible(true);
-            btnCourses.setVisible(true);
-            btnAcademic.setVisible(true);
-            btnUsers.setVisible(true);
-        }
-
-        // PROFESSOR
-        else if (
-                currentUser.getRole()
-                        == Role.PROFESSOR
-        ) {
-
-            btnStudents.setVisible(true);
-            btnCourses.setVisible(true);
-
-            btnAcademic.setVisible(true);
-
-            btnUsers.setVisible(false);
-        }
-
-        // STUDENT
-        else if (
-                currentUser.getRole()
-                        == Role.STUDENT
-        ) {
-
-            btnStudents.setVisible(false);
-
-            btnCourses.setVisible(true);
-
-            btnAcademic.setVisible(true);
-
-            btnUsers.setVisible(false);
+    private void applyAccessByRole() {
+        if (mainTabs != null && currentUser != null) {
+            if (currentUser.getRole() == Role.STUDENT) {
+                mainTabs.getTabs().get(0).setDisable(true); // Ocultar Tab: Estudiantes para estudiante
+            }
         }
     }
 
-
-    // =====================================================
-    // LOAD ACADEMIC VIEW
-    // =====================================================
-
-    @FXML
-    public void loadAcademicView() {
-
-        System.out.println(
-                "Vista académica próximamente..."
-        );
-    }
-
-    // =====================================================
-    // LOAD USERS VIEW
-    // =====================================================
-
-    @FXML
-    public void loadUsersView() {
-
-        System.out.println(
-                "Vista de usuarios próximamente..."
-        );
-    }
-
-    // =====================================================
-    // SESSION HISTORY SERVICES
-    // =====================================================
-
+    // ========== NAVEGACIÓN HISTORIAL ==========
     @FXML
     public void goBack() {
         try {
@@ -182,5 +111,4 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
-
 }

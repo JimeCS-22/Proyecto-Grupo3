@@ -55,6 +55,8 @@ public class LoginController {
                                 1100,
                                 720
                         );
+                MainController mainController = loader.getController();
+                mainController.setUser(user);
 
                 scene.getStylesheets().add(
                         HelloApplication.class

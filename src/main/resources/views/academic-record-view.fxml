@@ -34,6 +34,9 @@
                 <Label text="Historial ordenado cronológicamente"
                        styleClass="header-sub"/>
 
+                <Label fx:id="lblStudentInfo"
+                       styleClass="header-badge" />
+
             </VBox>
 
             <Region HBox.hgrow="ALWAYS"/>
@@ -68,56 +71,25 @@
                 <VBox spacing="10"
                       styleClass="card"
                       prefWidth="240">
-
-                    <Label text="Promedio General"
-                           styleClass="subtitle"/>
-
-                    <Label text="89.5"
-                           style="-fx-font-size: 32px;
-                                  -fx-font-weight: bold;
-                                  -fx-text-fill: #5562EA;"/>
-
-                    <Label text="Excelente rendimiento"
-                           styleClass="badge"/>
-
+                    <Label text="Promedio General" styleClass="subtitle"/>
+                    <Label fx:id="lblAvg" style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#5562EA;"/>
+                    <Label fx:id="lblAvgDesc" styleClass="badge"/>
                 </VBox>
 
                 <!-- CARD 2 -->
 
-                <VBox spacing="10"
-                      styleClass="card"
-                      prefWidth="240">
-
-                    <Label text="Créditos Aprobados"
-                           styleClass="subtitle"/>
-
-                    <Label text="84"
-                           style="-fx-font-size: 32px;
-                                  -fx-font-weight: bold;
-                                  -fx-text-fill: #2DBE8D;"/>
-
-                    <Label text="75% completado"
-                           styleClass="badge"/>
-
+                <VBox spacing="10" styleClass="card" prefWidth="240">
+                    <Label text="Créditos Aprobados" styleClass="subtitle"/>
+                    <Label fx:id="lblCredits" style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#2DBE8D;"/>
+                    <Label fx:id="lblCreditosDesc" styleClass="badge"/>
                 </VBox>
 
                 <!-- CARD 3 -->
 
-                <VBox spacing="10"
-                      styleClass="card"
-                      prefWidth="240">
-
-                    <Label text="Cursos Matriculados"
-                           styleClass="subtitle"/>
-
-                    <Label text="6"
-                           style="-fx-font-size: 32px;
-                                  -fx-font-weight: bold;
-                                  -fx-text-fill: #E85D75;"/>
-
-                    <Label text="Ciclo I - 2026"
-                           styleClass="badge"/>
-
+                <VBox spacing="10" styleClass="card" prefWidth="240">
+                    <Label text="Cursos Matriculados" styleClass="subtitle"/>
+                    <Label fx:id="lblCount" style="-fx-font-size:32px;-fx-font-weight:bold;-fx-text-fill:#E85D75;"/>
+                    <Label fx:id="lblCiclo" styleClass="badge"/>
                 </VBox>
 
             </HBox>
@@ -187,27 +159,14 @@
 
                             <!-- TABLA -->
 
-                            <TableView prefHeight="260">
-
+                            <TableView fx:id="tblCourses" prefHeight="260">
                                 <columns>
-
-                                    <TableColumn text="Código"
-                                                 prefWidth="120"/>
-
-                                    <TableColumn text="Curso"
-                                                 prefWidth="320"/>
-
-                                    <TableColumn text="Créditos"
-                                                 prefWidth="100"/>
-
-                                    <TableColumn text="Nota"
-                                                 prefWidth="100"/>
-
-                                    <TableColumn text="Estado"
-                                                 prefWidth="160"/>
-
+                                    <TableColumn fx:id="colCode" text="Código" prefWidth="120"/>
+                                    <TableColumn fx:id="colName" text="Curso" prefWidth="320"/>
+                                    <TableColumn fx:id="colCredits" text="Créditos" prefWidth="100"/>
+                                    <TableColumn fx:id="colGrade" text="Nota" prefWidth="100"/>
+                                    <TableColumn fx:id="colStatus" text="Estado" prefWidth="160"/>
                                 </columns>
-
                             </TableView>
 
                         </VBox>

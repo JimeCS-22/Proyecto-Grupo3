@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.AnchorPane?>
 <BorderPane fx:id="rootPane" styleClass="root-pane" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.MainController">
 
     <top>
@@ -46,7 +47,7 @@
 
             <!-- ACADEMIC RECORD -->
             <Tab closable="false" text="Expediente">
-                <fx:include source="academic-record-view.fxml"/>
+                <AnchorPane fx:id="expedienteContent"/>
             </Tab>
 
         </TabPane>
