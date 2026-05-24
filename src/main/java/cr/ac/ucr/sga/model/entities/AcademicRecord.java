@@ -28,18 +28,30 @@ public class AcademicRecord {
 
     // ------- SERIALIZACIÓN SEGURA -------
     // Convierte cursos a lista estándar solo si hay cursos
+
     public List<Course> getCoursesAsList() {
+
         List<Course> list = new ArrayList<>();
+
         try {
-            if (!courses.isEmpty()) {
-                int size = courses.size();
-                for (int i = 1; i <= size; i++) {
-                    list.add(courses.get(i));
-                }
+
+            int size = courses.size();
+
+            System.out.println("SIZE = " + size);
+
+            for (int i = 1; i <= size; i++) {
+
+                Course c = courses.get(i);
+
+                System.out.println(c);
+
+                list.add(c);
             }
-        } catch (ListException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
         return list;
     }
 

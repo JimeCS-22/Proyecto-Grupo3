@@ -3,8 +3,10 @@ package cr.ac.ucr.sga.controller;
 import cr.ac.ucr.sga.model.data.AcademicRecordData;
 import cr.ac.ucr.sga.model.data.CourseData;
 import cr.ac.ucr.sga.model.data.StudentData;
+import cr.ac.ucr.sga.model.entities.AcademicRecord;
 import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.Student;
+import cr.ac.ucr.sga.model.structures.queues.PriorityLinkedQueue;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -33,10 +35,13 @@ public class EnrollmentController implements Initializable {
     private final CourseData courseData = new CourseData();
     private final AcademicRecordData recordData = new AcademicRecordData();
 
+    private final PriorityLinkedQueue<Student> enrollmentQueue = new PriorityLinkedQueue<>();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTable();
-        loadStudents();
+        //loadStudents();
+        loadPriorityQueue();
+        loadStudentsByPriority();
         loadCourses();
         loadEnrollments();
         System.out.println("EnrollmentController iniciado");
@@ -63,7 +68,7 @@ public class EnrollmentController implements Initializable {
     private void loadCourses() {
         try {
             int size = courseData.getAllCourses().size();
-            for (int i = 1; i <= size; i++) { // <= para incluir al último
+            for (int i = 0; i < size; i++) { // <= para incluir al último
                 Course course = courseData.getAllCourses().get(i);
                 cmbCourses.getItems().add(course);
             }
@@ -83,9 +88,10 @@ public class EnrollmentController implements Initializable {
             }
             // Usa el método centralizado para agregar curso y guardar
             boolean ok = recordData.addCourseToStudent(student.getId(), course);
+
             if (!ok) {
                 // Si no existe, crea expediente y vuelve a intentar
-                recordData.addRecord(new cr.ac.ucr.sga.model.entities.AcademicRecord(student));
+                recordData.addRecord(new AcademicRecord(student));
                 ok = recordData.addCourseToStudent(student.getId(), course);
             }
             if (ok) {
@@ -94,17 +100,23 @@ public class EnrollmentController implements Initializable {
                 showAlert(Alert.AlertType.ERROR, "Error", "No se pudo asignar el curso");
             }
             loadEnrollments();
+            cleanFields();
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
 
+    private void cleanFields() {
+        cmbStudents.getSelectionModel().clearSelection();
+        cmbCourses.getSelectionModel().clearSelection();
+    }
+
     private void loadEnrollments() {
         tblEnrollments.getItems().clear();
         try {
             int size = recordData.getAll().size();
-            for (int i = 1; i <= size; i++) { // <= para incluir al último
+            for (int i = 1; i < size; i++) { // <= para incluir al último
                 var record = recordData.getAll().get(i);
                 int coursesSize = record.getCourses().size();
                 for (int j = 1; j <= coursesSize; j++) { // <= para todos los cursos
@@ -118,6 +130,98 @@ public class EnrollmentController implements Initializable {
                     );
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //cálculo de prioridad por cant de créditos
+    private int calculateTotalCredits(Student student) {
+
+        int totalCredits = 0;
+
+        try {
+
+            int size = recordData.getAll().size();
+
+            for (int i = 0; i < size; i++) {
+
+                var record = recordData.getAll().get(i);
+
+                if (record.getStudent().getId().equals(student.getId())) {
+
+                    int coursesSize = record.getCourses().size();
+
+                    for (int j = 1; j <= coursesSize; j++) {
+
+                        totalCredits += record.getCourses().get(j).getCredits();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalCredits;
+    }
+    private void loadPriorityQueue() {
+
+        try {
+
+            enrollmentQueue.clear();
+
+            int size = studentData.getAllStudents().size();
+
+            for (int i = 0; i < size; i++) {
+
+                Student student = studentData.getAllStudents().get(i);
+
+                int totalCredits = calculateTotalCredits(student);
+
+            /*
+             PRIORIDAD:
+             Más créditos = prioridad más alta
+            */
+
+                int priority;
+
+                if (totalCredits >= 90) {
+                    priority = 1; // máxima prioridad
+                } else if (totalCredits >= 60) {
+                    priority = 2;
+                } else if (totalCredits >= 30) {
+                    priority = 3;
+                } else {
+                    priority = 4;
+                }
+
+                enrollmentQueue.enQueue(student, priority);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void loadStudentsByPriority() {
+
+        cmbStudents.getItems().clear();
+
+        try {
+
+            while (!enrollmentQueue.isEmpty()) {
+
+                Student student = enrollmentQueue.deQueue();
+
+                int credits = calculateTotalCredits(student);
+
+                System.out.println(
+                        student.getName() +
+                                " -> Créditos: " + credits
+                );
+
+                cmbStudents.getItems().add(student);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

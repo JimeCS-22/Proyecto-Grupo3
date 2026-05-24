@@ -28,8 +28,6 @@ public class DoublyLinkedList<T> implements List<T> {
     @Override
     public int size() throws ListException {
 
-        if (isEmpty()) throw new ListException("Doubly Linked List is empty");
-
         int count = 0;
         Node<T> aux = head;
 

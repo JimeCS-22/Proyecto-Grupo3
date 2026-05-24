@@ -17,7 +17,7 @@ import java.util.LinkedList;
  */
 public class StudentData {
 
-    private LinkedList<Student> students;
+    private final LinkedList<Student> students;
 
     private static final String FILE_PATH =
             "src/main/resources/data/students.json";

@@ -18,5 +18,10 @@
     "username": "JP",
     "password": "1234",
     "role": "STUDENT"
+  },
+  {
+    "username": "camila.montoya",
+    "password": "1234",
+    "role": "STUDENT"
   }
 ]

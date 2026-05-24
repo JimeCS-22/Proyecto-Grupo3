@@ -22,5 +22,13 @@
     "age": 20,
     "username": "JP",
     "password": "1234"
+  },
+  {
+    "id": "119360128",
+    "name": "Camila Montoya Blanco",
+    "carnet": "C4H457",
+    "age": 20,
+    "username": "camila.montoya",
+    "password": "1234"
   }
 ]

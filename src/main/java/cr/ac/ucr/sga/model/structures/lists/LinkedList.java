@@ -27,8 +27,6 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public int size() throws ListException {
-        if (isEmpty())
-            throw new ListException("Linked List is empty");
         int counter = 0;
         Node<T> aux = head;
         while (aux != null) {
@@ -266,10 +264,11 @@ public class LinkedList<T> implements List<T> {
     public T get(int index) throws ListException {
         if (isEmpty())
             throw new ListException("Linked List is empty");
-        if (index < 1 || index > size())
+        if (index < 0 || index >= size())
             throw new ListException("Index out of bounds");
+
         Node<T> aux = head;
-        int count = 1;
+        int count = 0;
         while (aux != null) {
             if (count == index) {
                 return aux.data;
@@ -277,8 +276,9 @@ public class LinkedList<T> implements List<T> {
             count++;
             aux = aux.next;
         }
-        return null; // Nunca debería llegar aquí por el control anterior
+        return null; // Nunca debería llegar aquí
     }
+
 
     @Override
     public String toString() {

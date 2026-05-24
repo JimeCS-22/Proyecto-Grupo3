@@ -1,1 +1,51 @@
 [
+  {
+    "student": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "Jimena",
+      "password": "1234"
+    },
+    "courses": [
+      {
+        "id": "2",
+        "name": "Matematicas",
+        "credits": 0,
+        "grade": 0.0
+      },
+      {
+        "id": "52",
+        "name": "Semniario ",
+        "credits": 5,
+        "grade": 0.0
+      }
+    ]
+  },
+  {
+    "student": {
+      "id": "119360128",
+      "name": "Camila Montoya Blanco",
+      "carnet": "C4H457",
+      "age": 20,
+      "username": "camila.montoya",
+      "password": "1234"
+    },
+    "courses": [
+      {
+        "id": "IF-1301",
+        "name": "Desarrollo ",
+        "credits": 4,
+        "grade": 0.0,
+        "status": "Activo"
+      },
+      {
+        "id": "52",
+        "name": "Semniario ",
+        "credits": 5,
+        "grade": 0.0
+      }
+    ]
+  }
+]

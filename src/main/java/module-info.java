@@ -6,6 +6,7 @@ module cr.ac.ucr.sga{
     requires java.desktop;
     requires com.google.gson;
 
+    opens cr.ac.ucr.sga.model.data to com.google.gson;
     opens cr.ac.ucr.sga.model to javafx.base;
     opens cr.ac.ucr.sga to javafx.fxml;
     opens cr.ac.ucr.sga.model.entities to com.google.gson,javafx.base;

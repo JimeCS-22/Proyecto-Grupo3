@@ -81,13 +81,13 @@ public class PriorityLinkedQueue<T> implements MyQueue<T> {
 
     @Override
     public void enQueue(T element, Integer priority) throws QueueException {
-        Node node = new Node<>(element, priority);
+        Node<T> node = new Node<>(element, priority);
         if (isEmpty()) {
             front = rear = node;
 
         }else{
-            Node aux = front;
-            Node prev = front;
+            Node<T> aux = front;
+            Node<T> prev = front;
             while(aux != null && aux.priority <= priority){
                 prev = aux; //dejamos un rastro
                 aux = aux.next;

@@ -70,6 +70,11 @@ public class Student {
 
     @Override
     public String toString() {
+        return "[" + id + "] " + name + " - " + carnet + " - " +age + " - " +username;
+    }
+    /*
+    @Override
+    public String toString() {
 
         return "Student{" +
                 "id='" + id + '\'' +
@@ -79,7 +84,7 @@ public class Student {
                 ", age=" + age +
                 ", username='" + username + '\'' +
                 '}';
-    }
+    }*/
 
     // =========================
     // BUILDER

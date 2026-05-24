@@ -8,6 +8,13 @@ public class Course {
     private double grade;
     private String status;
 
+    public Course(String id, String name, int credits, double grade, String status) {
+        this.id = id;
+        this.name = name;
+        this.credits = credits;
+        this.grade = grade;
+        this.status = status;
+    }
     private Course(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
