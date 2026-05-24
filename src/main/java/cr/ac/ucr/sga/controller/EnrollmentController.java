@@ -44,7 +44,21 @@ public class EnrollmentController implements Initializable {
         loadStudentsByPriority();
         loadCourses();
         loadEnrollments();
-        System.out.println("EnrollmentController iniciado");
+        cmbStudents.setCellFactory(lv -> new ListCell<Student>() {
+            @Override
+            protected void updateItem(Student student, boolean empty) {
+                super.updateItem(student, empty);
+                if (empty || student == null) {
+                    setText(null);
+                } else {
+                    int credits = calculateTotalCredits(student);
+                    setText(student.getName() + " -> Créditos: " + credits);
+                }
+            }
+        });
+
+        cmbStudents.setButtonCell(cmbStudents.getCellFactory().call(null));
+
     }
 
     private void initializeTable() {
@@ -185,11 +199,11 @@ public class EnrollmentController implements Initializable {
 
                 int priority;
 
-                if (totalCredits >= 90) {
+                if (totalCredits >= 30) {
                     priority = 1; // máxima prioridad
-                } else if (totalCredits >= 60) {
+                } else if (totalCredits >= 20) {
                     priority = 2;
-                } else if (totalCredits >= 30) {
+                } else if (totalCredits >= 10) {
                     priority = 3;
                 } else {
                     priority = 4;

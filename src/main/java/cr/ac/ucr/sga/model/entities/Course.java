@@ -47,13 +47,8 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", credits=" + credits +
-                ", grade=" + grade +
-                ", status='" + status + '\'' +
-                '}';
+        return String.format("%s [ID: %s, Créditos: %d, Nota: %.1f, Estado: %s]",
+                name, id, credits, grade, status);
     }
 
     // Clase interna de Builder

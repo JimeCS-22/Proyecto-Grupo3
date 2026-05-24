@@ -20,6 +20,13 @@
         "name": "Semniario ",
         "credits": 5,
         "grade": 0.0
+      },
+      {
+        "id": "IF-1301",
+        "name": "Desarrollo ",
+        "credits": 4,
+        "grade": 0.0,
+        "status": "Activo"
       }
     ]
   },
@@ -45,6 +52,37 @@
         "name": "Semniario ",
         "credits": 5,
         "grade": 0.0
+      },
+      {
+        "id": "52",
+        "name": "Semniario ",
+        "credits": 5,
+        "grade": 0.0
+      }
+    ]
+  },
+  {
+    "student": {
+      "id": "303260704",
+      "name": "Shirley Calvo",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "SCS",
+      "password": "1234"
+    },
+    "courses": [
+      {
+        "id": "52",
+        "name": "Semniario ",
+        "credits": 5,
+        "grade": 0.0
+      },
+      {
+        "id": "IF-1300",
+        "name": "Algoritmos",
+        "credits": 4,
+        "grade": 0.0,
+        "status": "Activo"
       }
     ]
   }

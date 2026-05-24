@@ -72,6 +72,8 @@ public class Student {
     public String toString() {
         return "[" + id + "] " + name + " - " + carnet + " - " +age + " - " +username;
     }
+
+
     /*
     @Override
     public String toString() {
