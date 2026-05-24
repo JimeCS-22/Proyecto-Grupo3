@@ -63,7 +63,7 @@ public class AcademicRecordData {
             int size = records.size();
             System.out.println("SIZE records = " + size);
 
-            for (int i = 0; i < size; i++) {  // 👈 cambio aquí
+            for (int i = 1; i <= size; i++) {
                 AcademicRecord r = records.get(i);
 
                 if (r == null) {
@@ -104,7 +104,7 @@ public class AcademicRecordData {
     public AcademicRecord findByStudentId(String id) {
         try {
             int size = records.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 1; i <= size; i++) {
                 AcademicRecord r = records.get(i);
                 if (r.getStudent().getId().equalsIgnoreCase(id)) {
                     return r;
@@ -119,7 +119,7 @@ public class AcademicRecordData {
     public boolean deleteRecord(String studentId) {
         try {
             int size = records.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 1; i <= size; i++) {
                 AcademicRecord r = records.get(i);
                 if (r.getStudent().getId().equalsIgnoreCase(studentId)) {
                     records.remove(r);
@@ -133,9 +133,17 @@ public class AcademicRecordData {
         return false;
     }
 
-    public boolean addCourseToStudent(String studentId, Course course) {
+    public boolean addCourseToStudent(String studentId, Course course) throws ListException {
         AcademicRecord record = findByStudentId(studentId);
         if (record != null) {
+            // VALIDACIÓN DE DUPLICADOS
+            for (int i = 1; i <= record.getCourses().size(); i++) {
+                Course c = record.getCourses().get(i);
+                if (c.getId().equalsIgnoreCase(course.getId())) {
+                    // Ya existe el curso
+                    return false;
+                }
+            }
             record.addCourse(course);
             saveRecords();
             return true;

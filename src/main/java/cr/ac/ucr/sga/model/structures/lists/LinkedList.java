@@ -264,11 +264,11 @@ public class LinkedList<T> implements List<T> {
     public T get(int index) throws ListException {
         if (isEmpty())
             throw new ListException("Linked List is empty");
-        if (index < 0 || index >= size())
+        if (index < 1 || index > size())
             throw new ListException("Index out of bounds");
 
         Node<T> aux = head;
-        int count = 0;
+        int count = 1;
         while (aux != null) {
             if (count == index) {
                 return aux.data;

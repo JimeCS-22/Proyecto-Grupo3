@@ -70,7 +70,7 @@ public class EnrollmentController implements Initializable {
     private void loadStudents() {
         try {
             int size = studentData.getAllStudents().size();
-            for (int i = 1; i <= size; i++) { // <= para incluir al último
+            for (int i = 0; i <= size; i++) { // <= para incluir al último
                 Student student = studentData.getAllStudents().get(i);
                 cmbStudents.getItems().add(student);
             }
@@ -82,7 +82,7 @@ public class EnrollmentController implements Initializable {
     private void loadCourses() {
         try {
             int size = courseData.getAllCourses().size();
-            for (int i = 0; i < size; i++) { // <= para incluir al último
+            for (int i = 0; i < size; i++) {
                 Course course = courseData.getAllCourses().get(i);
                 cmbCourses.getItems().add(course);
             }
@@ -130,7 +130,7 @@ public class EnrollmentController implements Initializable {
         tblEnrollments.getItems().clear();
         try {
             int size = recordData.getAll().size();
-            for (int i = 1; i < size; i++) { // <= para incluir al último
+            for (int i = 1; i <= size; i++) { // <= para incluir al último
                 var record = recordData.getAll().get(i);
                 int coursesSize = record.getCourses().size();
                 for (int j = 1; j <= coursesSize; j++) { // <= para todos los cursos
@@ -157,7 +157,8 @@ public class EnrollmentController implements Initializable {
 
             int size = recordData.getAll().size();
 
-            for (int i = 0; i < size; i++) {
+            // recordData.getAll() devuelve tu LinkedList personalizada que es 1-based
+            for (int i = 1; i <= size; i++) {
 
                 var record = recordData.getAll().get(i);
 
@@ -166,7 +167,6 @@ public class EnrollmentController implements Initializable {
                     int coursesSize = record.getCourses().size();
 
                     for (int j = 1; j <= coursesSize; j++) {
-
                         totalCredits += record.getCourses().get(j).getCredits();
                     }
                 }
@@ -178,6 +178,7 @@ public class EnrollmentController implements Initializable {
 
         return totalCredits;
     }
+
     private void loadPriorityQueue() {
 
         try {
