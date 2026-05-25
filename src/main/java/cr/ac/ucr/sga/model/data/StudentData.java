@@ -179,12 +179,14 @@ public class StudentData {
 
     public Student findByUsername(String username) {
 
-        for (int i = 0; i < students.size(); i++) {
+        for (Student student : students) {
 
-            Student student = students.get(i);
-
-            if (student.getUsername()
-                    .equalsIgnoreCase(username)) {
+            if (
+                    student.getUsername() != null
+                            &&
+                            student.getUsername()
+                                    .equalsIgnoreCase(username)
+            ) {
 
                 return student;
             }

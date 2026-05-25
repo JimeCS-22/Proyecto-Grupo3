@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import cr.ac.ucr.sga.model.entities.AcademicRecord;
 import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
@@ -149,6 +150,67 @@ public class AcademicRecordData {
             return true;
         }
         return false;
+    }
+
+    public AcademicRecord findByUsername(String username) {
+
+        try {
+
+            int size = records.size();
+
+            for (int i = 1; i <= size; i++) {
+
+                AcademicRecord record = records.get(i);
+
+                if (
+                        record.getStudent()
+                                .getUsername()
+                                .equalsIgnoreCase(username)
+                ) {
+
+                    return record;
+                }
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<Student> getAllStudentsFromRecords() {
+
+        ArrayList<Student> list =
+                new ArrayList<>();
+
+        try {
+
+            int size = records.size();
+
+            for (
+                    int i = 1;
+                    i <= size;
+                    i++
+            ) {
+
+                AcademicRecord record =
+                        records.get(i);
+
+                list.add(
+                        record.getStudent()
+                );
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    e.getMessage()
+            );
+        }
+
+        return list;
     }
 
 

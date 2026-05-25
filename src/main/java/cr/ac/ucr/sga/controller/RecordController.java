@@ -1,7 +1,6 @@
 package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.model.data.AcademicRecordData;
-import cr.ac.ucr.sga.model.data.StudentData;
 import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
@@ -71,8 +70,8 @@ public class RecordController implements Initializable {
     private final ObservableList<Course> courseList =
             FXCollections.observableArrayList();
 
-    private final StudentData studentData =
-            new StudentData();
+    private final AcademicRecordData recordData =
+            new AcademicRecordData();
 
     @Override
     public void initialize(
@@ -81,19 +80,24 @@ public class RecordController implements Initializable {
     ) {
 
         colCode.setCellValueFactory(
-                new PropertyValueFactory<>("id"));
+                new PropertyValueFactory<>("id")
+        );
 
         colName.setCellValueFactory(
-                new PropertyValueFactory<>("name"));
+                new PropertyValueFactory<>("name")
+        );
 
         colCredits.setCellValueFactory(
-                new PropertyValueFactory<>("credits"));
+                new PropertyValueFactory<>("credits")
+        );
 
         colGrade.setCellValueFactory(
-                new PropertyValueFactory<>("grade"));
+                new PropertyValueFactory<>("grade")
+        );
 
         colStatus.setCellValueFactory(
-                new PropertyValueFactory<>("status"));
+                new PropertyValueFactory<>("status")
+        );
 
         tblCourses.setItems(courseList);
     }
@@ -102,40 +106,71 @@ public class RecordController implements Initializable {
     // USER
     // =========================
 
-    public void setUser(User user)
-            throws ListException {
+    public void setUser(User user) {
 
         this.currentUser = user;
 
-        // ADMIN
-        if (user.getRole() == Role.ADMIN) {
+        try {
 
-            cmbStudents.setVisible(true);
+            // =========================
+            // ADMIN
+            // =========================
 
-            cmbStudents.getItems().addAll(
-                    studentData.getAllStudents()
-            );
+            if (user.getRole() == Role.ADMIN) {
 
-            lblStudentInfo.setText(
-                    "Administrador"
-            );
+                cmbStudents.setVisible(true);
+                cmbStudents.setManaged(true);
 
-        }
+                cmbStudents.getItems().clear();
 
-        // STUDENT
-        else if (user.getRole() == Role.STUDENT) {
+                cmbStudents.getItems().addAll(
+                        recordData.getAllStudentsFromRecords()
+                );
 
-            cmbStudents.setVisible(false);
+                lblStudentInfo.setText(
+                        "Administrador"
+                );
+            }
 
-            Student student =
-                    studentData.findByUsername(
-                            user.getUsername()
+            // =========================
+            // STUDENT
+            // =========================
+
+            else if (user.getRole() == Role.STUDENT) {
+
+                cmbStudents.setVisible(false);
+                cmbStudents.setManaged(false);
+
+                System.out.println(
+                        "LOGIN USER: "
+                                + user.getUsername()
+                );
+
+                AcademicRecord record =
+                        recordData.findByUsername(
+                                user.getUsername()
+                        );
+
+                if (record != null) {
+
+                    System.out.println(
+                            "Expediente encontrado para: "
+                                    + record.getStudent().getName()
                     );
 
-            if (student != null) {
+                    cargarExpediente(record);
 
-                cargarExpediente(student);
+                } else {
+
+                    System.out.println(
+                            "NO se encontró expediente"
+                    );
+                }
             }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
     }
 
@@ -154,7 +189,15 @@ public class RecordController implements Initializable {
 
             try {
 
-                cargarExpediente(selected);
+                AcademicRecord record =
+                        recordData.findByStudentId(
+                                selected.getId()
+                        );
+
+                if (record != null) {
+
+                    cargarExpediente(record);
+                }
 
             } catch (Exception e) {
 
@@ -167,34 +210,35 @@ public class RecordController implements Initializable {
     // LOAD RECORD
     // =========================
 
-    private void cargarExpediente(Student student)
-            throws ListException {
+    private void cargarExpediente(
+            AcademicRecord record
+    ) throws ListException {
+
+        Student student =
+                record.getStudent();
 
         lblStudentInfo.setText(
                 "Estudiante: "
                         + student.getName()
         );
 
-        AcademicRecordData recordData =
-                new AcademicRecordData();
+        courseList.clear();
 
-        AcademicRecord record =
-                recordData.findByStudentId(
-                        student.getId()
-                );
+        DoublyLinkedList<Course> cursos =
+                record.getCourses();
 
-        if (record != null) {
+        System.out.println(
+                "Cantidad cursos: "
+                        + cursos.size()
+        );
 
-            courseList.clear();
+        double sumGrades = 0;
 
-            DoublyLinkedList<Course> cursos =
-                    record.getCourses();
+        int countGrades = 0;
 
-            double sumGrades = 0;
+        int sumaCreditos = 0;
 
-            int countGrades = 0;
-
-            int sumaCreditos = 0;
+        if (!cursos.isEmpty()) {
 
             for (
                     int i = 1;
@@ -204,6 +248,11 @@ public class RecordController implements Initializable {
 
                 Course c = cursos.get(i);
 
+                System.out.println(
+                        "Curso cargado: "
+                                + c.getName()
+                );
+
                 courseList.add(c);
 
                 sumGrades += c.getGrade();
@@ -212,57 +261,37 @@ public class RecordController implements Initializable {
 
                 sumaCreditos += c.getCredits();
             }
-
-            double avg =
-                    countGrades > 0
-                            ? sumGrades / countGrades
-                            : 0;
-
-            lblAvg.setText(
-                    String.format("%.1f", avg)
-            );
-
-            lblAvgDesc.setText(
-                    avg >= 70
-                            ? "Excelente rendimiento"
-                            : "Bajo rendimiento"
-            );
-
-            lblCredits.setText(
-                    String.valueOf(sumaCreditos)
-            );
-
-            lblCreditosDesc.setText(
-                    "Créditos aprobados"
-            );
-
-            lblCount.setText(
-                    String.valueOf(courseList.size())
-            );
-
-            lblCiclo.setText(
-                    "Ciclo I - 2026"
-            );
-
-        } else {
-
-            courseList.clear();
-
-            lblAvg.setText("0");
-
-            lblAvgDesc.setText("");
-
-            lblCredits.setText("0");
-
-            lblCreditosDesc.setText("");
-
-            lblCount.setText("0");
-
-            lblCiclo.setText("");
-
-            lblStudentInfo.setText(
-                    "Sin expediente"
-            );
         }
+
+        double avg =
+                countGrades > 0
+                        ? sumGrades / countGrades
+                        : 0;
+
+        lblAvg.setText(
+                String.format("%.1f", avg)
+        );
+
+        lblAvgDesc.setText(
+                avg >= 70
+                        ? "Excelente rendimiento"
+                        : "Bajo rendimiento"
+        );
+
+        lblCredits.setText(
+                String.valueOf(sumaCreditos)
+        );
+
+        lblCreditosDesc.setText(
+                "Créditos aprobados"
+        );
+
+        lblCount.setText(
+                String.valueOf(courseList.size())
+        );
+
+        lblCiclo.setText(
+                "Ciclo I - 2026"
+        );
     }
 }

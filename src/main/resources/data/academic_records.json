@@ -5,7 +5,7 @@
       "name": "Jimena Calvo Soto",
       "carnet": "C4L408",
       "age": 21,
-      "username": "Jimena",
+      "username": "JimeCS",
       "password": "1234"
     },
     "courses": [
@@ -25,6 +25,24 @@
         "id": "52",
         "name": "Seminario Nacional",
         "credits": 2,
+        "grade": 0.0
+      }
+    ]
+  },
+  {
+    "student": {
+      "id": "303260704",
+      "name": "Shirley Calvo",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "SCS",
+      "password": "1234"
+    },
+    "courses": [
+      {
+        "id": "3",
+        "name": "Teatro",
+        "credits": 0,
         "grade": 0.0
       }
     ]
