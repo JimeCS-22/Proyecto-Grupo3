@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane styleClass="root" stylesheets="@../styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.ucr.sga.controller.EnrollmentController">
+<BorderPane styleClass="root" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.EnrollmentController">
 
     <!-- =========================
          HEADER
@@ -52,7 +52,7 @@
 
             <!-- FORM -->
 
-            <VBox prefHeight="259.0" prefWidth="734.0" spacing="20" styleClass="card">
+            <VBox prefHeight="280.0" prefWidth="734.0" spacing="20" styleClass="card">
 
                 <Label style="-fx-font-size: 20px;                               -fx-font-weight: bold;" text="Asignar Curso" />
 
@@ -72,34 +72,29 @@
                     <Label styleClass="subtitle" text="Seleccionar Curso" />
 
                     <ComboBox fx:id="cmbCourses" promptText="Seleccione un curso" />
+   
+                   <!-- BUTTON -->
+   
+                   <Button onAction="#assignCourse" styleClass="btn-success" text="Asignar Curso" />
                 </VBox>
-
-                <!-- BUTTON -->
-
-                <Button onAction="#assignCourse" styleClass="btn-success" text="Asignar Curso" />
 
             </VBox>
 
             <!-- TABLE -->
 
-            <VBox spacing="15" styleClass="card">
-
-                <Label style="-fx-font-size: 18px;                               -fx-font-weight: bold;" text="Cursos Asignados" />
-
-                <TableView fx:id="tblEnrollments" prefHeight="350">
-
+            <VBox spacing="15" styleClass="card" prefWidth="734.0">
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Cursos Asignados" />
+                <TableView fx:id="tblEnrollments"
+                           prefHeight="170.0"
+                           minHeight="100.0"
+                           VBox.vgrow="ALWAYS"
+                           styleClass="custom-table">
                     <columns>
-
-                        <TableColumn fx:id="colStudent" prefWidth="280" text="Estudiante" />
-
-                        <TableColumn fx:id="colCourse" prefWidth="280" text="Curso" />
-
-                        <TableColumn fx:id="colCredits" prefWidth="120" text="Créditos" />
-
+                        <TableColumn fx:id="colStudent" prefWidth="230" text="Estudiante" />
+                        <TableColumn fx:id="colCourse" prefWidth="230" text="Curso" />
+                        <TableColumn fx:id="colCredits" prefWidth="100" text="Créditos" />
                     </columns>
-
                 </TableView>
-
             </VBox>
 
         </VBox>

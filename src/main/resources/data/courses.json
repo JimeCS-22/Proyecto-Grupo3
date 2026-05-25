@@ -1,23 +1,5 @@
 [
   {
-    "id": "2",
-    "name": "Matematicas",
-    "credits": 0,
-    "grade": 0.0
-  },
-  {
-    "id": "3",
-    "name": "Teatro",
-    "credits": 0,
-    "grade": 0.0
-  },
-  {
-    "id": "52",
-    "name": "Seminario Nacional",
-    "credits": 2,
-    "grade": 0.0
-  },
-  {
     "id": "IF-1301",
     "name": "Desarrollo ",
     "credits": 4,
@@ -27,6 +9,13 @@
   {
     "id": "IF-1300",
     "name": "Algoritmos",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo"
+  },
+  {
+    "id": "IF-3002",
+    "name": "Bases de datos",
     "credits": 4,
     "grade": 0.0,
     "status": "Activo"

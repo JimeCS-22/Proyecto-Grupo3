@@ -73,7 +73,19 @@ public class RecordController implements Initializable {
     @FXML
     private TableColumn<Course, String> colStatus;
 
+    @FXML
+    private TextField txtSearch;
+
+    @FXML
+    private ComboBox<String> cmbCycle;
+
+    @FXML
+    private ComboBox<String> cmbStatusFilter;
+
     private final ObservableList<Course> courseList =
+            FXCollections.observableArrayList();
+
+    private final ObservableList<Course> originalCourseList =
             FXCollections.observableArrayList();
 
     private final AcademicRecordData recordData =
@@ -106,6 +118,18 @@ public class RecordController implements Initializable {
         );
 
         tblCourses.setItems(courseList);
+
+        cmbCycle.getItems().addAll(
+                "Ciclo I - 2026",
+                "Ciclo II - 2026"
+        );
+
+        cmbStatusFilter.getItems().addAll(
+                "Activo",
+                "Inactivo",
+                "Aprobado",
+                "Reprobado"
+        );
     }
 
     // =========================
@@ -230,6 +254,8 @@ public class RecordController implements Initializable {
 
         courseList.clear();
 
+        originalCourseList.clear();
+
         DoublyLinkedList<Course> cursos =
                 record.getCourses();
 
@@ -260,6 +286,8 @@ public class RecordController implements Initializable {
                 );
 
                 courseList.add(c);
+
+                originalCourseList.add(c);
 
                 sumGrades += c.getGrade();
 
@@ -298,6 +326,92 @@ public class RecordController implements Initializable {
 
         lblCiclo.setText(
                 "Ciclo I - 2026"
+        );
+    }
+
+    @FXML
+    private void applyFilters() {
+
+        String search =
+                txtSearch.getText()
+                        .toLowerCase()
+                        .trim();
+
+        String cycle =
+                cmbCycle.getValue();
+
+        String status =
+                cmbStatusFilter.getValue();
+
+        courseList.clear();
+
+        for (Course c : originalCourseList) {
+
+            boolean matchesSearch = true;
+
+            boolean matchesCycle = true;
+
+            boolean matchesStatus = true;
+
+            // =========================
+            // SEARCH
+            // =========================
+
+            if (!search.isEmpty()) {
+
+                matchesSearch =
+                        c.getName()
+                                .toLowerCase()
+                                .contains(search)
+                                ||
+                                c.getId()
+                                        .toLowerCase()
+                                        .contains(search);
+            }
+
+            // =========================
+            // STATUS
+            // =========================
+
+            if (status != null) {
+
+                matchesStatus =
+                        c.getStatus()
+                                .equalsIgnoreCase(status);
+            }
+
+            // =========================
+            // CYCLE
+            // =========================
+        /*
+         Como Course no tiene ciclo,
+         simulamos todos en Ciclo I - 2026
+        */
+
+            if (cycle != null) {
+
+                matchesCycle =
+                        cycle.equals("Ciclo I - 2026");
+            }
+
+            // =========================
+            // ADD
+            // =========================
+
+            if (
+                    matchesSearch
+                            &&
+                            matchesCycle
+                            &&
+                            matchesStatus
+            ) {
+
+                courseList.add(c);
+            }
+        }
+
+        lblCount.setText(
+                String.valueOf(courseList.size())
         );
     }
 
@@ -483,6 +597,13 @@ public class RecordController implements Initializable {
             );
 
             alert.showAndWait();
+        }
+    }
+
+    public void reloadStudents() {
+        if (cmbStudents.isVisible()) {
+            cmbStudents.getItems().clear();
+            cmbStudents.getItems().addAll(recordData.getAllStudentsFromRecords());
         }
     }
 }

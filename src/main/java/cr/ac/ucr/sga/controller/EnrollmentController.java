@@ -264,4 +264,19 @@ public class EnrollmentController implements Initializable {
         public String getCourseName() { return courseName; }
         public int getCredits() { return credits; }
     }
+
+    public void reloadStudentsAndCourses() {
+
+        cmbStudents.getItems().clear();
+
+        cmbCourses.getItems().clear();
+
+        loadPriorityQueue();
+
+        loadStudentsByPriority();
+
+        loadCourses();
+
+        loadEnrollments();
+    }
 }

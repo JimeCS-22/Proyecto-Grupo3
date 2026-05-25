@@ -72,6 +72,8 @@ public class CourseController implements Initializable {
 
     private Course selectedCourse;
 
+    private MainController mainController;
+
     // =========================
     // INITIALIZE
     // =========================
@@ -89,6 +91,12 @@ public class CourseController implements Initializable {
                     "Inactivo"
             );
         }
+    }
+
+    public void setMainController(
+            MainController mainController
+    ) {
+        this.mainController = mainController;
     }
 
     // =========================
@@ -280,6 +288,18 @@ public class CourseController implements Initializable {
             if (added != null) {
 
                 loadCourses();
+
+                if (
+                        mainController != null
+                                &&
+                                mainController.getEnrollmentController()
+                                        != null
+                ) {
+
+                    mainController
+                            .getEnrollmentController()
+                            .reloadStudentsAndCourses();
+                }
 
                 clearFields();
 

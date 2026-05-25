@@ -28,5 +28,10 @@
     "username": "anaadmin",
     "password": "clave123",
     "role": "ADMIN"
+  },
+  {
+    "username": "MariaS",
+    "password": "1234",
+    "role": "STUDENT"
   }
 ]

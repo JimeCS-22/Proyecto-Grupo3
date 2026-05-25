@@ -114,13 +114,24 @@
 
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="854.0" spacing="15">
 
-                <TextField prefWidth="250" promptText="Buscar curso..." />
+                <TextField
+                        fx:id="txtSearch"
+                        prefWidth="250"
+                        promptText="Buscar curso..." />
 
-                <ComboBox prefWidth="180" promptText="Filtrar por ciclo" />
+                <ComboBox
+                        fx:id="cmbCycle"
+                        prefWidth="180"
+                        promptText="Filtrar por ciclo" />
 
-                <ComboBox prefWidth="180" promptText="Estado" />
+                <ComboBox
+                        fx:id="cmbStatusFilter"
+                        prefWidth="180"
+                        promptText="Estado" />
 
-                <Button text="Aplicar filtros" />
+                <Button
+                        onAction="#applyFilters"
+                        text="Aplicar filtros" />
 
             </HBox>
 
@@ -144,22 +155,14 @@
 
                 </HBox>
 
-                <TableView fx:id="tblCourses" prefHeight="400">
-
+                <TableView fx:id="tblCourses" prefHeight="530">
                     <columns>
-
                         <TableColumn fx:id="colCode" prefWidth="120" text="Código" />
-
                         <TableColumn fx:id="colName" prefWidth="320" text="Curso" />
-
                         <TableColumn fx:id="colCredits" prefWidth="100" text="Créditos" />
-
                         <TableColumn fx:id="colGrade" prefWidth="100" text="Nota" />
-
                         <TableColumn fx:id="colStatus" prefWidth="160" text="Estado" />
-
                     </columns>
-
                 </TableView>
 
             </VBox>

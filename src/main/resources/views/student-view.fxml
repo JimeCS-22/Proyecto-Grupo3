@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
 
 <BorderPane prefHeight="700" prefWidth="1200" styleClass="root-pane" stylesheets="@../styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.ucr.sga.controller.StudentController">
 
@@ -127,41 +128,25 @@
             </VBox>
 
             <!-- TABLE PANEL -->
-
-            <VBox spacing="10" styleClass="panel">
-
+            <VBox spacing="16" styleClass="panel" VBox.vgrow="ALWAYS">
                 <HBox alignment="CENTER_LEFT" spacing="10">
-
                     <Label styleClass="panel-title" text="Lista de Estudiantes" />
-
-                    <Region HBox.hgrow="ALWAYS" />
-
+                    <Region HBox.hgrow="ALWAYS"/>
                     <Label fx:id="lblCount" styleClass="header-tag" text="0 registros" />
-
                 </HBox>
-
-                <VBox styleClass="custom-table-container">
-
-                    <TableView fx:id="tblStudents" prefHeight="350" styleClass="custom-table">
-
-                        <columns>
-
-                            <TableColumn fx:id="colId" prefWidth="150" text="ID" />
-
-                            <TableColumn fx:id="colName" prefWidth="240" text="Nombre" />
-
-                            <TableColumn fx:id="colAge" prefWidth="100" text="Edad" />
-
-                            <TableColumn fx:id="colCarnet" prefWidth="170" text="Carnet" />
-
-                            <TableColumn fx:id="colUsername" prefWidth="170" text="Usuario" />
-
-                        </columns>
-
-                    </TableView>
-
-                </VBox>
-
+                <TableView fx:id="tblStudents"
+                           prefHeight="140"
+                           minHeight="80"
+                           styleClass="custom-table"
+                           VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID"/>
+                        <TableColumn fx:id="colName" text="Nombre"/>
+                        <TableColumn fx:id="colAge" text="Edad"/>
+                        <TableColumn fx:id="colCarnet" text="Carnet"/>
+                        <TableColumn fx:id="colUsername" text="Usuario"/>
+                    </columns>
+                </TableView>
             </VBox>
 
         </VBox>

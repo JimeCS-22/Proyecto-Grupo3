@@ -36,6 +36,12 @@ public class MainController implements Initializable {
     @FXML
     private AnchorPane coursesContent;
 
+    @FXML
+    private AnchorPane enrollmentContent;
+
+    @FXML
+    private AnchorPane studentContent;
+
     private User currentUser;
 
     private final SessionHistoryService historyService =
@@ -43,15 +49,23 @@ public class MainController implements Initializable {
 
     private boolean ignoreTabChange = false;
 
+    // =========================
+    // CONTROLLERS
+    // =========================
+
+    private EnrollmentController enrollmentController;
+
+    private RecordController recordController;
+
+    private CourseController courseController;
+
+    private StudentController studentController;
+
     @Override
     public void initialize(
             URL url,
             ResourceBundle resourceBundle
     ) {
-
-        // =========================
-        // HISTORIAL TABS
-        // =========================
 
         mainTabs.getSelectionModel()
                 .selectedIndexProperty()
@@ -75,10 +89,6 @@ public class MainController implements Initializable {
                     }
                 });
 
-        // =========================
-        // TAB EXPEDIENTE
-        // =========================
-
         mainTabs.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldTab, newTab) -> {
@@ -99,6 +109,26 @@ public class MainController implements Initializable {
     }
 
     // =========================
+    // GETTERS
+    // =========================
+
+    public EnrollmentController getEnrollmentController() {
+        return enrollmentController;
+    }
+
+    public RecordController getRecordController() {
+        return recordController;
+    }
+
+    public CourseController getCourseController() {
+        return courseController;
+    }
+
+    public StudentController getStudentController() {
+        return studentController;
+    }
+
+    // =========================
     // SET USER
     // =========================
 
@@ -109,6 +139,10 @@ public class MainController implements Initializable {
         applyAccessByRole();
 
         loadCourseView();
+
+        loadEnrollmentView();
+
+        loadStudentView();
     }
 
     // =========================
@@ -128,30 +162,24 @@ public class MainController implements Initializable {
                             == Role.STUDENT
             ) {
 
-                // Eliminar Matrícula
                 mainTabs.getTabs().remove(2);
 
-                // Eliminar Estudiantes
                 mainTabs.getTabs().remove(0);
 
-                // Seleccionar Cursos
                 mainTabs.getSelectionModel().select(0);
             }
         }
     }
+
     // =========================
-// LOAD COURSES VIEW
-// =========================
+    // LOAD COURSE VIEW
+    // =========================
 
     private void loadCourseView() {
 
         try {
 
             FXMLLoader loader;
-
-            // =========================
-            // STUDENT
-            // =========================
 
             if (
                     currentUser.getRole()
@@ -165,13 +193,7 @@ public class MainController implements Initializable {
                                 )
                         );
 
-            }
-
-            // =========================
-            // ADMIN / OTROS
-            // =========================
-
-            else {
+            } else {
 
                 loader =
                         new FXMLLoader(
@@ -183,10 +205,6 @@ public class MainController implements Initializable {
 
             Parent view = loader.load();
 
-            // =========================
-            // CONTROLLER STUDENT
-            // =========================
-
             if (
                     currentUser.getRole()
                             == Role.STUDENT
@@ -197,18 +215,14 @@ public class MainController implements Initializable {
 
                 controller.setUser(currentUser);
 
-            }
+            } else {
 
-            // =========================
-            // CONTROLLER ADMIN
-            // =========================
-
-            else {
-
-                CourseController controller =
+                courseController =
                         loader.getController();
 
-                controller.setUser(currentUser);
+                courseController.setUser(currentUser);
+
+                courseController.setMainController(this);
             }
 
             coursesContent.getChildren().clear();
@@ -248,10 +262,10 @@ public class MainController implements Initializable {
 
                 Parent view = loader.load();
 
-                RecordController controller =
+                recordController =
                         loader.getController();
 
-                controller.setUser(currentUser);
+                recordController.setUser(currentUser);
 
                 AnchorPane.setTopAnchor(view, 0.0);
                 AnchorPane.setBottomAnchor(view, 0.0);
@@ -259,6 +273,88 @@ public class MainController implements Initializable {
                 AnchorPane.setRightAnchor(view, 0.0);
 
                 expedienteContent
+                        .getChildren()
+                        .add(view);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    // =========================
+    // LOAD ENROLLMENT VIEW
+    // =========================
+
+    private void loadEnrollmentView() {
+
+        try {
+
+            if (enrollmentContent != null) {
+
+                FXMLLoader loader =
+                        new FXMLLoader(
+                                getClass().getResource(
+                                        "/views/enrollment-view.fxml"
+                                )
+                        );
+
+                Parent view = loader.load();
+
+                enrollmentController =
+                        loader.getController();
+
+                AnchorPane.setTopAnchor(view, 0.0);
+                AnchorPane.setBottomAnchor(view, 0.0);
+                AnchorPane.setLeftAnchor(view, 0.0);
+                AnchorPane.setRightAnchor(view, 0.0);
+
+                enrollmentContent.getChildren().clear();
+
+                enrollmentContent
+                        .getChildren()
+                        .add(view);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    // =========================
+    // LOAD STUDENT VIEW
+    // =========================
+
+    private void loadStudentView() {
+
+        try {
+
+            if (studentContent != null) {
+
+                FXMLLoader loader =
+                        new FXMLLoader(
+                                getClass().getResource(
+                                        "/views/student-view.fxml"
+                                )
+                        );
+
+                Parent view = loader.load();
+
+                studentController =
+                        loader.getController();
+
+                studentController.setMainController(this);
+
+                AnchorPane.setTopAnchor(view, 0.0);
+                AnchorPane.setBottomAnchor(view, 0.0);
+                AnchorPane.setLeftAnchor(view, 0.0);
+                AnchorPane.setRightAnchor(view, 0.0);
+
+                studentContent.getChildren().clear();
+
+                studentContent
                         .getChildren()
                         .add(view);
             }

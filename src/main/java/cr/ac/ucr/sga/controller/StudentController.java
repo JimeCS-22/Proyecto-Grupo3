@@ -77,6 +77,8 @@ public class StudentController implements Initializable {
     private final ObservableList<Student> studentList =
             FXCollections.observableArrayList();
 
+    private MainController mainController;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -87,6 +89,11 @@ public class StudentController implements Initializable {
         tableListener();
 
         System.out.println("StudentController iniciado");
+    }
+    public void setMainController(
+            MainController mainController
+    ) {
+        this.mainController = mainController;
     }
 
     // =========================
@@ -169,6 +176,30 @@ public class StudentController implements Initializable {
 
             Student added =
                     studentData.addStudent(student);
+
+            if (
+                    mainController != null
+                            &&
+                            mainController.getEnrollmentController()
+                                    != null
+            ) {
+
+                mainController
+                        .getEnrollmentController()
+                        .reloadStudentsAndCourses();
+            }
+
+            if (
+                    mainController != null
+                            &&
+                            mainController.getRecordController()
+                                    != null
+            ) {
+
+                mainController
+                        .getRecordController()
+                        .reloadStudents();
+            }
 
             if (added != null) {
 
