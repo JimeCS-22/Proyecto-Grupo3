@@ -11,8 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
 
-<BorderPane styleClass="root" stylesheets="@../styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.ucr.sga.controller.RecordController">
+<BorderPane styleClass="root" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.RecordController">
 
     <!-- =========================
          HEADER
@@ -61,114 +62,103 @@
     ========================== -->
 
     <center>
+        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <VBox spacing="20">
 
-        <VBox spacing="20">
+                <padding>
+                    <Insets bottom="25" left="25" right="25" top="25" />
+                </padding>
 
-            <padding>
-                <Insets bottom="25" left="25" right="25" top="25" />
-            </padding>
+                <!-- RESUMEN -->
 
-            <!-- RESUMEN -->
+                <HBox prefHeight="113.0" prefWidth="854.0" spacing="20">
 
-            <HBox prefHeight="113.0" prefWidth="854.0" spacing="20">
+                    <!-- PROMEDIO -->
 
-                <!-- PROMEDIO -->
+                    <VBox prefHeight="122.0" prefWidth="202.0" spacing="10" styleClass="card">
 
-                <VBox prefWidth="240" spacing="10" styleClass="card">
+                        <Label styleClass="subtitle" text="Promedio General" />
 
-                    <Label styleClass="subtitle" text="Promedio General" />
+                        <Label fx:id="lblAvg" style="-fx-font-size:32px;                                   -fx-font-weight:bold;                                   -fx-text-fill:#5562EA;" />
 
-                    <Label fx:id="lblAvg" style="-fx-font-size:32px;                                   -fx-font-weight:bold;                                   -fx-text-fill:#5562EA;" />
-
-                    <Label fx:id="lblAvgDesc" styleClass="badge" />
-
-                </VBox>
-
-                <!-- CREDITOS -->
-
-                <VBox prefWidth="240" spacing="10" styleClass="card">
-
-                    <Label styleClass="subtitle" text="Créditos Aprobados" />
-
-                    <Label fx:id="lblCredits" style="-fx-font-size:32px;                                   -fx-font-weight:bold;                                   -fx-text-fill:#2DBE8D;" />
-
-                    <Label fx:id="lblCreditosDesc" styleClass="badge" />
-
-                </VBox>
-
-                <!-- CURSOS -->
-
-                <VBox prefWidth="240" spacing="10" styleClass="card">
-
-                    <Label styleClass="subtitle" text="Cursos Matriculados" />
-
-                    <Label fx:id="lblCount" style="-fx-font-size:32px;                                   -fx-font-weight:bold;                                   -fx-text-fill:#E85D75;" />
-
-                    <Label fx:id="lblCiclo" styleClass="badge" />
-
-                </VBox>
-
-            </HBox>
-
-            <!-- FILTROS -->
-
-            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="854.0" spacing="15">
-
-                <TextField
-                        fx:id="txtSearch"
-                        prefWidth="250"
-                        promptText="Buscar curso..." />
-
-                <ComboBox
-                        fx:id="cmbCycle"
-                        prefWidth="180"
-                        promptText="Filtrar por ciclo" />
-
-                <ComboBox
-                        fx:id="cmbStatusFilter"
-                        prefWidth="180"
-                        promptText="Estado" />
-
-                <Button
-                        onAction="#applyFilters"
-                        text="Aplicar filtros" />
-
-            </HBox>
-
-            <!-- TABLA -->
-
-            <VBox spacing="15" styleClass="card">
-
-                <HBox alignment="CENTER_LEFT">
-
-                    <VBox spacing="3">
-
-                        <Label style="-fx-font-size: 20px;                                       -fx-font-weight: bold;" text="Cursos del Estudiante" />
-
-                        <Label styleClass="subtitle" text="Historial académico" />
+                        <Label fx:id="lblAvgDesc" styleClass="badge" />
 
                     </VBox>
 
-                    <Region HBox.hgrow="ALWAYS" />
+                    <!-- CREDITOS -->
 
-                    <Label styleClass="badge" text="Expediente" />
+                    <VBox prefHeight="134.0" prefWidth="186.0" spacing="10" styleClass="card">
+
+                        <Label styleClass="subtitle" text="Créditos Aprobados" />
+
+                        <Label fx:id="lblCredits" style="-fx-font-size:32px;                                   -fx-font-weight:bold;                                   -fx-text-fill:#2DBE8D;" />
+
+                        <Label fx:id="lblCreditosDesc" styleClass="badge" />
+
+                    </VBox>
+
+                    <!-- CURSOS -->
+
+                    <VBox prefHeight="133.0" prefWidth="198.0" spacing="10" styleClass="card">
+
+                        <Label styleClass="subtitle" text="Cursos Matriculados" />
+
+                        <Label fx:id="lblCount" style="-fx-font-size:32px;                                   -fx-font-weight:bold;                                   -fx-text-fill:#E85D75;" />
+
+                        <Label fx:id="lblCiclo" styleClass="badge" />
+
+                    </VBox>
 
                 </HBox>
 
-                <TableView fx:id="tblCourses" prefHeight="530">
-                    <columns>
-                        <TableColumn fx:id="colCode" prefWidth="120" text="Código" />
-                        <TableColumn fx:id="colName" prefWidth="320" text="Curso" />
-                        <TableColumn fx:id="colCredits" prefWidth="100" text="Créditos" />
-                        <TableColumn fx:id="colGrade" prefWidth="100" text="Nota" />
-                        <TableColumn fx:id="colStatus" prefWidth="160" text="Estado" />
-                    </columns>
-                </TableView>
+                <!-- FILTROS -->
+
+                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="854.0" spacing="15">
+
+                    <TextField fx:id="txtSearch" prefWidth="250" promptText="Buscar curso..." />
+
+                    <ComboBox fx:id="cmbCycle" prefWidth="180" promptText="Filtrar por ciclo" />
+
+                    <ComboBox fx:id="cmbStatusFilter" prefWidth="180" promptText="Estado" />
+
+                    <Button onAction="#applyFilters" text="Aplicar filtros" />
+
+                </HBox>
+
+                <!-- TABLA -->
+
+                <VBox spacing="15" styleClass="card">
+
+                    <HBox alignment="CENTER_LEFT">
+
+                        <VBox spacing="3">
+
+                            <Label style="-fx-font-size: 20px;                                       -fx-font-weight: bold;" text="Cursos del Estudiante" />
+
+                            <Label styleClass="subtitle" text="Historial académico" />
+
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <Label styleClass="badge" text="Expediente" />
+
+                    </HBox>
+
+                    <TableView fx:id="tblCourses" prefHeight="416.0" prefWidth="822.0">
+                        <columns>
+                            <TableColumn fx:id="colCode" prefWidth="120" text="Código" />
+                            <TableColumn fx:id="colName" prefWidth="320" text="Curso" />
+                            <TableColumn fx:id="colCredits" prefWidth="100" text="Créditos" />
+                            <TableColumn fx:id="colGrade" prefWidth="100" text="Nota" />
+                            <TableColumn fx:id="colStatus" prefWidth="160" text="Estado" />
+                        </columns>
+                    </TableView>
+
+                </VBox>
 
             </VBox>
-
-        </VBox>
-
+        </ScrollPane>
     </center>
 
 </BorderPane>

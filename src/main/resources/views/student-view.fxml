@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
 
 <BorderPane prefHeight="700" prefWidth="1200" styleClass="root-pane" stylesheets="@../styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.ucr.sga.controller.StudentController">
 
@@ -45,112 +45,112 @@
     <!-- CENTER -->
 
     <center>
+        <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <VBox spacing="20">
 
-        <VBox spacing="20">
+                <padding>
+                    <Insets bottom="20" left="20" right="20" top="20" />
+                </padding>
 
-            <padding>
-                <Insets bottom="20" left="20" right="20" top="20" />
-            </padding>
+                <!-- FORM PANEL -->
 
-            <!-- FORM PANEL -->
+                <VBox prefHeight="311.0" prefWidth="1160.0" spacing="18" styleClass="panel">
 
-            <VBox prefHeight="311.0" prefWidth="1160.0" spacing="18" styleClass="panel">
+                    <Label styleClass="panel-title" text="Registro de Estudiantes" />
 
-                <Label styleClass="panel-title" text="Registro de Estudiantes" />
+                    <GridPane hgap="18" vgap="12">
 
-                <GridPane hgap="18" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50" />
+                            <ColumnConstraints percentWidth="50" />
+                        </columnConstraints>
 
-                    <columnConstraints>
-                        <ColumnConstraints percentWidth="50" />
-                        <ColumnConstraints percentWidth="50" />
-                    </columnConstraints>
+                        <!-- ID -->
 
-                    <!-- ID -->
+                        <Label styleClass="section-label" text="Identificación" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
-                    <Label styleClass="section-label" text="Identificación" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="txtId" promptText="Ingrese identificación" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                    <TextField fx:id="txtId" promptText="Ingrese identificación" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <!-- NAME -->
 
-                    <!-- NAME -->
+                        <Label styleClass="section-label" text="Nombre Completo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <Label styleClass="section-label" text="Nombre Completo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <TextField fx:id="txtName" promptText="Ingrese nombre completo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <TextField fx:id="txtName" promptText="Ingrese nombre completo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <!-- AGE -->
 
-                    <!-- AGE -->
+                        <Label styleClass="section-label" text="Edad" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-                    <Label styleClass="section-label" text="Edad" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtAge" promptText="Ingrese edad" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
-                    <TextField fx:id="txtAge" promptText="Ingrese edad" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <!-- CARNET -->
 
-                    <!-- CARNET -->
+                        <Label styleClass="section-label" text="Carnet" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                    <Label styleClass="section-label" text="Carnet" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtCarnet" promptText="Ingrese carnet" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                    <TextField fx:id="txtCarnet" promptText="Ingrese carnet" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <!-- USERNAME -->
 
-                    <!-- USERNAME -->
+                        <Label styleClass="section-label" text="Usuario" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 
-                    <Label styleClass="section-label" text="Usuario" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <TextField fx:id="txtUsername" promptText="Ingrese usuario" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
-                    <TextField fx:id="txtUsername" promptText="Ingrese usuario" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <!-- PASSWORD -->
 
-                    <!-- PASSWORD -->
+                        <Label styleClass="section-label" text="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                    <Label styleClass="section-label" text="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <PasswordField fx:id="txtPassword" promptText="Ingrese contraseña" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <rowConstraints>
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                        </rowConstraints>
 
-                    <PasswordField fx:id="txtPassword" promptText="Ingrese contraseña" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
+                    </GridPane>
 
-                </GridPane>
+                    <!-- BUTTONS -->
 
-                <!-- BUTTONS -->
+                    <HBox spacing="12">
 
-                <HBox spacing="12">
+                        <Button fx:id="btnAdd" onAction="#addStudent" styleClass="btn-primary" text="Agregar" />
 
-                    <Button fx:id="btnAdd" onAction="#addStudent" styleClass="btn-primary" text="Agregar" />
+                        <Button fx:id="btnUpdate" onAction="#updateStudent" styleClass="btn-accent" text="Actualizar" />
 
-                    <Button fx:id="btnUpdate" onAction="#updateStudent" styleClass="btn-accent" text="Actualizar" />
+                        <Button fx:id="btnDelete" onAction="#deleteStudent" styleClass="btn-gray" text="Eliminar" />
 
-                    <Button fx:id="btnDelete" onAction="#deleteStudent" styleClass="btn-gray" text="Eliminar" />
+                        <Button fx:id="btnClear" onAction="#clearFields" styleClass="btn-ghost" text="Limpiar" />
 
-                    <Button fx:id="btnClear" onAction="#clearFields" styleClass="btn-ghost" text="Limpiar" />
+                    </HBox>
 
-                </HBox>
+                </VBox>
+
+                <!-- TABLE PANEL -->
+                <VBox spacing="16" styleClass="panel" VBox.vgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label styleClass="panel-title" text="Lista de Estudiantes" />
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblCount" styleClass="header-tag" text="0 registros" />
+                    </HBox>
+                    <TableView fx:id="tblStudents"
+                               prefHeight="140"
+                               minHeight="80"
+                               styleClass="custom-table"
+                               VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colId" text="ID"/>
+                            <TableColumn fx:id="colName" text="Nombre"/>
+                            <TableColumn fx:id="colAge" text="Edad"/>
+                            <TableColumn fx:id="colCarnet" text="Carnet"/>
+                            <TableColumn fx:id="colUsername" text="Usuario"/>
+                        </columns>
+                    </TableView>
+                </VBox>
 
             </VBox>
-
-            <!-- TABLE PANEL -->
-            <VBox spacing="16" styleClass="panel" VBox.vgrow="ALWAYS">
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <Label styleClass="panel-title" text="Lista de Estudiantes" />
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="lblCount" styleClass="header-tag" text="0 registros" />
-                </HBox>
-                <TableView fx:id="tblStudents"
-                           prefHeight="140"
-                           minHeight="80"
-                           styleClass="custom-table"
-                           VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="colId" text="ID"/>
-                        <TableColumn fx:id="colName" text="Nombre"/>
-                        <TableColumn fx:id="colAge" text="Edad"/>
-                        <TableColumn fx:id="colCarnet" text="Carnet"/>
-                        <TableColumn fx:id="colUsername" text="Usuario"/>
-                    </columns>
-                </TableView>
-            </VBox>
-
-        </VBox>
-
+        </ScrollPane>
     </center>
 
 </BorderPane>
