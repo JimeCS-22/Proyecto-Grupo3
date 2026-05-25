@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cr.ac.ucr.sga.controller.EnrollmentController"
-            stylesheets="@../styles.css"
-            styleClass="root">
+<BorderPane styleClass="root" stylesheets="@../styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.ucr.sga.controller.EnrollmentController">
 
     <!-- =========================
          HEADER
@@ -15,24 +18,19 @@
 
     <top>
 
-        <HBox spacing="20"
-              alignment="CENTER_LEFT"
-              styleClass="header-bar">
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-bar">
 
             <padding>
-                <Insets top="18" right="24" bottom="18" left="24"/>
+                <Insets bottom="18" left="24" right="24" top="18" />
             </padding>
 
-            <Label text="SGA"
-                   styleClass="header-badge"/>
+            <Label styleClass="header-badge" text="SGA" />
 
             <VBox spacing="2">
 
-                <Label text="Matrícula Académica"
-                       styleClass="header-title"/>
+                <Label styleClass="header-title" text="Matrícula Académica" />
 
-                <Label text="Asignación de cursos a estudiantes"
-                       styleClass="header-sub"/>
+                <Label styleClass="header-sub" text="Asignación de cursos a estudiantes" />
 
             </VBox>
 
@@ -49,74 +47,54 @@
         <VBox spacing="20">
 
             <padding>
-                <Insets top="25" right="25" bottom="25" left="25"/>
+                <Insets bottom="25" left="25" right="25" top="25" />
             </padding>
 
             <!-- FORM -->
 
-            <VBox spacing="20"
-                  styleClass="card"
-                  prefWidth="500">
+            <VBox prefHeight="259.0" prefWidth="734.0" spacing="20" styleClass="card">
 
-                <Label text="Asignar Curso"
-                       style="-fx-font-size: 20px;
-                              -fx-font-weight: bold;"/>
+                <Label style="-fx-font-size: 20px;                               -fx-font-weight: bold;" text="Asignar Curso" />
 
                 <!-- ESTUDIANTE -->
 
                 <VBox spacing="8">
 
-                    <Label text="Seleccionar Estudiante"
-                           styleClass="subtitle"/>
+                    <Label styleClass="subtitle" text="Seleccionar Estudiante" />
 
-                    <ComboBox fx:id="cmbStudents"
-                              promptText="Seleccione un estudiante"/>
+                    <ComboBox fx:id="cmbStudents" promptText="Seleccione un estudiante" />
                 </VBox>
 
                 <!-- CURSO -->
 
                 <VBox spacing="8">
 
-                    <Label text="Seleccionar Curso"
-                           styleClass="subtitle"/>
+                    <Label styleClass="subtitle" text="Seleccionar Curso" />
 
-                    <ComboBox fx:id="cmbCourses"
-                              promptText="Seleccione un curso"/>
+                    <ComboBox fx:id="cmbCourses" promptText="Seleccione un curso" />
                 </VBox>
 
                 <!-- BUTTON -->
 
-                <Button text="Asignar Curso"
-                        onAction="#assignCourse"
-                        styleClass="btn-success"/>
+                <Button onAction="#assignCourse" styleClass="btn-success" text="Asignar Curso" />
 
             </VBox>
 
             <!-- TABLE -->
 
-            <VBox spacing="15"
-                  styleClass="card">
+            <VBox spacing="15" styleClass="card">
 
-                <Label text="Cursos Asignados"
-                       style="-fx-font-size: 18px;
-                              -fx-font-weight: bold;"/>
+                <Label style="-fx-font-size: 18px;                               -fx-font-weight: bold;" text="Cursos Asignados" />
 
-                <TableView fx:id="tblEnrollments"
-                           prefHeight="350">
+                <TableView fx:id="tblEnrollments" prefHeight="350">
 
                     <columns>
 
-                        <TableColumn fx:id="colStudent"
-                                     text="Estudiante"
-                                     prefWidth="280"/>
+                        <TableColumn fx:id="colStudent" prefWidth="280" text="Estudiante" />
 
-                        <TableColumn fx:id="colCourse"
-                                     text="Curso"
-                                     prefWidth="280"/>
+                        <TableColumn fx:id="colCourse" prefWidth="280" text="Curso" />
 
-                        <TableColumn fx:id="colCredits"
-                                     text="Créditos"
-                                     prefWidth="120"/>
+                        <TableColumn fx:id="colCredits" prefWidth="120" text="Créditos" />
 
                     </columns>
 

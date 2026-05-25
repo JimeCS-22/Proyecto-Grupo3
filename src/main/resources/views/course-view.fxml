@@ -83,19 +83,23 @@
 
             <HBox spacing="10">
 
-                <Button text="Agregar"
+                <Button fx:id="btnAdd"
+                        text="Agregar"
                         onAction="#addCourse"
                         styleClass="btn-primary"/>
 
-                <Button text="Actualizar"
+                <Button fx:id="btnUpdate"
+                        text="Actualizar"
                         onAction="#updateCourse"
                         styleClass="btn-accent"/>
 
-                <Button text="Eliminar"
+                <Button fx:id="btnDelete"
+                        text="Eliminar"
                         onAction="#deleteCourse"
                         styleClass="btn-gray"/>
 
-                <Button text="Limpiar"
+                <Button fx:id="btnClear"
+                        text="Limpiar"
                         onAction="#clearFields"
                         styleClass="btn-ghost"/>
 

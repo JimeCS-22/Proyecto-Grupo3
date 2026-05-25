@@ -11,15 +11,21 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class RecordController implements Initializable {
 
@@ -293,5 +299,190 @@ public class RecordController implements Initializable {
         lblCiclo.setText(
                 "Ciclo I - 2026"
         );
+    }
+
+    // =========================
+// EXPORT PDF
+// =========================
+
+    @FXML
+    private void exportPDF() {
+
+        try {
+
+            FileChooser fileChooser =
+                    new FileChooser();
+
+            fileChooser.setTitle(
+                    "Guardar Expediente PDF"
+            );
+
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter(
+                            "PDF Files",
+                            "*.pdf"
+                    )
+            );
+
+            File file =
+                    fileChooser.showSaveDialog(
+                            tblCourses.getScene()
+                                    .getWindow()
+                    );
+
+            if (file == null) {
+
+                return;
+            }
+
+            Document document =
+                    new Document();
+
+            PdfWriter.getInstance(
+                    document,
+                    new FileOutputStream(file)
+            );
+
+            document.open();
+
+            // =========================
+            // TITULO
+            // =========================
+
+            document.add(
+                    new Paragraph(
+                            "EXPEDIENTE ACADÉMICO"
+                    )
+            );
+
+            document.add(
+                    new Paragraph(" ")
+            );
+
+            document.add(
+                    new Paragraph(
+                            lblStudentInfo.getText()
+                    )
+            );
+
+            document.add(
+                    new Paragraph(
+                            "Promedio: "
+                                    + lblAvg.getText()
+                    )
+            );
+
+            document.add(
+                    new Paragraph(
+                            "Créditos: "
+                                    + lblCredits.getText()
+                    )
+            );
+
+            document.add(
+                    new Paragraph(
+                            "Cursos matriculados: "
+                                    + lblCount.getText()
+                    )
+            );
+
+            document.add(
+                    new Paragraph(" ")
+            );
+
+            // =========================
+            // CURSOS
+            // =========================
+
+            document.add(
+                    new Paragraph(
+                            "LISTA DE CURSOS"
+                    )
+            );
+
+            document.add(
+                    new Paragraph(" ")
+            );
+
+            for (Course c : courseList) {
+
+                document.add(
+                        new Paragraph(
+                                "Código: "
+                                        + c.getId()
+                        )
+                );
+
+                document.add(
+                        new Paragraph(
+                                "Curso: "
+                                        + c.getName()
+                        )
+                );
+
+                document.add(
+                        new Paragraph(
+                                "Créditos: "
+                                        + c.getCredits()
+                        )
+                );
+
+                document.add(
+                        new Paragraph(
+                                "Nota: "
+                                        + c.getGrade()
+                        )
+                );
+
+                document.add(
+                        new Paragraph(
+                                "Estado: "
+                                        + c.getStatus()
+                        )
+                );
+
+                document.add(
+                        new Paragraph(
+                                "-------------------------"
+                        )
+                );
+            }
+
+            document.close();
+
+            Alert alert =
+                    new Alert(
+                            Alert.AlertType.INFORMATION
+                    );
+
+            alert.setTitle("PDF");
+
+            alert.setHeaderText(null);
+
+            alert.setContentText(
+                    "PDF exportado correctamente"
+            );
+
+            alert.showAndWait();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            Alert alert =
+                    new Alert(
+                            Alert.AlertType.ERROR
+                    );
+
+            alert.setTitle("Error");
+
+            alert.setHeaderText(null);
+
+            alert.setContentText(
+                    "No se pudo exportar el PDF"
+            );
+
+            alert.showAndWait();
+        }
     }
 }

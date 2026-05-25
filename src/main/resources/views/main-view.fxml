@@ -81,7 +81,7 @@
             <Tab closable="false"
                  text="Cursos">
 
-                <fx:include source="course-view.fxml"/>
+                <AnchorPane fx:id="coursesContent"/>
 
             </Tab>
 

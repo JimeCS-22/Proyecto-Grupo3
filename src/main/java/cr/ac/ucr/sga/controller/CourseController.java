@@ -1,7 +1,11 @@
 package cr.ac.ucr.sga.controller;
 
+import cr.ac.ucr.sga.model.data.AcademicRecordData;
 import cr.ac.ucr.sga.model.data.CourseData;
-import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.entities.*;
+import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +18,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CourseController implements Initializable {
+
+    // =========================
+    // USER
+    // =========================
+
+    private User currentUser;
 
     // =========================
     // FXML
@@ -37,11 +47,28 @@ public class CourseController implements Initializable {
     @FXML
     private ComboBox<String> cmbStatus;
 
+    // BOTONES
+    @FXML
+    private Button btnAdd;
+
+    @FXML
+    private Button btnUpdate;
+
+    @FXML
+    private Button btnDelete;
+
+    @FXML
+    private Button btnClear;
+
     // =========================
     // DATA
     // =========================
 
-    private final CourseData courseData = new CourseData();
+    private final CourseData courseData =
+            new CourseData();
+
+    private final AcademicRecordData recordData =
+            new AcademicRecordData();
 
     private Course selectedCourse;
 
@@ -50,7 +77,10 @@ public class CourseController implements Initializable {
     // =========================
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(
+            URL url,
+            ResourceBundle resourceBundle
+    ) {
 
         if (cmbStatus != null) {
 
@@ -59,12 +89,34 @@ public class CourseController implements Initializable {
                     "Inactivo"
             );
         }
-
-        loadCourses();
     }
 
     // =========================
-    // LOAD COURSES
+    // SET USER
+    // =========================
+
+    public void setUser(User user) {
+
+        this.currentUser = user;
+
+        // =========================
+        // STUDENT
+        // =========================
+
+        if (user.getRole() == Role.STUDENT) {
+
+            ocultarCRUD();
+
+            loadStudentCourses();
+
+        } else {
+
+            loadCourses();
+        }
+    }
+
+    // =========================
+    // LOAD ALL COURSES
     // =========================
 
     private void loadCourses() {
@@ -75,31 +127,107 @@ public class CourseController implements Initializable {
 
             for (Course course : courseData.getAllCourses()) {
 
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource(
-                                "/views/components/course-card.fxml"
-                        )
-                );
-
-                Parent card = loader.load();
-
-                CourseCardController controller =
-                        loader.getController();
-
-                controller.setCourse(course);
-
-                // CLICK SOBRE LA CARD
-                card.setOnMouseClicked((MouseEvent event) -> {
-                    selectCourse(course);
-                });
-
-                coursesContainer.getChildren().add(card);
+                addCourseCard(course);
             }
 
         } catch (Exception e) {
 
             e.printStackTrace();
         }
+    }
+
+    // =========================
+    // LOAD STUDENT COURSES
+    // =========================
+
+    private void loadStudentCourses() {
+
+        coursesContainer.getChildren().clear();
+
+        try {
+
+            AcademicRecord record =
+                    recordData.findByUsername(
+                            currentUser.getUsername()
+                    );
+
+            if (record != null) {
+
+                DoublyLinkedList<Course> courses =
+                        record.getCourses();
+
+                for (
+                        int i = 1;
+                        i <= courses.size();
+                        i++
+                ) {
+
+                    Course course = courses.get(i);
+
+                    addCourseCard(course);
+                }
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    // =========================
+    // ADD COURSE CARD
+    // =========================
+
+    private void addCourseCard(Course course)
+            throws Exception {
+
+        FXMLLoader loader =
+                new FXMLLoader(
+                        getClass().getResource(
+                                "/views/components/course-card.fxml"
+                        )
+                );
+
+        Parent card = loader.load();
+
+        CourseCardController controller =
+                loader.getController();
+
+        controller.setCourse(course);
+
+        // SOLO ADMIN/PROFESOR
+        if (
+                currentUser != null
+                        &&
+                        currentUser.getRole()
+                                != Role.STUDENT
+        ) {
+
+            card.setOnMouseClicked(
+                    (MouseEvent event) -> {
+                        selectCourse(course);
+                    }
+            );
+        }
+
+        coursesContainer.getChildren().add(card);
+    }
+
+    // =========================
+    // HIDE CRUD
+    // =========================
+
+    private void ocultarCRUD() {
+
+        txtId.setVisible(false);
+        txtName.setVisible(false);
+        txtCredits.setVisible(false);
+        cmbStatus.setVisible(false);
+
+        btnAdd.setVisible(false);
+        btnUpdate.setVisible(false);
+        btnDelete.setVisible(false);
+        btnClear.setVisible(false);
     }
 
     // =========================
@@ -114,10 +242,12 @@ public class CourseController implements Initializable {
             String id = txtId.getText().trim();
             String name = txtName.getText().trim();
 
-            if (id.isEmpty()
-                    || name.isEmpty()
-                    || txtCredits.getText().isEmpty()
-                    || cmbStatus.getValue() == null) {
+            if (
+                    id.isEmpty()
+                            || name.isEmpty()
+                            || txtCredits.getText().isEmpty()
+                            || cmbStatus.getValue() == null
+            ) {
 
                 showAlert(
                         Alert.AlertType.WARNING,
@@ -129,16 +259,20 @@ public class CourseController implements Initializable {
             }
 
             int credits =
-                    Integer.parseInt(txtCredits.getText());
+                    Integer.parseInt(
+                            txtCredits.getText()
+                    );
 
-            String status = cmbStatus.getValue();
+            String status =
+                    cmbStatus.getValue();
 
-            Course course = new Course.Builder()
-                    .setId(id)
-                    .setName(name)
-                    .setCredits(credits)
-                    .setStatus(status)
-                    .build();
+            Course course =
+                    new Course.Builder()
+                            .setId(id)
+                            .setName(name)
+                            .setCredits(credits)
+                            .setStatus(status)
+                            .build();
 
             Course added =
                     courseData.addCourse(course);
@@ -202,17 +336,22 @@ public class CourseController implements Initializable {
 
         try {
 
-            Course updatedCourse = new Course.Builder()
-                    .setId(selectedCourse.getId())
-                    .setName(txtName.getText())
-                    .setCredits(
-                            Integer.parseInt(txtCredits.getText())
-                    )
-                    .setStatus(cmbStatus.getValue())
-                    .build();
+            Course updatedCourse =
+                    new Course.Builder()
+                            .setId(selectedCourse.getId())
+                            .setName(txtName.getText())
+                            .setCredits(
+                                    Integer.parseInt(
+                                            txtCredits.getText()
+                                    )
+                            )
+                            .setStatus(cmbStatus.getValue())
+                            .build();
 
             boolean updated =
-                    courseData.updateCourse(updatedCourse);
+                    courseData.updateCourse(
+                            updatedCourse
+                    );
 
             if (updated) {
 
@@ -234,14 +373,6 @@ public class CourseController implements Initializable {
                         "No se pudo actualizar"
                 );
             }
-
-        } catch (NumberFormatException e) {
-
-            showAlert(
-                    Alert.AlertType.ERROR,
-                    "Error",
-                    "Los créditos deben ser numéricos"
-            );
 
         } catch (Exception e) {
 
@@ -271,48 +402,22 @@ public class CourseController implements Initializable {
             return;
         }
 
-        Alert confirm = new Alert(
-                Alert.AlertType.CONFIRMATION
-        );
-
-        confirm.setTitle("Confirmar");
-
-        confirm.setHeaderText(null);
-
-        confirm.setContentText(
-                "¿Desea eliminar el curso "
-                        + selectedCourse.getName()
-                        + "?"
-        );
-
-        if (confirm.showAndWait().get()
-                == ButtonType.OK) {
-
-            boolean removed =
-                    courseData.removeCourse(
-                            selectedCourse.getId()
-                    );
-
-            if (removed) {
-
-                loadCourses();
-
-                clearFields();
-
-                showAlert(
-                        Alert.AlertType.INFORMATION,
-                        "Eliminado",
-                        "Curso eliminado correctamente"
+        boolean removed =
+                courseData.removeCourse(
+                        selectedCourse.getId()
                 );
 
-            } else {
+        if (removed) {
 
-                showAlert(
-                        Alert.AlertType.ERROR,
-                        "Error",
-                        "No se pudo eliminar"
-                );
-            }
+            loadCourses();
+
+            clearFields();
+
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Eliminado",
+                    "Curso eliminado correctamente"
+            );
         }
     }
 
@@ -336,16 +441,14 @@ public class CourseController implements Initializable {
     }
 
     // =========================
-    // CLEAR FIELDS
+    // CLEAR
     // =========================
 
     @FXML
     private void clearFields() {
 
         txtId.clear();
-
         txtName.clear();
-
         txtCredits.clear();
 
         cmbStatus.setValue(null);
@@ -354,7 +457,7 @@ public class CourseController implements Initializable {
     }
 
     // =========================
-    // ALERTS
+    // ALERT
     // =========================
 
     private void showAlert(
@@ -363,7 +466,8 @@ public class CourseController implements Initializable {
             String message
     ) {
 
-        Alert alert = new Alert(type);
+        Alert alert =
+                new Alert(type);
 
         alert.setTitle(title);
 

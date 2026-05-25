@@ -5,6 +5,7 @@ module cr.ac.ucr.sga{
     requires javafx.base;
     requires java.desktop;
     requires com.google.gson;
+    requires itextpdf;
 
     opens cr.ac.ucr.sga.model.data to com.google.gson;
     opens cr.ac.ucr.sga.model to javafx.base;
