@@ -86,4 +86,32 @@ public class ArrayStack<T> implements MyStack<T> {
 
 
     }
+
+
+    public boolean contains(T element) throws StackException {
+
+        if (isEmpty())
+            return false;
+
+        LinkedStack<T> aux = new LinkedStack<>();
+        boolean found = false;
+
+        while (!isEmpty()) {
+
+            T value = pop();
+
+            if (value.equals(element)) {
+                found = true;
+            }
+
+            aux.push(value);
+        }
+
+        // restaurar pila
+        while (!aux.isEmpty()) {
+            push(aux.pop());
+        }
+
+        return found;
+    }
 }

@@ -61,6 +61,33 @@ public class LinkedStack<T> implements MyStack<T> {
         return data;//la data del nodo eliminado
     }
 
+    public boolean contains(T element) throws StackException {
+
+        if (isEmpty())
+            return false;
+
+        LinkedStack<T> aux = new LinkedStack<>();
+        boolean found = false;
+
+        while (!isEmpty()) {
+
+            T value = pop();
+
+            if (value.equals(element)) {
+                found = true;
+            }
+
+            aux.push(value);
+        }
+
+        // restaurar pila
+        while (!aux.isEmpty()) {
+            push(aux.pop());
+        }
+
+        return found;
+    }
+
     @Override
     public String toString() {
         if (isEmpty()) return "Linked Stack is empty";
