@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 import javafx.scene.layout.AnchorPane;
@@ -40,7 +41,12 @@ public class MainController implements Initializable {
     private AnchorPane enrollmentContent;
 
     @FXML
+    private Tab enrollmentStudentTab;
+
+    @FXML
     private AnchorPane studentContent;
+    @FXML
+    private AnchorPane enrollmentStudentContent;
 
     private User currentUser;
 
@@ -60,6 +66,8 @@ public class MainController implements Initializable {
     private CourseController courseController;
 
     private StudentController studentController;
+
+    private EnrollmentStudentController enrollmentStudentController;
 
     @Override
     public void initialize(
@@ -143,6 +151,9 @@ public class MainController implements Initializable {
         loadEnrollmentView();
 
         loadStudentView();
+
+        loadEnrollmentStudent();
+
     }
 
     // =========================
@@ -357,6 +368,44 @@ public class MainController implements Initializable {
                 studentContent
                         .getChildren()
                         .add(view);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    // =========================
+    // LOAD ENROLLMENT-STUDENT VIEW
+    // =========================
+
+    private void loadEnrollmentStudent() {
+
+        try {
+
+            if (enrollmentStudentController != null) {
+
+                FXMLLoader loader =
+                        new FXMLLoader(
+                                getClass().getResource(
+                                        "/views/attendance-view.fxml"
+                                )
+                        );
+
+                Parent view = loader.load();
+
+                enrollmentStudentController =
+                        loader.getController();
+
+                AnchorPane.setTopAnchor(view, 0.0);
+                AnchorPane.setBottomAnchor(view, 0.0);
+                AnchorPane.setLeftAnchor(view, 0.0);
+                AnchorPane.setRightAnchor(view, 0.0);
+
+                enrollmentStudentContent.getChildren().clear();
+
+                enrollmentStudentContent.getChildren().add(view);
             }
 
         } catch (Exception e) {

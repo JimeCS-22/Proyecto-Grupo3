@@ -94,6 +94,15 @@
 
             </Tab>
 
+            <!-- MATRÍCULA DE ESTUDIANTE -->
+
+            <Tab fx:id="enrollmentStudentTab" closable="false"
+                 text="Matrícula">
+
+                <fx:include source="enrollment-student-view.fxml"/>
+
+            </Tab>
+
             <!-- EXPEDIENTE -->
 
             <Tab closable="false"

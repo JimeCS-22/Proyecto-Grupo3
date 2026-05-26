@@ -84,6 +84,34 @@ public class AcademicRecord {
         return 0;
     }
 
+    public List<Course> getCoursesForJson() {
+
+        List<Course> list = new ArrayList<>();
+
+        try {
+
+            int size = courses.size();
+
+            for (int i = 1; i <= size; i++) {
+                list.add(courses.get(i));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public void setCoursesFromJson(List<Course> list) {
+
+        this.courses = new DoublyLinkedList<>();
+
+        if (list != null) {
+            for (Course c : list) {
+                courses.add(c);
+            }
+        }
+    }
     @Override
     public String toString() {
         try {

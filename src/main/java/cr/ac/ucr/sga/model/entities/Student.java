@@ -7,16 +7,23 @@ public class Student {
     private String email;
     private String carnet;
     private int age;
+    private AcademicRecord academicRecord;
 
-    // NUEVO
     private String username;
     private String password;
 
-    // Constructor vacío para Gson
+    // =========================
+    // CONSTRUCTOR VACÍO (GSON)
+    // =========================
+
     public Student() {
+        this.academicRecord = new AcademicRecord(this);
     }
 
-    // Constructor privado usado por Builder
+    // =========================
+    // BUILDER CONSTRUCTOR
+    // =========================
+
     private Student(Builder builder) {
 
         this.id = builder.id;
@@ -25,9 +32,11 @@ public class Student {
         this.carnet = builder.carnet;
         this.age = builder.age;
 
-        // NUEVO
         this.username = builder.username;
         this.password = builder.password;
+
+        // siempre inicializar academicRecord
+        this.academicRecord = new AcademicRecord(this);
     }
 
     // =========================
@@ -54,8 +63,6 @@ public class Student {
         return age;
     }
 
-    // NUEVOS GETTERS
-
     public String getUsername() {
         return username;
     }
@@ -64,29 +71,22 @@ public class Student {
         return password;
     }
 
+    public AcademicRecord getAcademicRecord() {
+        return academicRecord;
+    }
+
+    public void setAcademicRecord(AcademicRecord academicRecord) {
+        this.academicRecord = academicRecord;
+    }
+
     // =========================
     // TO STRING
     // =========================
 
     @Override
     public String toString() {
-        return "[" + id + "] " + name + " - " + carnet + " - " +age + " - " +username;
+        return "[" + id + "] " + name + " - " + carnet + " - " + age + " - " + username;
     }
-
-
-    /*
-    @Override
-    public String toString() {
-
-        return "Student{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", carnet='" + carnet + '\'' +
-                ", age=" + age +
-                ", username='" + username + '\'' +
-                '}';
-    }*/
 
     // =========================
     // BUILDER
@@ -100,7 +100,6 @@ public class Student {
         private String carnet;
         private int age;
 
-        // NUEVOS
         private String username;
         private String password;
 
@@ -129,8 +128,6 @@ public class Student {
             return this;
         }
 
-        // NUEVOS SETTERS
-
         public Builder setUsername(String username) {
             this.username = username;
             return this;
@@ -143,34 +140,20 @@ public class Student {
 
         public Student build() {
 
-            // Validaciones
-
             if (id == null || id.isBlank()) {
-
-                throw new IllegalArgumentException(
-                        "El ID no puede estar vacío"
-                );
+                throw new IllegalArgumentException("El ID no puede estar vacío");
             }
 
             if (name == null || name.isBlank()) {
-
-                throw new IllegalArgumentException(
-                        "El nombre no puede estar vacío"
-                );
+                throw new IllegalArgumentException("El nombre no puede estar vacío");
             }
 
             if (username == null || username.isBlank()) {
-
-                throw new IllegalArgumentException(
-                        "El usuario no puede estar vacío"
-                );
+                throw new IllegalArgumentException("El usuario no puede estar vacío");
             }
 
             if (password == null || password.isBlank()) {
-
-                throw new IllegalArgumentException(
-                        "La contraseña no puede estar vacía"
-                );
+                throw new IllegalArgumentException("La contraseña no puede estar vacía");
             }
 
             return new Student(this);
