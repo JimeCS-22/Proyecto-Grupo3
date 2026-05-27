@@ -99,7 +99,7 @@
       
                            <!-- BUTTON -->
       
-                           <Button fx:id="btnSolicitudMatricula" alignment="CENTER" onAction="#assignCourse" styleClass="btn-success" text="Enviar solicitud de matrícula" textAlignment="CENTER" />
+                           <Button fx:id="btnSolicitudMatricula" alignment="CENTER" onAction="#sendEnrollmentRequest" styleClass="btn-success" text="Enviar solicitud de matrícula" textAlignment="CENTER" />
                   </children>
                </HBox>
                 </VBox>

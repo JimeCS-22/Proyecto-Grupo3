@@ -1,6 +1,8 @@
 package cr.ac.ucr.sga.controller;
 
+import cr.ac.ucr.sga.model.data.StudentData;
 import cr.ac.ucr.sga.model.entities.Role;
+import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.User;
 import cr.ac.ucr.sga.model.services.SessionHistoryService;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
@@ -45,8 +47,12 @@ public class MainController implements Initializable {
 
     @FXML
     private AnchorPane studentContent;
+
     @FXML
     private AnchorPane enrollmentStudentContent;
+
+    @FXML
+    private Tab reviewStudentTab;
 
     private User currentUser;
 
@@ -178,6 +184,9 @@ public class MainController implements Initializable {
                 mainTabs.getTabs().remove(0);
 
                 mainTabs.getSelectionModel().select(0);
+            }
+            if (currentUser.getRole() != Role.ADMIN) {
+                mainTabs.getTabs().remove(reviewStudentTab);
             }
         }
     }
@@ -381,35 +390,27 @@ public class MainController implements Initializable {
     // =========================
 
     private void loadEnrollmentStudent() {
-
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/enrollment-student-view.fxml"));
+            Parent view = loader.load();
+            EnrollmentStudentController controller = loader.getController();
 
-            if (enrollmentStudentController != null) {
-
-                FXMLLoader loader =
-                        new FXMLLoader(
-                                getClass().getResource(
-                                        "/views/attendance-view.fxml"
-                                )
-                        );
-
-                Parent view = loader.load();
-
-                enrollmentStudentController =
-                        loader.getController();
-
-                AnchorPane.setTopAnchor(view, 0.0);
-                AnchorPane.setBottomAnchor(view, 0.0);
-                AnchorPane.setLeftAnchor(view, 0.0);
-                AnchorPane.setRightAnchor(view, 0.0);
-
-                enrollmentStudentContent.getChildren().clear();
-
-                enrollmentStudentContent.getChildren().add(view);
+            if (currentUser != null && currentUser.getRole() == Role.STUDENT) {
+                Student student = new StudentData().findByUsername(currentUser.getUsername());
+                if (student != null) {
+                    controller.setStudent(student);
+                    System.out.println("Estableciendo el estudiante en EnrollmentStudentController: " + student);
+                }
             }
 
-        } catch (Exception e) {
+            enrollmentStudentContent.getChildren().clear();
+            AnchorPane.setTopAnchor(view, 0.0);
+            AnchorPane.setBottomAnchor(view, 0.0);
+            AnchorPane.setLeftAnchor(view, 0.0);
+            AnchorPane.setRightAnchor(view, 0.0);
 
+            enrollmentStudentContent.getChildren().add(view);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

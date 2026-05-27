@@ -96,11 +96,12 @@
 
             <!-- MATRÍCULA DE ESTUDIANTE -->
 
-            <Tab fx:id="enrollmentStudentTab" closable="false"
-                 text="Matrícula">
+            <Tab fx:id="enrollmentStudentTab" closable="false" text="Matrícula">
+                <AnchorPane fx:id="enrollmentStudentContent"/>
+            </Tab>
 
-                <fx:include source="enrollment-student-view.fxml"/>
-
+            <Tab fx:id="reviewStudentTab" text="Solicitudes" closable="false">
+                <fx:include source="request-review-view.fxml"/>
             </Tab>
 
             <!-- EXPEDIENTE -->
