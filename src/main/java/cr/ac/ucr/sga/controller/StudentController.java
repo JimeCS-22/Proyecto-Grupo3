@@ -1,7 +1,9 @@
 package cr.ac.ucr.sga.controller;
 
+import cr.ac.ucr.sga.model.data.AcademicRecordData;
 import cr.ac.ucr.sga.model.data.StudentData;
 import cr.ac.ucr.sga.model.data.UserData;
+import cr.ac.ucr.sga.model.entities.AcademicRecord;
 import cr.ac.ucr.sga.model.entities.Role;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.User;
@@ -202,6 +204,10 @@ public class StudentController implements Initializable {
             }
 
             if (added != null) {
+                AcademicRecordData recordData = new AcademicRecordData();
+                if (recordData.findByStudentId(added.getId()) == null) {
+                    recordData.addRecord(new AcademicRecord(added));
+                }
 
                 User user =
                         new User(

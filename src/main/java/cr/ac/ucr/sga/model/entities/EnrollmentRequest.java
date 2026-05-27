@@ -12,6 +12,7 @@ public class EnrollmentRequest {
     private LinkedList<Course> courses;
 
     public EnrollmentRequest() {
+        this.courses = new LinkedList<>();
     }
 
     public EnrollmentRequest(Student student, int priority, String status, LinkedList<Course> courses) {
