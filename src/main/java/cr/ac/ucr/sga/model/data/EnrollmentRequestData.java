@@ -23,7 +23,7 @@ import java.util.*;
  */
 public class EnrollmentRequestData {
 
-    private final PriorityLinkedQueue<EnrollmentRequest> requests;
+    private static PriorityLinkedQueue<EnrollmentRequest> requests;
 
     private static final String FILE_PATH =
             "src/main/resources/data/enrollment_requests.json";
@@ -40,6 +40,10 @@ public class EnrollmentRequestData {
 
         File folder = new File("src/main/resources/data");
 
+        if (requests == null) {
+            requests = loadRequests();
+        }
+
         if (!folder.exists()) {
             folder.mkdirs();
         }
@@ -54,16 +58,20 @@ public class EnrollmentRequestData {
             ArrayList<EnrollmentRequestDTO> list = gson.fromJson(reader, listType);
 
             PriorityLinkedQueue<EnrollmentRequest> queue = new PriorityLinkedQueue<>();
-
-            Student student= new Student();
-            Student.Builder builder = new Student.Builder();
-
-            LinkedList<Course> courses = new LinkedList<>();
-            Course.Builder builderC = new Course.Builder();
             if (list != null) {
+                StudentData studentData = new StudentData();
+                CourseData courseData = new CourseData();
                 for (EnrollmentRequestDTO dto : list) {
-                    builder.setId(dto.getStudentId());
-                    builderC.setId(dto.getCourseCode());
+                    // BUSCA el estudiante por su id
+                    Student student = studentData.findStudentById(dto.getStudentId());
+                    LinkedList<Course> courses = new LinkedList<>();
+                    if (dto.getCourseCodes() != null) {
+                        for (String code : dto.getCourseCodes()) {
+                            Course c = courseData.findCourseById(code);
+                            if (c != null) courses.add(c);
+                        }
+                    }
+
                     EnrollmentRequest req = new EnrollmentRequest(
                             student,
                             dto.getPriority(),

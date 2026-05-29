@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AcademicRecord {
 
-    private final Student student;
+    private transient Student student;
     private DoublyLinkedList<Course> courses;
 
     public AcademicRecord(Student student) {

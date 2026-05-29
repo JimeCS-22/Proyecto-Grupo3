@@ -19,5 +19,12 @@
     "credits": 4,
     "grade": 0.0,
     "status": "Activo"
+  },
+  {
+    "id": "IF0003:",
+    "name": "Matemática Básica Para Informática",
+    "credits": 3,
+    "grade": 0.0,
+    "status": "Activo"
   }
 ]

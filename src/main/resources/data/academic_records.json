@@ -8,72 +8,7 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "courses": [
-      {
-        "id": "IF-1301",
-        "name": "Desarrollo ",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo"
-      },
-      {
-        "id": "IF-3002",
-        "name": "Bases de datos",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo"
-      }
-    ]
-  },
-  {
-    "student": {
-      "id": "303260704",
-      "name": "Shirley Calvo",
-      "carnet": "C4L408",
-      "age": 21,
-      "username": "SCS",
-      "password": "1234"
-    },
-    "courses": [
-      {
-        "id": "3",
-        "name": "Teatro",
-        "credits": 0,
-        "grade": 0.0
-      },
-      {
-        "id": "IF-1300",
-        "name": "Algoritmos",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo"
-      }
-    ]
-  },
-  {
-    "student": {
-      "id": "3032505555",
-      "name": "Juan Pablo Ramos",
-      "carnet": "C5L890",
-      "age": 20,
-      "username": "JP",
-      "password": "1234"
-    },
-    "courses": [
-      {
-        "id": "IF-1301",
-        "name": "Desarrollo ",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo"
-      },
-      {
-        "id": "52",
-        "name": "Seminario Nacional",
-        "credits": 2,
-        "grade": 0.0
-      }
-    ]
+    "courses": []
   },
   {
     "student": {
@@ -84,33 +19,17 @@
       "username": "camila.montoya",
       "password": "1234"
     },
-    "courses": [
-      {
-        "id": "IF-1300",
-        "name": "Algoritmos",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo"
-      }
-    ]
+    "courses": []
   },
   {
     "student": {
-      "id": "303620333",
-      "name": "Maria Salas",
-      "carnet": "C5H890",
-      "age": 22,
-      "username": "MariaS",
+      "id": "305540343",
+      "name": "Alexander León Machado",
+      "carnet": "C24249",
+      "age": 21,
+      "username": "AlexanderLM",
       "password": "1234"
     },
-    "courses": [
-      {
-        "id": "IF-1301",
-        "name": "Desarrollo ",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo"
-      }
-    ]
+    "courses": []
   }
 ]

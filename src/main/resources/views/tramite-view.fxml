@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+
+<BorderPane styleClass="root"
+            stylesheets="@../styles.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cr.ac.ucr.sga.controller.TramiteReviewController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-bar">
+            <padding>
+                <Insets top="18" right="24" bottom="18" left="24"/>
+            </padding>
+            <Label styleClass="header-badge" text="SGA"/>
+            <VBox spacing="2">
+                <Label styleClass="header-title" text="Gestión de Trámites Administrativos"/>
+                <Label styleClass="header-sub" text="Atienda los trámites LIFO de los estudiantes"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
+
+            <VBox spacing="10" styleClass="card">
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Nuevo Trámite LIFO" />
+                <HBox spacing="10">
+                    <Label text="Tipo:"/>
+                    <TextField fx:id="txtTipo" promptText="Ej: Certificado, Retiro, Revision Nota" styleClass="input"/>
+                    <Label text="Descripción:"/>
+                    <TextField fx:id="txtDescripcion" promptText="Explica el motivo, etc." styleClass="input" />
+                    <Button fx:id="btnAgregarTramite" text="Agregar trámite"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="15" styleClass="card">
+                <HBox alignment="CENTER_LEFT">
+                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Trámites Pendientes (Pila LIFO)" />
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="btnProcesar" text="Procesar más reciente (LIFO)"/>
+                </HBox>
+                <TableView fx:id="tblTramites" prefHeight="320.0">
+                    <columns>
+                        <TableColumn fx:id="colTipo" prefWidth="130" text="Tipo"/>
+                        <TableColumn fx:id="colDescripcion" prefWidth="400" text="Detalle"/>
+                        <TableColumn fx:id="colEstado" prefWidth="120" text="Estado"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

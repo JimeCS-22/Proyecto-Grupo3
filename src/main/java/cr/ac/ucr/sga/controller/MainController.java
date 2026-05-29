@@ -28,6 +28,9 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     @FXML
+    private Tab tramiteTab;
+
+    @FXML
     private BorderPane rootPane;
 
     @FXML
@@ -74,6 +77,8 @@ public class MainController implements Initializable {
     private StudentController studentController;
 
     private EnrollmentStudentController enrollmentStudentController;
+
+    private TramiteReviewController tramiteReviewController;
 
     @Override
     public void initialize(
@@ -159,6 +164,8 @@ public class MainController implements Initializable {
         loadStudentView();
 
         loadEnrollmentStudent();
+
+        loadTramiteView();
 
     }
 
@@ -410,6 +417,33 @@ public class MainController implements Initializable {
             AnchorPane.setRightAnchor(view, 0.0);
 
             enrollmentStudentContent.getChildren().add(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // =========================
+    // LOAD TRAMITE REVIEW VIEW
+    // =========================
+
+    public TramiteReviewController getTramiteReviewController() {
+        return tramiteReviewController;
+    }
+
+    private void loadTramiteView() {
+        try {
+            FXMLLoader tramiteLoader = new FXMLLoader(getClass().getResource("/views/tramite-view.fxml"));
+            Parent tramiteView = tramiteLoader.load();
+            tramiteReviewController = tramiteLoader.getController();
+
+            // Ahora busca el Tab y reemplaza su contenido correctamente
+            for (Tab tab : mainTabs.getTabs()) {
+                if (tab == tramiteTab) {
+                    tab.setContent(tramiteView);
+                    break;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

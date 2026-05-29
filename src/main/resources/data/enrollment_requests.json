@@ -1,8 +1,76 @@
 [
   {
-    "studentId": "3032505555",
-    "courseCode": "IF-1300",
+    "studentId": "305540343",
+    "courseCodes": [
+      "IF-1301",
+      "IF-1300"
+    ],
     "priority": 4,
-    "status": "PENDING"
+    "status": "APROBADO"
+  },
+  {
+    "studentId": "119520051",
+    "courseCodes": [
+      "IF-1301",
+      "IF-1300"
+    ],
+    "priority": 4,
+    "status": "APROBADO"
+  },
+  {
+    "studentId": "119520051",
+    "courseCodes": [
+      "IF-1301",
+      "IF-1300",
+      "IF-3002"
+    ],
+    "priority": 4,
+    "status": "APROBADO"
+  },
+  {
+    "studentId": "305540343",
+    "courseCodes": [
+      "IF-1301",
+      "IF-1300"
+    ],
+    "priority": 4,
+    "status": "APROBADO"
+  },
+  {
+    "studentId": "119520051",
+    "courseCodes": [
+      "IF-3002"
+    ],
+    "priority": 4,
+    "status": "RECHAZADO"
+  },
+  {
+    "studentId": "119520051",
+    "courseCodes": [
+      "IF-1301",
+      "IF-1300"
+    ],
+    "priority": 4,
+    "status": "RECHAZADO"
+  },
+  {
+    "studentId": "305540343",
+    "courseCodes": [
+      "IF-1301",
+      "IF-1300",
+      "IF-3002",
+      "IF0003:"
+    ],
+    "priority": 4,
+    "status": "APROBADO"
+  },
+  {
+    "studentId": "119520051",
+    "courseCodes": [
+      "IF-1301",
+      "IF-3002"
+    ],
+    "priority": 4,
+    "status": "RECHAZADO"
   }
 ]

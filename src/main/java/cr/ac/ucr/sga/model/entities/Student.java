@@ -1,5 +1,7 @@
 package cr.ac.ucr.sga.model.entities;
 
+import cr.ac.ucr.sga.model.data.AcademicRecordData;
+
 public class Student {
 
     private String id;
@@ -7,7 +9,8 @@ public class Student {
     private String email;
     private String carnet;
     private int age;
-    private AcademicRecord academicRecord;
+
+    private transient AcademicRecord academicRecord;
 
     private String username;
     private String password;
@@ -17,7 +20,7 @@ public class Student {
     // =========================
 
     public Student() {
-        this.academicRecord = new AcademicRecord(this);
+
     }
 
     // =========================
@@ -36,7 +39,7 @@ public class Student {
         this.password = builder.password;
 
         // siempre inicializar academicRecord
-        this.academicRecord = new AcademicRecord(this);
+        //this.academicRecord = new AcademicRecord(this);
     }
 
     // =========================
@@ -72,7 +75,17 @@ public class Student {
     }
 
     public AcademicRecord getAcademicRecord() {
-        return academicRecord;
+        if (this.academicRecord == null) {
+            AcademicRecordData data = new AcademicRecordData();
+            AcademicRecord record = data.findByStudentId(this.id);
+            if (record != null) {
+                this.academicRecord = record;
+            } else {
+                // Si no existe, se crea en blanco para evitar NullPointer
+                this.academicRecord = new AcademicRecord(this);
+            }
+        }
+        return this.academicRecord;
     }
 
     public void setAcademicRecord(AcademicRecord academicRecord) {

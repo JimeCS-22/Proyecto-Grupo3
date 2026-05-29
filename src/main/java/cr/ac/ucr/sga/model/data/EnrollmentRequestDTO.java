@@ -1,29 +1,46 @@
 package cr.ac.ucr.sga.model.data;
 
+import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.EnrollmentRequest;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnrollmentRequestDTO {
     private String studentId;
-    private String courseCode;
+    private List<String> courseCodes;
     private int priority;
     private String status;
 
-    // Constructor que recibe el objeto original
+
     public EnrollmentRequestDTO(EnrollmentRequest req) throws ListException {
         this.studentId = req.getStudentId();
-        this.courseCode = req.getCourseCode();
         this.priority = req.getPriority();
         this.status = req.getStatus();
+
+        this.courseCodes = new ArrayList<>();
+        LinkedList<Course> courses = req.getCourses();
+        if (courses != null && !courses.isEmpty()) {
+            for (int i = 1; i <= courses.size(); i++) { // LinkedList es 1-based
+                Course course = courses.get(i);
+                if (course != null) {
+                    this.courseCodes.add(course.getId());
+                }
+            }
+        }
     }
+
+    // Constructor vacío para GSON
+    public EnrollmentRequestDTO() {}
 
     // Getters y setters
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
 
-    public String getCourseCode() { return courseCode; }
-    public void setCourseCode(String courseCode) { this.courseCode = courseCode; }
+    public List<String> getCourseCodes() { return courseCodes; }
+    public void setCourseCodes(List<String> courseCodes) { this.courseCodes = courseCodes; }
 
     public int getPriority() { return priority; }
     public void setPriority(int priority) { this.priority = priority; }

@@ -15,22 +15,12 @@
     "role": "STUDENT"
   },
   {
-    "username": "JP",
-    "password": "1234",
-    "role": "STUDENT"
-  },
-  {
     "username": "camila.montoya",
     "password": "1234",
     "role": "STUDENT"
   },
   {
-    "username": "anaadmin",
-    "password": "clave123",
-    "role": "ADMIN"
-  },
-  {
-    "username": "MariaS",
+    "username": "AlexanderLM",
     "password": "1234",
     "role": "STUDENT"
   }

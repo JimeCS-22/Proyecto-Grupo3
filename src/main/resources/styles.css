@@ -644,3 +644,9 @@
     -fx-background-color: #D6DCE7;
     -fx-background-radius: 8;
 }
+
+.table-row-cell .button {
+    min-width: 90px;
+    max-width: 120px;
+    border-radius: 10px;
+}

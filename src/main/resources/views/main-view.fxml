@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <BorderPane fx:id="rootPane"
             styleClass="root-pane"
             stylesheets="@../styles.css"
@@ -111,6 +113,13 @@
 
                 <AnchorPane fx:id="expedienteContent"/>
 
+            </Tab>
+
+
+            <!-- TRAMITES -->
+
+            <Tab fx:id="tramiteTab" text="Trámites (LIFO)">
+                <fx:include source="tramite-view.fxml"/>
             </Tab>
 
         </TabPane>
