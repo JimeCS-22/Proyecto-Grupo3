@@ -6,6 +6,7 @@ import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.Student;
 
 import cr.ac.ucr.sga.model.structures.lists.ListException;
+import cr.ac.ucr.sga.model.structures.queues.PriorityLinkedQueue;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -142,19 +143,41 @@ public class RequestReviewController implements Initializable {
     }
 
     private void loadPendingRequests() {
+
         requests.clear();
+
         var all = requestData.getAllRequests();
+
         try {
-            for (int i = 1; i <= all.size(); i++) {
-                EnrollmentRequest req = all.get(i);
-                String status = (req.getStatus() == null) ? "" : req.getStatus().toUpperCase();
+
+            PriorityLinkedQueue<EnrollmentRequest> temp = new PriorityLinkedQueue<>();
+
+            // 1. Recorrer la cola sin romperla
+            while (!all.isEmpty()) {
+
+                EnrollmentRequest req = all.deQueue();
+
+                String status = (req.getStatus() == null)
+                        ? ""
+                        : req.getStatus().toUpperCase();
+
                 if ("PENDING".equals(status) || "PENDIENTE".equals(status)) {
                     requests.add(req);
                 }
+
+                temp.enQueue(req, req.getPriority());
             }
+
+            // 2. Restaurar la cola original
+            while (!temp.isEmpty()) {
+                EnrollmentRequest req = temp.deQueue();
+                all.enQueue(req, req.getPriority());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         tblRequests.refresh();
     }
 

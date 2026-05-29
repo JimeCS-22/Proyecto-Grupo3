@@ -1,6 +1,7 @@
 package cr.ac.ucr.sga.model.entities;
 
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 public class EnrollmentRequest {
     private Student student;
@@ -52,5 +53,13 @@ public class EnrollmentRequest {
 
     public void setCourses(LinkedList<Course> courses) {
         this.courses = courses;
+    }
+
+    public String getStudentId() {
+        return (student != null) ? student.getId() : null;
+    }
+
+    public String getCourseCode() throws ListException {
+       return courses.getFirst().getId();
     }
 }

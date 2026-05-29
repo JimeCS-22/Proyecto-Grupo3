@@ -83,7 +83,7 @@ public class StudentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        setupStudentController();
         initializeTable();
 
         loadStudents();
@@ -92,6 +92,14 @@ public class StudentController implements Initializable {
 
         System.out.println("StudentController iniciado");
     }
+
+    private void setupStudentController() {
+        btnAdd.setOnAction(e->addStudent());
+        btnUpdate.setOnAction(e->updateStudent());
+        btnDelete.setOnAction(e->deleteStudent());
+        btnClear.setOnAction(e->clearFields());
+    }
+
     public void setMainController(
             MainController mainController
     ) {

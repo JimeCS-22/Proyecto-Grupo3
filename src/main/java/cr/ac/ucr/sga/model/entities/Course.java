@@ -15,7 +15,7 @@ public class Course {
         this.grade = grade;
         this.status = status;
     }
-    private Course(Builder builder) {
+    public Course(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.credits = builder.credits;

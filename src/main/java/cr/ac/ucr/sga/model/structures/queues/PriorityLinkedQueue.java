@@ -3,6 +3,9 @@ package cr.ac.ucr.sga.model.structures.queues;
 
 import cr.ac.ucr.sga.model.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PriorityLinkedQueue<T> implements MyQueue<T> {
     private Node<T> front; //anterior
     private Node<T> rear; //posterior
@@ -32,9 +35,19 @@ public class PriorityLinkedQueue<T> implements MyQueue<T> {
     @Override
     public void enQueue(T element) throws QueueException {
         Node<T> newNode = new Node<>(element);
-        rear.next = newNode;
-        rear = newNode;
-        size++; //Actualizo el contador de elementos encolados
+
+        // CASO 1: cola vacía
+        if (isEmpty()) {
+            front = rear = newNode;
+        }
+
+        // CASO 2: ya hay elementos
+        else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+
+        size++;//Actualizo el contador de elementos encolados
     }
 
     @Override
@@ -138,6 +151,7 @@ public class PriorityLinkedQueue<T> implements MyQueue<T> {
         return front.data;
     }
 
+
     @Override
     public String toString(){
         if(isEmpty()) return "Priority Linked Queue is empty";
@@ -161,8 +175,32 @@ public class PriorityLinkedQueue<T> implements MyQueue<T> {
         sb.append(" ➡️ REAR");
         return sb.toString();
     }
-
+//-----------AYUDAS-----------
     private boolean equals(T a, T b) {
         return a == null ? b == null : a.equals(b);
+    }
+
+    public List<T> toList() {
+        List<T> list = new ArrayList<>();
+
+        try {
+            PriorityLinkedQueue<T> aux = new PriorityLinkedQueue<>();
+
+            while (!isEmpty()) {
+                T data = deQueue();
+                list.add(data);
+                aux.enQueue(data);
+            }
+
+            while (!aux.isEmpty()) {
+                T data = aux.deQueue();
+                enQueue(data, 1); // o restaurar prioridad real
+            }
+
+        } catch (QueueException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

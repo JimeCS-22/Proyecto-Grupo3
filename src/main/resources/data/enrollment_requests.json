@@ -1,54 +1,8 @@
-{
-  "head": {
-    "data": {
-      "priority": 4,
-      "status": "PENDING",
-      "courses": {
-        "head": {
-          "data": {
-            "id": "IF-3002",
-            "name": "Bases de datos",
-            "credits": 4,
-            "grade": 0.0,
-            "status": "Activo"
-          }
-        },
-        "tail": {
-          "data": {
-            "id": "IF-3002",
-            "name": "Bases de datos",
-            "credits": 4,
-            "grade": 0.0,
-            "status": "Activo"
-          }
-        }
-      }
-    }
-  },
-  "tail": {
-    "data": {
-      "priority": 4,
-      "status": "PENDING",
-      "courses": {
-        "head": {
-          "data": {
-            "id": "IF-3002",
-            "name": "Bases de datos",
-            "credits": 4,
-            "grade": 0.0,
-            "status": "Activo"
-          }
-        },
-        "tail": {
-          "data": {
-            "id": "IF-3002",
-            "name": "Bases de datos",
-            "credits": 4,
-            "grade": 0.0,
-            "status": "Activo"
-          }
-        }
-      }
-    }
+[
+  {
+    "studentId": "3032505555",
+    "courseCode": "IF-1300",
+    "priority": 4,
+    "status": "PENDING"
   }
-}
+]

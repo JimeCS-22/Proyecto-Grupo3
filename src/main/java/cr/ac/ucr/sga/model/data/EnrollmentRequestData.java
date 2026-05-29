@@ -3,16 +3,19 @@ package cr.ac.ucr.sga.model.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.EnrollmentRequest;
+import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
+import cr.ac.ucr.sga.model.structures.queues.PriorityLinkedQueue;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 
-import java.util.Collection;
+import java.util.*;
 
 
 /**
@@ -20,7 +23,7 @@ import java.util.Collection;
  */
 public class EnrollmentRequestData {
 
-    private final LinkedList<EnrollmentRequest> requests;
+    private final PriorityLinkedQueue<EnrollmentRequest> requests;
 
     private static final String FILE_PATH =
             "src/main/resources/data/enrollment_requests.json";
@@ -44,48 +47,58 @@ public class EnrollmentRequestData {
         requests = loadRequests();
     }
 
-    // =========================
-    // LOAD
-    // =========================
-
-    private LinkedList<EnrollmentRequest> loadRequests() {
-
+    // LOAD Requests
+    private PriorityLinkedQueue<EnrollmentRequest> loadRequests() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
+            Type listType = new TypeToken<ArrayList<EnrollmentRequestDTO>>() {}.getType();
+            ArrayList<EnrollmentRequestDTO> list = gson.fromJson(reader, listType);
 
-            Type listType =
-                    new TypeToken<LinkedList<EnrollmentRequest>>() {
-                    }.getType();
+            PriorityLinkedQueue<EnrollmentRequest> queue = new PriorityLinkedQueue<>();
 
-            LinkedList<EnrollmentRequest> loaded =
-                    gson.fromJson(reader, listType);
+            Student student= new Student();
+            Student.Builder builder = new Student.Builder();
 
-            return (loaded != null)
-                    ? loaded
-                    : new LinkedList<>();
+            LinkedList<Course> courses = new LinkedList<>();
+            Course.Builder builderC = new Course.Builder();
+            if (list != null) {
+                for (EnrollmentRequestDTO dto : list) {
+                    builder.setId(dto.getStudentId());
+                    builderC.setId(dto.getCourseCode());
+                    EnrollmentRequest req = new EnrollmentRequest(
+                            student,
+                            dto.getPriority(),
+                            dto.getStatus(),
+                            courses
+                    );
+                    queue.enQueue(req, req.getPriority());
+                }
+            }
+            return queue;
 
         } catch (Exception e) {
-            return new LinkedList<>();
+            return new PriorityLinkedQueue<>();
         }
     }
+
 
     // =========================
     // SAVE
     // =========================
-
     private void saveRequests() {
-
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
+            ArrayList<EnrollmentRequestDTO> list = new ArrayList<>();
 
-            gson.toJson(requests, writer);
+            for (EnrollmentRequest req : requests.toList()) {
+                list.add(new EnrollmentRequestDTO(req));
+            }
 
-            writer.flush();
+            gson.toJson(list, writer);
 
         } catch (Exception e) {
-            System.out.println(
-                    "Error saving requests: " + e.getMessage()
-            );
+            System.out.println("Error saving requests: " + e.getMessage());
         }
     }
+
 
     // =========================
     // CREATE
@@ -96,7 +109,7 @@ public class EnrollmentRequestData {
         if (request == null) return null;
 
         try {
-            requests.addLast(request);
+            requests.enQueue(request);
             saveRequests();
             return request;
 
@@ -110,7 +123,7 @@ public class EnrollmentRequestData {
     // READ ALL
     // =========================
 
-    public LinkedList<EnrollmentRequest> getAllRequests() {
+    public PriorityLinkedQueue<EnrollmentRequest> getAllRequests() {
         return requests;
     }
 
@@ -118,29 +131,7 @@ public class EnrollmentRequestData {
     // FIND BY STUDENT ID
     // =========================
 
-    public LinkedList<EnrollmentRequest> getByStudentId(String studentId) {
 
-        LinkedList<EnrollmentRequest> result = new LinkedList<>();
-
-        try {
-
-            int size = requests.size();
-
-            for (int i = 1; i <= size; i++) {
-
-                EnrollmentRequest request = requests.get(i);
-
-                if (request.getStudent().getId().equals(studentId)) {
-                    result.add(request);
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error searching requests: " + e.getMessage());
-        }
-
-        return result;
-    }
 
     // =========================
     // UPDATE STATUS
@@ -160,6 +151,7 @@ public class EnrollmentRequestData {
             return false;
         }
     }
+
 
     // =========================
     // DELETE
@@ -203,4 +195,11 @@ public class EnrollmentRequestData {
     public int getRequestsCount() throws ListException {
         return requests.size();
     }
-}
+
+
+        public Iterable<EnrollmentRequest> getRequests() {
+            return requests.toList();
+        }
+
+    }
+

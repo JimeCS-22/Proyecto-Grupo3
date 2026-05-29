@@ -77,8 +77,7 @@
                   <Label style="-fx-font-size: 20px;                               -fx-font-weight: bold;" text="Prioridad de matrícula" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label prefHeight="18.0" prefWidth="187.0" text="Tu prioridad de matrícula es: " />
-                        <Label fx:id="lblPriority" prefHeight="18.0" prefWidth="187.0" text="--" />
+                        <Label fx:id="lblPriority" prefHeight="18.0" prefWidth="264.0" text="--" />
                      </children>
                   </HBox>
                </children>

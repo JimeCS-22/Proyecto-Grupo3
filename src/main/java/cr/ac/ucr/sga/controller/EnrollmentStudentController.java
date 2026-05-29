@@ -7,6 +7,7 @@ import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.EnrollmentRequest;
 import cr.ac.ucr.sga.model.entities.Student;
 
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -19,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EnrollmentStudentController
@@ -50,29 +52,21 @@ public class EnrollmentStudentController
     // DATA
     // =========================
 
-    private final CourseData courseData =
-            new CourseData();
+    private final CourseData courseData = new CourseData();
 
-    private final StudentData studentData =
-            new StudentData();
+    private final StudentData studentData = new StudentData();
 
-    private final EnrollmentRequestData
-            enrollmentRequestData =
-            new EnrollmentRequestData();
+    private final EnrollmentRequestData enrollmentRequestData = new EnrollmentRequestData();
 
-    // =========================
     // CURRENT STUDENT
-    // =========================
-
     private Student currentStudent;
 
-    // =========================
     // SELECTED COURSES
-    // =========================
-
     private final ObservableList<EnrollmentRow>
             selectedCourses =
             FXCollections.observableArrayList();
+    @FXML
+    private Button btnAddCourse;
 
     // =========================
     // INITIALIZE
@@ -83,7 +77,7 @@ public class EnrollmentStudentController
             URL url,
             ResourceBundle resourceBundle
     ) {
-
+        setupEnrollmentStudent();
         initializeTable();
 
         loadCourses();
@@ -91,6 +85,10 @@ public class EnrollmentStudentController
         tblEnrollments.setItems(selectedCourses);
 
         initializeDeleteEvent();
+    }
+
+    private void setupEnrollmentStudent() {
+        btnSolicitudMatricula.setOnAction(e->sendEnrollmentRequest());
     }
 
     // =========================
@@ -159,32 +157,33 @@ public class EnrollmentStudentController
     // =========================
 
     private void loadStudentPriority() {
-
+        String result = "";
         int totalCredits =
                 calculateTotalCredits(currentStudent);
 
         int priority;
 
-        if (totalCredits >= 30) {
+        if (totalCredits >= 30) { //30 o más creditos alta prioridad
 
             priority = 1;
-
-        } else if (totalCredits >= 20) {
+            result = "Alta";
+        } else if (totalCredits >= 20) { //20 o más créditos prioridad media
 
             priority = 2;
-
-        } else if (totalCredits >= 10) {
+            result = "Media";
+        } else if (totalCredits >= 10) {//20 o más créditos prioridad media-baja
 
             priority = 3;
-
+            result = "Media-baja";
         } else {
 
-            priority = 4;
+            priority = 4; ////20 o más créditos prioridad baja
+            result = "Baja";
         }
 
         lblPriority.setText(
                 "Tu prioridad de matrícula es: "
-                        + priority
+                        + priority +" ( "+result+" ) "
         );
     }
 
@@ -346,6 +345,20 @@ public class EnrollmentStudentController
     @FXML
     private void sendEnrollmentRequest() {
 
+        for (EnrollmentRequest req : enrollmentRequestData.getRequests()) {
+
+            if (Objects.equals(req.getStudentId(), currentStudent.getId())
+                    && req.getStatus().equalsIgnoreCase("PENDING")) {
+
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Solicitud existente",
+                        "Ya tienes una solicitud en espera. No puedes enviar otra."
+                );
+                return;
+            }
+        }
+
         try {
 
             if (selectedCourses.isEmpty()) {
@@ -358,31 +371,23 @@ public class EnrollmentStudentController
 
                 return;
             }
+//(Student student, int priority, String status, LinkedList<Course> courses)
+            EnrollmentRequest request = new EnrollmentRequest(currentStudent,calculatePriority(),"PENDING",new LinkedList<>());
 
-            EnrollmentRequest request =
-                    new EnrollmentRequest();
+          //  request.setStudent(currentStudent);
 
-            request.setStudent(currentStudent);
+          //  request.setPriority(calculatePriority());
 
-            request.setPriority(
-                    calculatePriority()
-            );
-
-            request.setStatus("PENDING");
+          //  request.setStatus("PENDING");
 
             // AGREGAR CURSOS
 
-            for (EnrollmentRow row
-                    : selectedCourses) {
-
-                request.getCourses()
-                        .add(row.getCourse());
+            for (EnrollmentRow row : selectedCourses) {
+                request.getCourses().add(row.getCourse());
             }
 
             // GUARDAR
-
-            enrollmentRequestData
-                    .addRequest(request);
+            enrollmentRequestData.addRequest(request);
 
             showAlert(
                     Alert.AlertType.INFORMATION,
@@ -391,7 +396,6 @@ public class EnrollmentStudentController
             );
 
             // LIMPIAR TABLA
-
             selectedCourses.clear();
 
         } catch (Exception e) {
