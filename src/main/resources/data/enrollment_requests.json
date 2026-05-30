@@ -72,5 +72,13 @@
     ],
     "priority": 4,
     "status": "RECHAZADO"
+  },
+  {
+    "studentId": "119520051",
+    "courseCodes": [
+      "IF-1301"
+    ],
+    "priority": 4,
+    "status": "PENDING"
   }
 ]

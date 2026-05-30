@@ -26,5 +26,26 @@
     "credits": 3,
     "grade": 0.0,
     "status": "Activo"
+  },
+  {
+    "id": "IF-0010",
+    "name": "Bases de Datos II",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo"
+  },
+  {
+    "id": "IF-0011",
+    "name": "Redes",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo"
+  },
+  {
+    "id": "IF-0012",
+    "name": "Algebra lineal para informaticcos",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo"
   }
 ]
