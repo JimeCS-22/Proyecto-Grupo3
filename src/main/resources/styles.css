@@ -656,3 +656,9 @@
     -fx-text-fill: #1f4e96;
     -fx-font-weight: bold;
 }
+.root {
+    -fx-background-color: #F6F8FB;
+    -fx-font-family: "Segoe UI";
+    -ucr-navy: #1f4e96;
+    -ucr-gray: #7B8495;
+}

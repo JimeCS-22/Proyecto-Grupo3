@@ -35,9 +35,9 @@ public class TramiteReviewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colTipo.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTipo()));
         colDescripcion.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getDescripcion()));
-        colEstado.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getEstado()));
+       // colEstado.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getEstado()));
         loadTramites();
-        btnProcesar.setOnAction(e -> procesarTramiteMasReciente());
+        //admibtnProcesar.setOnAction(e -> procesarTramiteMasReciente());
     }
 
     public void pushTramite(Tramite t) {
@@ -66,17 +66,17 @@ public class TramiteReviewController implements Initializable {
         }
     }
 
-    private void procesarTramiteMasReciente() {
-        try {
-            Tramite t = pilaTramites.pop();
-            t.setEstado("Procesando");
-
-            loadTramites();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Trámite " + t.getTipo() + " procesado: " + t.getDescripcion());
-            alert.showAndWait();
-        } catch (StackException ex) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "No hay trámites para procesar");
-            alert.showAndWait();
-        }
-    }
+//    private void procesarTramiteMasReciente() {
+//        try {
+//            Tramite t = pilaTramites.pop();
+//            t.setEstado("Procesando");
+//
+//            loadTramites();
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Trámite " + t.getTipo() + " procesado: " + t.getDescripcion());
+//            alert.showAndWait();
+//        } catch (StackException ex) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING, "No hay trámites para procesar");
+//            alert.showAndWait();
+//        }
+//    }
 }
