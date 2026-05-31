@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -63,6 +64,9 @@ public class MainController implements Initializable {
             SessionHistoryService.getInstance();
 
     private boolean ignoreTabChange = false;
+
+    @FXML
+    private Label lblStudent;
 
     // =========================
     // CONTROLLERS
@@ -166,6 +170,9 @@ public class MainController implements Initializable {
         loadEnrollmentStudent();
 
         loadTramiteView();
+
+        mostrarNombreEstudianteSiCorresponde();
+
 
     }
 
@@ -539,6 +546,20 @@ public class MainController implements Initializable {
         } catch (Exception e) {
 
             e.printStackTrace();
+        }
+    }
+
+    private void mostrarNombreEstudianteSiCorresponde() {
+        if (lblStudent != null && currentUser != null && currentUser.getRole() == Role.STUDENT) {
+            Student estudiante = new StudentData().findByUsername(currentUser.getUsername());
+            if (estudiante != null) {
+                lblStudent.setText("Estudiante: " + estudiante.getName() + " (" + estudiante.getCarnet() + ")");
+            } else {
+                lblStudent.setText("Estudiante en sesión");
+            }
+            lblStudent.setVisible(true);
+        } else if (lblStudent != null) {
+            lblStudent.setVisible(false);
         }
     }
 }

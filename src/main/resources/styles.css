@@ -650,3 +650,9 @@
     max-width: 120px;
     border-radius: 10px;
 }
+
+.header-user {
+    -fx-font-size: 15px;
+    -fx-text-fill: #1f4e96;
+    -fx-font-weight: bold;
+}

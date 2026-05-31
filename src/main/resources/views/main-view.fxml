@@ -44,6 +44,8 @@
 
             <Region HBox.hgrow="ALWAYS"/>
 
+            <Label fx:id="lblStudent" styleClass="header-user"/>
+
             <Button text="🡰 Atrás"
                     onAction="#goBack"
                     styleClass="btn-gray"/>
@@ -84,15 +86,6 @@
                  text="Cursos">
 
                 <AnchorPane fx:id="coursesContent"/>
-
-            </Tab>
-
-            <!-- MATRÍCULA -->
-
-            <Tab closable="false"
-                 text="Matrícula">
-
-                <fx:include source="enrollment-view.fxml"/>
 
             </Tab>
 
