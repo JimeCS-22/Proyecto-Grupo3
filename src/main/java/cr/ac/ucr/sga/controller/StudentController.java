@@ -190,18 +190,6 @@ public class StudentController implements Initializable {
             if (
                     mainController != null
                             &&
-                            mainController.getEnrollmentController()
-                                    != null
-            ) {
-
-                mainController
-                        .getEnrollmentController()
-                        .reloadStudentsAndCourses();
-            }
-
-            if (
-                    mainController != null
-                            &&
                             mainController.getRecordController()
                                     != null
             ) {

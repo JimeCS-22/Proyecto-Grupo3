@@ -10,8 +10,6 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
 <BorderPane fx:id="rootPane"
             styleClass="root-pane"
             stylesheets="@../styles.css"
@@ -19,104 +17,68 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="cr.ac.ucr.sga.controller.MainController">
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-
     <top>
-
         <HBox alignment="CENTER_LEFT"
               spacing="15"
               styleClass="header-bar">
 
-            <Label styleClass="header-badge"
-                   text="SGA"/>
+            <Label styleClass="header-badge" text="SGA"/>
 
             <VBox spacing="2">
-
-                <Label styleClass="header-title"
-                       text="Sistema de Gestión Académica"/>
-
-                <Label styleClass="header-sub"
-                       text="Proyecto Final IF-3001"/>
-
+                <Label styleClass="header-title" text="Sistema de Gestion Academica"/>
+                <Label styleClass="header-sub" text="Proyecto Final IF-3001"/>
             </VBox>
 
             <Region HBox.hgrow="ALWAYS"/>
 
             <Label fx:id="lblStudent" styleClass="header-user"/>
 
-            <Button text="🡰 Atrás"
+            <Button text="Atras"
                     onAction="#goBack"
                     styleClass="btn-gray"/>
 
-            <Button text="Adelante 🡲"
+            <Button text="Adelante"
                     onAction="#goForward"
                     styleClass="btn-gray"/>
 
-            <Button text="Cerrar Sesión"
+            <Button text="Cerrar Sesion"
                     onAction="#logout"
                     styleClass="btn-danger"/>
-
         </HBox>
-
     </top>
 
-    <!-- =========================
-         TABS
-    ========================== -->
-
     <center>
+        <TabPane fx:id="mainTabs" styleClass="main-tabs">
 
-        <TabPane fx:id="mainTabs"
-                 styleClass="main-tabs">
-
-            <!-- ESTUDIANTES -->
-
-            <Tab closable="false"
-                 text="Estudiantes">
-
-                <fx:include source="student-view.fxml"/>
-
+            <Tab fx:id="studentTab" closable="false" text="Estudiantes">
+                <AnchorPane fx:id="studentContent"/>
             </Tab>
 
-            <!-- CURSOS -->
-
-            <Tab closable="false"
-                 text="Cursos">
-
+            <Tab fx:id="coursesTab" closable="false" text="Cursos">
                 <AnchorPane fx:id="coursesContent"/>
-
             </Tab>
 
-            <!-- MATRÍCULA DE ESTUDIANTE -->
+            <Tab fx:id="preMatriculaTab" closable="false" text="Pre-Matricula">
+                <AnchorPane fx:id="preMatriculaContent"/>
+            </Tab>
 
-            <Tab fx:id="enrollmentStudentTab" closable="false" text="Matrícula">
-                <AnchorPane fx:id="enrollmentStudentContent"/>
+            <Tab fx:id="matriculaEstudianteTab" closable="false" text="Matricula">
+                <AnchorPane fx:id="matriculaEstudianteContent"/>
             </Tab>
 
             <Tab fx:id="reviewStudentTab" text="Solicitudes" closable="false">
                 <fx:include source="request-review-view.fxml"/>
             </Tab>
 
-            <!-- EXPEDIENTE -->
-
-            <Tab closable="false"
-                 text="Expediente">
-
+            <Tab fx:id="recordTab" closable="false" text="Expediente">
                 <AnchorPane fx:id="expedienteContent"/>
-
             </Tab>
 
-
-            <!-- TRAMITES -->
-
-            <Tab fx:id="tramiteTab" text="Trámites (LIFO)">
+            <Tab fx:id="tramiteTab" text="Tramites (LIFO)" closable="false">
                 <fx:include source="tramite-view.fxml"/>
             </Tab>
 
         </TabPane>
-
     </center>
 
 </BorderPane>

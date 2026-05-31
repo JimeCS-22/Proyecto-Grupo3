@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -13,93 +12,67 @@
 
 <BorderPane styleClass="root" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.EnrollmentController">
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-
+    <!-- HEADER -->
     <top>
-
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-bar">
-
             <padding>
                 <Insets bottom="18" left="24" right="24" top="18" />
             </padding>
-
             <Label styleClass="header-badge" text="SGA" />
-
             <VBox spacing="2">
-
-                <Label styleClass="header-title" text="Matrícula Académica" />
-
-                <Label styleClass="header-sub" text="Asignación de cursos a estudiantes" />
-
+                <Label styleClass="header-title" text="Matrícula Final" />
+                <Label styleClass="header-sub" text="Selecciona los cursos que deseas matricular" />
             </VBox>
-
         </HBox>
-
     </top>
 
-    <!-- =========================
-         CONTENT
-    ========================== -->
-
+    <!-- CONTENT -->
     <center>
         <ScrollPane fitToWidth="true" pannable="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
             <VBox spacing="20">
-
                 <padding>
                     <Insets bottom="25" left="25" right="25" top="25" />
                 </padding>
 
-                <!-- FORM -->
-
-                <VBox prefHeight="280.0" prefWidth="734.0" spacing="20" styleClass="card">
-
-                    <Label style="-fx-font-size: 20px;                               -fx-font-weight: bold;" text="Asignar Curso" />
-
-                    <!-- ESTUDIANTE -->
-
-                    <VBox spacing="8">
-
-                        <Label styleClass="subtitle" text="Seleccionar Estudiante" />
-
-                        <ComboBox fx:id="cmbStudents" promptText="Seleccione un estudiante" />
+                <!-- CONTENEDOR PRINCIPAL -->
+                <HBox spacing="20" VBox.vgrow="ALWAYS">
+                    <!-- CURSOS APROBADOS (IZQUIERDA) -->
+                    <VBox spacing="15" styleClass="card" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-size: 14; -fx-font-weight: bold;" text="Cursos Disponibles (Aprobados)" />
+                        <TableView fx:id="tblCursosAprobados" prefHeight="300" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colAprobadoCodigo" prefWidth="100" text="Código" />
+                                <TableColumn fx:id="colAprobadoNombre" prefWidth="250" text="Nombre" />
+                                <TableColumn fx:id="colAprobadoCreditos" prefWidth="80" text="Créditos" />
+                            </columns>
+                        </TableView>
+                        <Button fx:id="btnAgregarCurso" styleClass="btn-success" text="Agregar →" />
                     </VBox>
 
-                    <!-- CURSO -->
-
-                    <VBox spacing="8">
-
-                        <Label styleClass="subtitle" text="Seleccionar Curso" />
-
-                        <ComboBox fx:id="cmbCourses" promptText="Seleccione un curso" />
-
-                        <!-- BUTTON -->
-
-                        <Button onAction="#assignCourse" styleClass="btn-success" text="Asignar Curso" />
+                    <!-- CURSOS A MATRICULAR (DERECHA) -->
+                    <VBox spacing="15" styleClass="card" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-size: 14; -fx-font-weight: bold;" text="Cursos para Matricular" />
+                        <TableView fx:id="tblCursosAMatricular" prefHeight="300" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colMatriculaCodigo" prefWidth="100" text="Código" />
+                                <TableColumn fx:id="colMatriculaNombre" prefWidth="250" text="Nombre" />
+                                <TableColumn fx:id="colMatriculaCreditos" prefWidth="80" text="Créditos" />
+                            </columns>
+                        </TableView>
+                        <Button fx:id="btnQuitarCurso" styleClass="btn-warning" text="← Quitar" />
                     </VBox>
+                </HBox>
 
-                </VBox>
-
-                <!-- TABLE -->
-
-                <VBox spacing="15" styleClass="card" prefWidth="734.0">
-                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Cursos Asignados" />
-                    <TableView fx:id="tblEnrollments"
-                               prefHeight="170.0"
-                               minHeight="100.0"
-                               VBox.vgrow="ALWAYS"
-                               styleClass="custom-table">
-                        <columns>
-                            <TableColumn fx:id="colStudent" prefWidth="230" text="Estudiante" />
-                            <TableColumn fx:id="colCourse" prefWidth="230" text="Curso" />
-                            <TableColumn fx:id="colCredits" prefWidth="100" text="Créditos" />
-                        </columns>
-                    </TableView>
-                </VBox>
+                <!-- BOTONES ACCIÓN FINAL -->
+                <HBox spacing="10">
+                    <Button fx:id="btnMatricular" styleClass="btn-primary" text="Matricular Cursos" />
+                    <Button fx:id="btnNegar" styleClass="btn-danger" text="Negar Matrícula" />
+                </HBox>
 
             </VBox>
         </ScrollPane>
     </center>
+
+
 
 </BorderPane>

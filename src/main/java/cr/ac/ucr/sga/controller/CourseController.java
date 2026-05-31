@@ -19,15 +19,7 @@ import java.util.ResourceBundle;
 
 public class CourseController implements Initializable {
 
-    // =========================
-    // USER
-    // =========================
-
     private User currentUser;
-
-    // =========================
-    // FXML
-    // =========================
 
     @FXML
     private FlowPane coursesContainer;
@@ -288,18 +280,6 @@ public class CourseController implements Initializable {
             if (added != null) {
 
                 loadCourses();
-
-                if (
-                        mainController != null
-                                &&
-                                mainController.getEnrollmentController()
-                                        != null
-                ) {
-
-                    mainController
-                            .getEnrollmentController()
-                            .reloadStudentsAndCourses();
-                }
 
                 clearFields();
 

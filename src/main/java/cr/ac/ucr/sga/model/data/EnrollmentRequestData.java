@@ -117,7 +117,7 @@ public class EnrollmentRequestData {
         if (request == null) return null;
 
         try {
-            requests.enQueue(request);
+            requests.enQueue(request, request.getPriority());
             saveRequests();
             return request;
 
@@ -161,26 +161,39 @@ public class EnrollmentRequestData {
     }
 
 
-    // =========================
-    // DELETE
-    // =========================
-/*
     public boolean deleteRequest(EnrollmentRequest request) {
+        if (request == null) {
+            return false;
+        }
 
         try {
+            PriorityLinkedQueue<EnrollmentRequest> updated = new PriorityLinkedQueue<>();
+            boolean removed = false;
 
-            if (request != null && requests.remove(request)) {
-                saveRequests();
-                return true;
+            for (EnrollmentRequest current : requests.toList()) {
+                if (!removed && sameRequest(current, request)) {
+                    removed = true;
+                    continue;
+                }
+
+                updated.enQueue(current, current.getPriority());
             }
+
+            requests = updated;
+            saveRequests();
+            return removed;
 
         } catch (Exception e) {
             System.out.println("Error deleting request: " + e.getMessage());
+            return false;
         }
-
-        return false;
     }
-*/
+
+    private boolean sameRequest(EnrollmentRequest a, EnrollmentRequest b) {
+        return Objects.equals(a.getStudentId(), b.getStudentId())
+                && Objects.equals(a.getStatus(), b.getStatus());
+    }
+
     // =========================
     // CLEAR ALL
     // =========================

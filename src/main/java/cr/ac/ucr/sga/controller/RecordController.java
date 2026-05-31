@@ -600,6 +600,26 @@ public class RecordController implements Initializable {
         }
     }
 
+    // permite refrescar la vista del expediente para un estudiante dado
+    public void refreshForStudent(Student student) {
+        try {
+            if (student == null) return;
+            AcademicRecord record = recordData.findByStudentId(student.getId());
+            if (record != null) {
+                cargarExpediente(record);
+            } else {
+                // limpia la tabla si no hay expediente
+                courseList.clear();
+                originalCourseList.clear();
+                lblStudentInfo.setText("Estudiante: (sin expediente)");
+                lblCount.setText("0");
+                lblCredits.setText("0");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void reloadStudents() {
         if (cmbStudents.isVisible()) {
             cmbStudents.getItems().clear();

@@ -118,6 +118,8 @@ public class PriorityLinkedQueue<T> implements MyQueue<T> {
                 node.next = aux;
             }
         }
+
+        size++;
     }
 
     @Override
