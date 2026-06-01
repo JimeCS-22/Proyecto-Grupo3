@@ -1,15 +1,23 @@
 package cr.ac.ucr.sga.model.services;
 
-public class StudentNotification implements NotificationObserver {
-    private String studentEmail;
+import cr.ac.ucr.sga.model.entities.Notification;
 
-    public StudentNotification(String studentEmail) {
-        this.studentEmail = studentEmail;
-    }
+public class StudentNotification implements NotificationObserver {
 
     @Override
-    public void onNotification(String message) {
-        // Implementar envío real de notificación o imprimir en consola
-        System.out.println("Notificando a " + studentEmail + ": " + message);
+    public void onNotification(String studentId, String message) {
+
+        NotificationRepository
+                .getInstance()
+                .addNotification(
+                        new Notification(studentId, message)
+                );
+
+        System.out.println(
+                "Nueva notificación para " +
+                        studentId +
+                        ": " +
+                        message
+        );
     }
 }

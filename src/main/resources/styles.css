@@ -662,3 +662,20 @@
     -ucr-navy: #1f4e96;
     -ucr-gray: #7B8495;
 }
+
+.list-view {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #dcdcdc;
+    -fx-background-color: white;
+}
+
+.list-cell {
+    -fx-padding: 10;
+    -fx-font-size: 13px;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #5b6df5;
+    -fx-text-fill: white;
+}

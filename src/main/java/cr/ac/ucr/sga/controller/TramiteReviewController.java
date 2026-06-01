@@ -3,7 +3,6 @@ package cr.ac.ucr.sga.controller;
 import cr.ac.ucr.sga.model.data.TramiteData;
 import cr.ac.ucr.sga.model.entities.Tramite;
 import cr.ac.ucr.sga.model.services.NotificationService;
-import cr.ac.ucr.sga.model.services.StudentNotification;
 import cr.ac.ucr.sga.model.structures.stacks.LinkedStack;
 import cr.ac.ucr.sga.model.structures.stacks.StackException;
 import javafx.beans.property.SimpleStringProperty;
@@ -187,16 +186,17 @@ public class TramiteReviewController implements Initializable {
 
                 tramiteData.updateTramite(t);
 
-//                notificarEstudiante(
-//                        t,
-//                        "⏳ Tu trámite '" + t.getTipo()
-//                                + "' está siendo PROCESADO.\nID: "
-//                                + t.getId()
-//                );
+                NotificationService notificationService =
+                        NotificationService.getInstance();
+
+                notificationService.notifyObservers(
+                        t.getEstudiante().getId(),
+                        "⏳ Tu trámite '" +
+                                t.getTipo() +
+                                "' está siendo procesado."
+                );
             }
 
-            // IMPORTANTE:
-            // devolver el trámite a la pila porque aún no está resuelto
             pilaTramites.push(t);
 
             loadTramites();
@@ -246,15 +246,17 @@ public class TramiteReviewController implements Initializable {
 
             tramiteData.updateTramite(t);
 
-//            notificarEstudiante(
-//                    t,
-//                    "✅ Tu trámite '" + t.getTipo()
-//                            + "' ha sido RESUELTO.\nID: "
-//                            + t.getId()
-//            );
+            NotificationService notificationService =
+                    NotificationService.getInstance();
 
-            // OJO:
-            // NO lo volvemos a meter a la pila porque ya terminó
+            notificationService.notifyObservers(
+                    t.getEstudiante().getId(),
+                    "✅ Tu trámite '" +
+                            t.getTipo() +
+                            "' fue resuelto."
+            );
+
+
 
             loadTramites();
 
@@ -268,36 +270,6 @@ public class TramiteReviewController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    // =========================
-    // NOTIFICAR AL ESTUDIANTE (Observer Pattern)
-    // =========================
-//    private void notificarEstudiante(Tramite tramite, String mensaje) {
-//        try {
-//            NotificationService notificationService = NotificationService.getInstance();
-//
-//            // Crear observer para el estudiante del trámite
-//            StudentNotification observer = new StudentNotification(
-//                    tramite.getEstudiante().getEmail()
-//            );
-//
-//            // Agregar observer
-//            notificationService.addObserver(observer);
-//            System.out.println("✓ Observer agregado para: " + tramite.getEstudiante().getEmail());
-//
-//            // Notificar
-//            notificationService.notifyObservers(mensaje);
-//            System.out.println("✓ Notificación enviada al estudiante");
-//
-//            // Remover observer
-//            notificationService.removeObserver(observer);
-//            System.out.println("✓ Observer removido");
-//
-//        } catch (Exception e) {
-//            System.err.println("❌ Error al notificar: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
 
     // =========================
     // MOSTRAR ALERTAS

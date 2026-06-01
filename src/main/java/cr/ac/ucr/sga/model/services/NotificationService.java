@@ -27,9 +27,11 @@ public class NotificationService {
         observers.remove(observer);
     }
 
-    public void notifyObservers(String message) {
+    public void notifyObservers(String studentId, String message) {
+
         for (NotificationObserver o : observers) {
-            o.onNotification(message);
+            o.onNotification(studentId, message);
         }
+
     }
 }

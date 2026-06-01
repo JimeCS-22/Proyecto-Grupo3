@@ -4,7 +4,14 @@ import cr.ac.ucr.sga.model.data.StudentData;
 import cr.ac.ucr.sga.model.entities.Role;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.User;
+import cr.ac.ucr.sga.model.services.NotificationObserver;
+import cr.ac.ucr.sga.model.services.NotificationService;
 import cr.ac.ucr.sga.model.services.SessionHistoryService;
+import cr.ac.ucr.sga.model.services.NotificationObserver;
+import cr.ac.ucr.sga.model.services.NotificationRepository;
+import cr.ac.ucr.sga.model.entities.Notification;
+import javafx.application.Platform;
+import javafx.scene.control.ListView;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,16 +28,21 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class MainController implements Initializable, NotificationObserver {
     @FXML private BorderPane rootPane;
     @FXML private TabPane mainTabs;
     @FXML private Label lblStudent;
+    @FXML
+    private ListView<String> lstNotifications;
+
 
     @FXML private Tab studentTab;
     @FXML private Tab preMatriculaTab;
     @FXML private Tab matriculaEstudianteTab;
     @FXML private Tab reviewStudentTab;
     @FXML private Tab tramiteTab;
+    @FXML
+    private Tab notificationTab;
 
     @FXML private AnchorPane studentContent;
     @FXML private AnchorPane coursesContent;
@@ -46,6 +58,7 @@ public class MainController implements Initializable {
     private CourseController courseController;
     private StudentController studentController;
     private TramiteReviewController tramiteReviewController;
+
 
     // =========================
     // SERVICES / STATE
@@ -82,6 +95,11 @@ public class MainController implements Initializable {
                         loadRecordView();
                     }
                 });
+
+        NotificationService.getInstance()
+                .addObserver(this);
+
+
     }
 
     // =========================
@@ -103,6 +121,7 @@ public class MainController implements Initializable {
         return tramiteReviewController;
     }
 
+
     // =========================
     // CONFIGURACIÓN DE USUARIO
     // =========================
@@ -115,6 +134,7 @@ public class MainController implements Initializable {
         loadEnrollmentStudentView();
         loadEnrollmentView();
         loadTramiteView();
+        loadNotifications();
         mostrarNombreEstudianteSiCorresponde();
     }
 
@@ -244,7 +264,7 @@ public class MainController implements Initializable {
         }
     }
 
-    // =========================
+   //======================
     // CARGAR VISTAS DE PRE-MATRICULA Y MATRICULA ESTUDIANTE
     // =========================
     private void loadEnrollmentStudentView() {
@@ -373,6 +393,65 @@ public class MainController implements Initializable {
             lblStudent.setVisible(true);
         } else if (lblStudent != null) {
             lblStudent.setVisible(false);
+        }
+    }
+
+    @Override
+    public void onNotification(String studentId, String message) {
+
+        Student student =
+                new StudentData()
+                        .findByUsername(currentUser.getUsername());
+
+        if(student == null){
+            return;
+        }
+
+        if(!student.getId().equals(studentId)){
+            return;
+        }
+
+        NotificationRepository.getInstance().addNotification(
+                new Notification(studentId, message)
+        );
+
+        Platform.runLater(() -> {
+            lstNotifications.getItems().add(message);
+        });
+    }
+
+    private void loadNotifications() {
+
+        if (lstNotifications == null || currentUser == null) {
+            return;
+        }
+
+        lstNotifications.getItems().clear();
+
+        System.out.println("USERNAME = " + currentUser.getUsername());
+
+
+        Student student =
+                new StudentData()
+                        .findByUsername(currentUser.getUsername());
+
+        if (student == null) {
+            return;
+        }
+
+        System.out.println("ID = " + student.getId());
+
+
+        String studentId = student.getId();
+
+        for (Notification n : NotificationRepository.getInstance().getNotifications()) {
+
+            if (n.getStudentId().equals(studentId)) {
+
+                lstNotifications.getItems().add(
+                        n.getFecha() + " - " + n.getMensaje()
+                );
+            }
         }
     }
 }

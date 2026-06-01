@@ -102,7 +102,7 @@
                 <Label text="PROFESOR → profesor / 123"
                        styleClass="info-item"/>
 
-                <Label text="ESTUDIANTE → usuario / 123"
+                <Label text="ESTUDIANTE → usuario / 1234"
                        styleClass="info-item"/>
             </VBox>
 

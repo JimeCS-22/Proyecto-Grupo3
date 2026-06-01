@@ -3,14 +3,13 @@ package cr.ac.ucr.sga.controller;
 import cr.ac.ucr.sga.model.data.TramiteData;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.Tramite;
-import cr.ac.ucr.sga.model.services.NotificationService;
-import cr.ac.ucr.sga.model.services.StudentNotification;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import cr.ac.ucr.sga.model.services.NotificationService;
 
 import java.net.URL;
 import java.util.List;
@@ -102,7 +101,6 @@ public class TramiteStudentController implements Initializable {
         this.estudiante = estudiante;
         System.out.println("✓ Estudiante establecido: " + estudiante.getName());
 
-        // ✅ CARGAR MIS TRAMITES DEL JSON AL INICIALIZAR
         cargarMisTramitesDelJSON();
     }
 
@@ -197,12 +195,15 @@ public class TramiteStudentController implements Initializable {
         // =========================
         // 5. NOTIFICAR AL ESTUDIANTE (Patrón Observer)
         // =========================
-//        notificarEstudiante(
-//                "✓ SOLICITUD ENVIADA",
-//                "Tu trámite '" + tipo + "' ha sido enviado en estado PENDIENTE.\n" +
-//                        "ID: " + nuevoTramite.getId() + "\n" +
-//                        "El administrador lo procesará pronto."
-//        );
+
+        NotificationService.getInstance().notifyObservers(
+                estudiante.getId(),
+                "✓ SOLICITUD ENVIADA\n"
+                        + "Tu trámite '" + tipo
+                        + "' fue enviado correctamente.\n"
+                        + "ID: " + nuevoTramite.getId()
+        );
+
 
         // =========================
         // 6. MOSTRAR CONFIRMACIÓN

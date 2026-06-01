@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ListView?>
 <BorderPane fx:id="rootPane"
             styleClass="root-pane"
             stylesheets="@../styles.css"
@@ -76,6 +77,20 @@
 
             <Tab fx:id="tramiteTab" text="Tramites (LIFO)" closable="false">
                 <fx:include source="tramite-view.fxml"/>
+            </Tab>
+            <Tab text="🔔 Notificaciones" closable="false">
+                <content>
+                    <VBox spacing="10" style="-fx-padding: 15;">
+
+                        <Label text="Historial de Notificaciones"
+                               style="-fx-font-size: 16px;
+                          -fx-font-weight: bold;" />
+
+                        <ListView fx:id="lstNotifications"
+                                  VBox.vgrow="ALWAYS"/>
+
+                    </VBox>
+                </content>
             </Tab>
 
         </TabPane>
