@@ -22,35 +22,69 @@ public class SessionHistoryService {
         return instance;
     }
 
-    // Agregar nuevo índice de pestaña al historial
+    // =========================
+    // AGREGAR NUEVA PESTAÑA
+    // =========================
     public void addTabIndex(int index) throws ListException {
-        if (history.size() == 0) {
-            history.add(index);
-            current = 1;
-        } else {
-            while (history.size() > current) {
-                history.removeLast();
+
+        // Evita duplicados consecutivos
+        if (!history.isEmpty()) {
+            Integer currentTab = history.get(current);
+
+            if (currentTab != null && currentTab == index) {
+                return;
             }
-            history.add(index);
+        }
+
+        history.add(index);
+
+        // El current siempre apunta al último agregado
+        current = history.size();
+    }
+
+    // =========================
+    // IR HACIA ATRÁS (CIRCULAR)
+    // =========================
+    public Integer backTab() throws ListException {
+
+        if (history.isEmpty()) {
+            return null;
+        }
+
+        current--;
+
+        // Si pasa del inicio → vuelve al final
+        if (current < 1) {
             current = history.size();
         }
-    }
 
-    // Navegar hacia atrás en historial de pestañas
-    public Integer backTab() throws ListException {
-        if (history.size() == 0 || current <= 1) {
-            return null;
-        }
-        current--;
         return history.get(current);
     }
 
-    // Navegar hacia adelante en historial de pestañas
+    // =========================
+    // IR HACIA ADELANTE (CIRCULAR)
+    // =========================
     public Integer forwardTab() throws ListException {
-        if (history.size() == 0 || current >= history.size()) {
+
+        if (history.isEmpty()) {
             return null;
         }
+
         current++;
+
+        // Si pasa del final → vuelve al inicio
+        if (current > history.size()) {
+            current = 1;
+        }
+
         return history.get(current);
+    }
+
+    // =========================
+    // DEBUG
+    // =========================
+    public void printHistory() {
+        System.out.println(history);
+        System.out.println("Current index: " + current);
     }
 }

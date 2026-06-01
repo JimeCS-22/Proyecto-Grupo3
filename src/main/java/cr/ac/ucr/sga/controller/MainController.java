@@ -55,12 +55,16 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         mainTabs.getSelectionModel()
                 .selectedIndexProperty()
                 .addListener((obs, oldIndex, newIndex) -> {
+
                     if (!ignoreTabChange && newIndex != null) {
+
                         try {
                             historyService.addTabIndex(newIndex.intValue());
+
                         } catch (ListException e) {
                             e.printStackTrace();
                         }
@@ -70,9 +74,11 @@ public class MainController implements Initializable {
         mainTabs.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldTab, newTab) -> {
+
                     if (newTab != null
                             && "Expediente".equals(newTab.getText())
                             && currentUser != null) {
+
                         loadRecordView();
                     }
                 });
