@@ -20,7 +20,6 @@ public class AcademicRecordDataTest {
         Student stud = new Student.Builder()
                 .setId("198766543")
                 .setName("Pedro Chaves")
-                .setEmail("pedro.chaves@ucr.ac.cr")
                 .setCarnet("C12999")
                 .setAge(22)
                 .setUsername("pedrocha")
