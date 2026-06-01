@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="root"
+            stylesheets="@../styles.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cr.ac.ucr.sga.controller.TramiteStudentController">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-bar">
+            <padding>
+                <Insets top="18" right="24" bottom="18" left="24"/>
+            </padding>
+            <Label styleClass="header-badge" text="SGA"/>
+            <VBox spacing="2">
+                <Label styleClass="header-title" text="Mis Solicitudes de Trámite"/>
+                <Label styleClass="header-sub" text="Envía y monitorea tus solicitudes"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
+
+            <!-- FORMULARIO PARA ENVIAR TRAMITE -->
+            <VBox spacing="15" styleClass="card">
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="📝 Enviar Nueva Solicitud"/>
+
+                <!-- Tipo de Trámite -->
+                <VBox spacing="5">
+                    <Label text="Tipo de Solicitud:" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="txtTipo"
+                               promptText="Ej: Certificado, Cambio de Horario, Retiro, Revisión de Nota"
+                               styleClass="input"/>
+                </VBox>
+
+                <!-- Descripción -->
+                <VBox spacing="5">
+                    <Label text="Descripción Detallada:" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="txtDescripcion"
+                              promptText="Explica con detalle el motivo de tu solicitud..."
+                              wrapText="true"
+                              prefHeight="120"
+                              styleClass="input"/>
+                </VBox>
+
+                <!-- Botones de acción -->
+                <HBox spacing="10">
+                    <Button fx:id="btnEnviar"
+                            text="✓ Enviar Solicitud"
+                            styleClass="btn-primary"/>
+                    <Button fx:id="btnLimpiar"
+                            text="🔄 Limpiar"
+                            styleClass="btn-gray"/>
+                </HBox>
+            </VBox>
+
+            <!-- MIS TRAMITES ENVIADOS -->
+            <VBox spacing="15" styleClass="card">
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="📋 Mis Solicitudes Enviadas"/>
+
+                <TableView fx:id="tblMisTramites" prefHeight="280.0">
+                    <columns>
+                        <TableColumn fx:id="colTipo" prefWidth="150" text="Tipo"/>
+                        <TableColumn fx:id="colDescripcion" prefWidth="350" text="Descripción"/>
+                        <TableColumn fx:id="colEstado" prefWidth="120" text="Estado"/>
+                        <TableColumn fx:id="colFecha" prefWidth="180" text="Fecha Envío"/>
+                    </columns>
+                </TableView>
+
+                <!-- Leyenda de estados -->
+                <HBox spacing="20" style="-fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #e0e0e0;">
+                    <Label text="⏳ Pendiente" style="-fx-text-fill: #ff9800;"/>
+                    <Label text="⚙️ Procesando" style="-fx-text-fill: #2196f3;"/>
+                    <Label text="✅ Resuelto" style="-fx-text-fill: #4caf50;"/>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

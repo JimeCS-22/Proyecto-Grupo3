@@ -205,6 +205,39 @@ public class MainController implements Initializable {
         }
     }
 
+    private void loadTramiteView() {
+        try {
+            FXMLLoader tramiteLoader;
+            Parent tramiteView;
+
+            if (currentUser.getRole() == Role.STUDENT) {
+                // Vista para estudiante: enviar trámites
+                tramiteLoader = new FXMLLoader(getClass().getResource("/views/tramite-student-view.fxml"));
+                tramiteView = tramiteLoader.load();
+
+                TramiteStudentController controller = tramiteLoader.getController();
+                Student student = new StudentData().findByUsername(currentUser.getUsername());
+                if (student != null) {
+                    controller.setEstudiante(student);
+                    controller.setMainController(this);
+                }
+            } else {
+                // Vista para admin: gestionar/procesar trámites
+                tramiteLoader = new FXMLLoader(getClass().getResource("/views/tramite-view.fxml"));
+                tramiteView = tramiteLoader.load();
+
+                tramiteReviewController = tramiteLoader.getController();
+            }
+
+            // Agregar vista al tab
+            if (tramiteTab != null && mainTabs.getTabs().contains(tramiteTab)) {
+                tramiteTab.setContent(tramiteView);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // =========================
     // CARGAR VISTAS DE PRE-MATRICULA Y MATRICULA ESTUDIANTE
     // =========================
@@ -269,19 +302,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private void loadTramiteView() {
-        try {
-            FXMLLoader tramiteLoader = new FXMLLoader(getClass().getResource("/views/tramite-view.fxml"));
-            Parent tramiteView = tramiteLoader.load();
-            tramiteReviewController = tramiteLoader.getController();
 
-            if (tramiteTab != null && mainTabs.getTabs().contains(tramiteTab)) {
-                tramiteTab.setContent(tramiteView);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     // =========================
     // NAVEGACIÓN ENTRE PESTAÑAS (Historial)

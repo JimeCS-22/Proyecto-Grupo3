@@ -93,7 +93,7 @@
                   styleClass="info-box"
                   prefWidth="320">
 
-                <Label text="Usuarios de prueba"
+                <Label text="Usuarios "
                        styleClass="info-title"/>
 
                 <Label text="ADMIN → admin / 123"
@@ -102,7 +102,7 @@
                 <Label text="PROFESOR → profesor / 123"
                        styleClass="info-item"/>
 
-                <Label text="ESTUDIANTE → estudiante / 123"
+                <Label text="ESTUDIANTE → usuario / 123"
                        styleClass="info-item"/>
             </VBox>
 

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "f1212c5e-4746-4615-b4d3-7dd3b38cdb2b",
+    "tipo": "Revisión de nota",
+    "descripcion": "Solicito la revison de mi nota",
+    "estadoNombre": "Resuelto",
+    "estudiante": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "JimeCS",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-05-31T19:16:57"
+  },
+  {
+    "id": "a1f74794-81cd-4ddd-a8ae-d4dce5f4c017",
+    "tipo": "Revision de notas",
+    "descripcion": "Solicito la revison de la nota",
+    "estadoNombre": "Resuelto",
+    "estudiante": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "JimeCS",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-05-31T19:20:51"
+  },
+  {
+    "id": "7e5ac143-bca6-47d4-8a05-675e1bcd0b9d",
+    "tipo": "Revision",
+    "descripcion": "Revision",
+    "estadoNombre": "Pendiente",
+    "estudiante": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "JimeCS",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-05-31T19:27:20"
+  },
+  {
+    "id": "f6bbee37-d114-4e46-b213-feb31338fe5a",
+    "tipo": "Certificado",
+    "descripcion": "certificado",
+    "estadoNombre": "Pendiente",
+    "estudiante": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "JimeCS",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-05-31T19:36:07"
+  }
+]

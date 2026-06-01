@@ -6,7 +6,6 @@ public class Student {
 
     private String id;
     private String name;
-    private String email;
     private String carnet;
     private int age;
 
@@ -31,7 +30,6 @@ public class Student {
 
         this.id = builder.id;
         this.name = builder.name;
-        this.email = builder.email;
         this.carnet = builder.carnet;
         this.age = builder.age;
 
@@ -54,9 +52,6 @@ public class Student {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     public String getCarnet() {
         return carnet;
@@ -109,7 +104,6 @@ public class Student {
 
         private String id;
         private String name;
-        private String email;
         private String carnet;
         private int age;
 
@@ -126,10 +120,7 @@ public class Student {
             return this;
         }
 
-        public Builder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
+
 
         public Builder setCarnet(String carnet) {
             this.carnet = carnet;

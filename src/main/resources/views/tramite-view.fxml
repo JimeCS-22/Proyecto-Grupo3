@@ -16,6 +16,7 @@
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="cr.ac.ucr.sga.controller.TramiteReviewController">
+
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-bar">
             <padding>
@@ -36,31 +37,50 @@
                 <Insets top="25" right="25" bottom="25" left="25"/>
             </padding>
 
+            <!-- INFORMACION GENERAL -->
             <VBox spacing="10" styleClass="card">
-                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Nuevo Trámite LIFO" />
-                <HBox spacing="10">
-                    <Label text="Tipo:"/>
-                    <TextField fx:id="txtTipo" promptText="Ej: Certificado, Retiro, Revision Nota" styleClass="input"/>
-                    <Label text="Descripción:"/>
-                    <TextField fx:id="txtDescripcion" promptText="Explica el motivo, etc." styleClass="input" />
-                    <Button fx:id="btnAgregarTramite" text="Agregar trámite"/>
-                </HBox>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="ℹ️ Instrucciones"/>
+                <Label text="Los trámites se procesan en orden LIFO (Último en entrar, primero en salir)."/>
+                <Label text="1. Haz clic en 'Procesar' para cambiar el estado a PROCESANDO."/>
+                <Label text="2. Haz clic en 'Resolver' cuando hayas terminado el trámite."/>
+                <Label text="El estudiante será notificado automáticamente en cada cambio de estado."/>
             </VBox>
 
+            <!-- TABLA DE TRAMITES -->
             <VBox spacing="15" styleClass="card">
-                <HBox alignment="CENTER_LEFT">
-                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Trámites Pendientes (Pila LIFO)" />
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="📋 Trámites Pendientes (Pila LIFO)"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="btnProcesar" text="Procesar más reciente (LIFO)"/>
+
+                    <!-- BOTONES DE ACCION -->
+                    <Button fx:id="btnProcesar"
+                            text="⏳ Procesar Siguiente"
+                            styleClass="btn-primary"/>
+
+                    <Button fx:id="btnResolver"
+                            text="✅ Resolver"
+                            onAction="#resolverTramiteMasReciente"
+                            styleClass="btn-success"/>
                 </HBox>
-                <TableView fx:id="tblTramites" prefHeight="320.0">
+
+                <!-- TABLA -->
+                <TableView fx:id="tblTramites" prefHeight="350.0">
                     <columns>
                         <TableColumn fx:id="colTipo" prefWidth="130" text="Tipo"/>
-                        <TableColumn fx:id="colDescripcion" prefWidth="400" text="Detalle"/>
+                        <TableColumn fx:id="colDescripcion" prefWidth="450" text="Detalle"/>
                         <TableColumn fx:id="colEstado" prefWidth="120" text="Estado"/>
                     </columns>
                 </TableView>
+
+                <!-- LEYENDA DE ESTADOS -->
+                <HBox spacing="20" style="-fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #e0e0e0;">
+                    <Label text="⏳ Pendiente" style="-fx-text-fill: #ff9800; -fx-font-weight: bold;"/>
+                    <Label text="⚙️ Procesando" style="-fx-text-fill: #2196f3; -fx-font-weight: bold;"/>
+                    <Label text="✅ Resuelto" style="-fx-text-fill: #4caf50; -fx-font-weight: bold;"/>
+                </HBox>
             </VBox>
+
         </VBox>
     </center>
+
 </BorderPane>
