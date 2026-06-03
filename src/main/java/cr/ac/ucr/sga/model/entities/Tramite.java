@@ -11,13 +11,22 @@ public class Tramite {
     private transient TramiteState estado;
     private Student estudiante;
     private LocalDateTime fechaEnvio;
+    String fecha =
+            LocalDateTime.now()
+                    .format(
+                            DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+    private int contador = 1;
 
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     public Tramite(String tipo, String descripcion, Student estudiante) {
-        this.id = java.util.UUID.randomUUID().toString();
-        this.tipo = tipo;
+        this.id =
+                "TRM-" +
+                        fecha +
+                        "-" +
+                        String.format("%03d", contador++);        this.tipo = tipo;
         this.descripcion = descripcion;
         this.estado = new PendienteState();
         this.estadoNombre = "Pendiente";
@@ -50,7 +59,6 @@ public class Tramite {
     }
 
     public TramiteState getEstado() {
-        // ✅ Si no hay objeto estado (viene del JSON), reconstruirlo
         if (this.estado == null) {
             reconstruirEstadoDesdeNombre();
         }
@@ -77,10 +85,6 @@ public class Tramite {
     public String getFechaEnvio() {
         return fechaEnvio != null ? fechaEnvio.format(formatter) : "N/A";
     }
-
-    // =========================
-    // METODOS DEL NEGOCIO
-    // =========================
 
     public String getNombreEstado() {
         if (this.estado == null) {

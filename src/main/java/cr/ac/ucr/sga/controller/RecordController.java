@@ -113,9 +113,16 @@ public class RecordController implements Initializable {
                 new PropertyValueFactory<>("grade")
         );
 
-        colStatus.setCellValueFactory(
-                new PropertyValueFactory<>("status")
-        );
+        colStatus.setCellValueFactory(cellData -> {
+
+            String estado = cellData.getValue().getStatus();
+
+            if ("Activo".equalsIgnoreCase(estado)) {
+                estado = "Cursando";
+            }
+
+            return new javafx.beans.property.SimpleStringProperty(estado);
+        });
 
         tblCourses.setItems(courseList);
 
@@ -126,7 +133,6 @@ public class RecordController implements Initializable {
 
         cmbStatusFilter.getItems().addAll(
                 "Activo",
-                "Inactivo",
                 "Aprobado",
                 "Reprobado"
         );
@@ -280,13 +286,11 @@ public class RecordController implements Initializable {
 
                 Course c = cursos.get(i);
 
-                System.out.println(
-                        "Curso cargado: "
-                                + c.getName()
-                );
+                if ("Inactivo".equalsIgnoreCase(c.getStatus())) {
+                    continue;
+                }
 
                 courseList.add(c);
-
                 originalCourseList.add(c);
 
                 sumGrades += c.getGrade();
@@ -375,9 +379,14 @@ public class RecordController implements Initializable {
 
             if (status != null) {
 
+                String estadoCurso = c.getStatus();
+
+                if ("Activo".equalsIgnoreCase(estadoCurso)) {
+                    estadoCurso = "Cursando";
+                }
+
                 matchesStatus =
-                        c.getStatus()
-                                .equalsIgnoreCase(status);
+                        estadoCurso.equalsIgnoreCase(status);
             }
 
             // =========================

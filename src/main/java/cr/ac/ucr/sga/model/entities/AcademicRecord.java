@@ -26,8 +26,6 @@ public class AcademicRecord {
         return courses;
     }
 
-    // ------- SERIALIZACIÓN SEGURA -------
-    // Convierte cursos a lista estándar solo si hay cursos
 
     public List<Course> getCoursesAsList() {
 
@@ -55,7 +53,6 @@ public class AcademicRecord {
         return list;
     }
 
-    // Inicializa los cursos desde una lista estándar
     public void setCoursesFromList(List<Course> list) {
         this.courses = new DoublyLinkedList<>();
         if (list != null) {
@@ -65,7 +62,6 @@ public class AcademicRecord {
         }
     }
 
-    // ------- OPERACIONES -------
     public void addCourse(Course course) {
         if (course == null) {
             throw new IllegalArgumentException("El curso no puede ser null");

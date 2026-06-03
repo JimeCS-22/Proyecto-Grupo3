@@ -7,17 +7,14 @@ import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 public class AcademicRecordService {
 
-    // SINGLETON
     private static AcademicRecordService instance;
 
     private final DoublyLinkedList<AcademicRecord> records;
 
-    // Constructor privado
     private AcademicRecordService() {
         this.records = new DoublyLinkedList<>();
     }
 
-    // Obtener única instancia
     public static AcademicRecordService getInstance() {
 
         if (instance == null) {
@@ -27,7 +24,6 @@ public class AcademicRecordService {
         return instance;
     }
 
-    // Agregar historial académico
     public void addAcademicRecord(AcademicRecord record) {
 
         if (record == null) {
@@ -37,7 +33,6 @@ public class AcademicRecordService {
         records.add(record);
     }
 
-    // Buscar historial por ID del estudiante
     public AcademicRecord findByStudentId(String studentId)
             throws ListException {
 
@@ -61,7 +56,6 @@ public class AcademicRecordService {
         return null;
     }
 
-    // Matricular curso
     public boolean enrollCourse(String studentId, Course course)
             throws ListException {
 
@@ -81,8 +75,6 @@ public class AcademicRecordService {
 
         return false;
     }
-
-    // Eliminar curso
     public boolean removeCourse(String studentId, String courseCode)
             throws ListException {
 
@@ -102,7 +94,6 @@ public class AcademicRecordService {
 
             if (courseCode.equals(course.getId())) {
 
-                // Usar método encapsulado
                 record.removeCourse(course);
 
                 return true;
@@ -112,12 +103,10 @@ public class AcademicRecordService {
         return false;
     }
 
-    // Obtener todos los historiales
     public DoublyLinkedList<AcademicRecord> getRecords() {
         return records;
     }
 
-    // Cantidad de historiales
     public int size() {
 
         if (records.isEmpty()) {
@@ -130,8 +119,6 @@ public class AcademicRecordService {
             return 0;
         }
     }
-
-    // Verificar si está vacío
     public boolean isEmpty() {
         return records.isEmpty();
     }
