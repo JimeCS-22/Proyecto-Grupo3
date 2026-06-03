@@ -27,4 +27,20 @@ public class NotificationRepository {
     public List<Notification> getNotifications() {
         return notifications;
     }
+
+    public boolean exists(String studentId, String mensaje) {
+
+        for (Notification n : notifications) {
+
+            if (
+                    n.getStudentId().equals(studentId)
+                            &&
+                            n.getMensaje().equals(mensaje)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -12,7 +12,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-05-31T19:16:57"
+    "fechaEnvio": "2026-05-31T19:16:57",
+    "contador": 0
   },
   {
     "id": "a1f74794-81cd-4ddd-a8ae-d4dce5f4c017",
@@ -27,7 +28,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-05-31T19:20:51"
+    "fechaEnvio": "2026-05-31T19:20:51",
+    "contador": 0
   },
   {
     "id": "7e5ac143-bca6-47d4-8a05-675e1bcd0b9d",
@@ -42,7 +44,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-05-31T19:27:20"
+    "fechaEnvio": "2026-05-31T19:27:20",
+    "contador": 0
   },
   {
     "id": "f6bbee37-d114-4e46-b213-feb31338fe5a",
@@ -57,7 +60,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-05-31T19:36:07"
+    "fechaEnvio": "2026-05-31T19:36:07",
+    "contador": 0
   },
   {
     "id": "0b98d327-82ae-4267-b2c6-cbbf391e01d4",
@@ -72,7 +76,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T08:12:12"
+    "fechaEnvio": "2026-06-01T08:12:12",
+    "contador": 0
   },
   {
     "id": "5c75fb56-196c-470f-8fd7-1b4569e6dd69",
@@ -87,7 +92,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T08:24:50"
+    "fechaEnvio": "2026-06-01T08:24:50",
+    "contador": 0
   },
   {
     "id": "923ef6b8-5ccd-45c9-bf2c-f9fdef301c1d",
@@ -102,7 +108,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T08:28:13"
+    "fechaEnvio": "2026-06-01T08:28:13",
+    "contador": 0
   },
   {
     "id": "1ebe55b9-4210-4285-8eb2-49d301b6968b",
@@ -117,7 +124,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T08:37:01"
+    "fechaEnvio": "2026-06-01T08:37:01",
+    "contador": 0
   },
   {
     "id": "fc88a293-2adc-4e7e-9280-ea7cbba595b3",
@@ -132,7 +140,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T08:44:47"
+    "fechaEnvio": "2026-06-01T08:44:47",
+    "contador": 0
   },
   {
     "id": "06e5fa04-40b8-47c4-bd4b-84f900cb4517",
@@ -147,7 +156,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T08:53:56"
+    "fechaEnvio": "2026-06-01T08:53:56",
+    "contador": 0
   },
   {
     "id": "e3c431e6-d2c0-4cb3-a6f8-5113c402d92b",
@@ -162,7 +172,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T09:03:31"
+    "fechaEnvio": "2026-06-01T09:03:31",
+    "contador": 0
   },
   {
     "id": "61621fe9-916d-4365-9aa4-539f6355e3a1",
@@ -177,7 +188,8 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-01T09:08:41"
+    "fechaEnvio": "2026-06-01T09:08:41",
+    "contador": 0
   },
   {
     "id": "93a30d33-1900-43b4-8cd5-b3545dc17241",
@@ -192,13 +204,14 @@
       "username": "JimeCS",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-02T18:42:04"
+    "fechaEnvio": "2026-06-02T18:42:04",
+    "contador": 0
   },
   {
     "id": "a1bf0475-9682-455c-86fa-8639a0db4d0f",
     "tipo": "nose",
     "descripcion": "1234",
-    "estadoNombre": "Pendiente",
+    "estadoNombre": "Resuelto",
     "estudiante": {
       "id": "305540343",
       "name": "Alexander León Machado",
@@ -207,6 +220,41 @@
       "username": "AlexanderLM",
       "password": "1234"
     },
-    "fechaEnvio": "2026-06-02T18:42:22"
+    "fechaEnvio": "2026-06-02T18:42:22",
+    "contador": 0
+  },
+  {
+    "id": "TRM-20260603-001",
+    "tipo": "Solicitud de cita",
+    "descripcion": "Solicitud de cita",
+    "estadoNombre": "Resuelto",
+    "estudiante": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "JimeCS",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-06-03T09:21:01",
+    "fecha": "20260603",
+    "contador": 2
+  },
+  {
+    "id": "TRM-20260603-001",
+    "tipo": "Solicitud de cita",
+    "descripcion": "Solicitud de cita",
+    "estadoNombre": "Pendiente",
+    "estudiante": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "JimeCS",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-06-03T09:21:01",
+    "fecha": "20260603",
+    "contador": 2
   }
 ]

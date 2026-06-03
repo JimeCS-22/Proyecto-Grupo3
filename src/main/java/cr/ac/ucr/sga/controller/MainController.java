@@ -411,12 +411,22 @@ public class MainController implements Initializable, NotificationObserver {
             return;
         }
 
-        NotificationRepository.getInstance().addNotification(
-                new Notification(studentId, message)
-        );
+        NotificationRepository repo =
+                NotificationRepository.getInstance();
+
+
+        if(repo.exists(studentId, message)) {
+            return;
+        }
+
+        Notification nueva = new Notification(studentId, message);
+        repo.addNotification(nueva);
 
         Platform.runLater(() -> {
-            lstNotifications.getItems().add(message);
+            String texto = nueva.getFecha() + " - " + nueva.getMensaje();
+            if (!lstNotifications.getItems().contains(texto)) {
+                lstNotifications.getItems().add(texto);
+            }
         });
     }
 

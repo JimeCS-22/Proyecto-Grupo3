@@ -20,7 +20,10 @@ public class NotificationService {
 
     // Métodos para observer pattern
     public void addObserver(NotificationObserver observer) {
-        observers.add(observer);
+
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
     }
 
     public void removeObserver(NotificationObserver observer) {
