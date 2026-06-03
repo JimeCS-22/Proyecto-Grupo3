@@ -80,9 +80,10 @@
                     <TableView fx:id="tblMisTramites" prefHeight="280.0">
                         <columns>
                             <TableColumn fx:id="colTipo" prefWidth="150" text="Tipo"/>
-                            <TableColumn fx:id="colDescripcion" prefWidth="350" text="Descripción"/>
+                            <TableColumn fx:id="colDescripcion" prefWidth="280" text="Descripción"/>
                             <TableColumn fx:id="colEstado" prefWidth="120" text="Estado"/>
                             <TableColumn fx:id="colFecha" prefWidth="180" text="Fecha Envío"/>
+                            <TableColumn fx:id="colAcciones" prefWidth="160" text="Detalles"/>
                         </columns>
                     </TableView>
 
