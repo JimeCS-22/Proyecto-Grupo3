@@ -11,6 +11,7 @@ public class Tramite {
     private transient TramiteState estado;
     private Student estudiante;
     private LocalDateTime fechaEnvio;
+    private TramiteDetails detalles;
     String fecha =
             LocalDateTime.now()
                     .format(
@@ -32,6 +33,7 @@ public class Tramite {
         this.estadoNombre = "Pendiente";
         this.estudiante = estudiante;
         this.fechaEnvio = LocalDateTime.now();
+        this.detalles = new TramiteDetails(this.id);
     }
 
     // =========================
@@ -80,6 +82,20 @@ public class Tramite {
 
     public LocalDateTime getFechaEnvioDateTime() {
         return fechaEnvio;
+    }
+
+    public TramiteDetails getDetalles() {
+        if (detalles == null) {
+            detalles = new TramiteDetails(id);
+        }
+        if (detalles.getTramiteId() == null || detalles.getTramiteId().isEmpty()) {
+            detalles.setTramiteId(id);
+        }
+        return detalles;
+    }
+
+    public void setDetalles(TramiteDetails detalles) {
+        this.detalles = detalles;
     }
 
     public String getFechaEnvio() {
