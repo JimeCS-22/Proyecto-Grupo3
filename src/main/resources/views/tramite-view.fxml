@@ -45,6 +45,8 @@
                 <Label text="Los trámites se procesan en orden LIFO (Último en entrar, primero en salir)."/>
                 <Label text="1. Haz clic en 'Procesar' para cambiar el estado a PROCESANDO."/>
                 <Label text="2. Haz clic en 'Resolver' cuando hayas terminado el trámite."/>
+                <Label text="2. Usa 'Gestionar Detalles' para agregar comentarios e información."/>
+                <Label text="3. Haz clic en 'Resolver' cuando hayas terminado el trámite."/>
                 <Label text="El estudiante será notificado automáticamente en cada cambio de estado."/>
             </VBox>
 
@@ -61,7 +63,6 @@
 
                     <Button fx:id="btnResolver"
                             text="✅ Resolver"
-                            onAction="#resolverTramiteMasReciente"
                             styleClass="btn-success"/>
                 </HBox>
 
@@ -71,6 +72,7 @@
                         <TableColumn fx:id="colTipo" prefWidth="130" text="Tipo"/>
                         <TableColumn fx:id="colDescripcion" prefWidth="450" text="Detalle"/>
                         <TableColumn fx:id="colEstado" prefWidth="120" text="Estado"/>
+                        <TableColumn fx:id="colAcciones" prefWidth="220" text="Gestión"/>
                     </columns>
                 </TableView>
 

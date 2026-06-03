@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="520.0" prefWidth="760.0"
+            styleClass="root"
+            stylesheets="@../styles.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cr.ac.ucr.sga.controller.TramiteDetailsController">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="header-bar">
+            <padding>
+                <Insets top="14" right="18" bottom="14" left="18"/>
+            </padding>
+            <Label styleClass="header-badge" text="SGA"/>
+            <VBox spacing="2">
+                <Label styleClass="header-title" text="Detalles del Trámite"/>
+                <Label fx:id="lblTramiteInfo" styleClass="header-sub" text="Trámite"/>
+            </VBox>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="12" styleClass="card">
+            <padding>
+                <Insets top="16" right="16" bottom="16" left="16"/>
+            </padding>
+
+            <Label style="-fx-font-weight: bold; -fx-font-size: 15px;" text="Comentarios registrados"/>
+            <ListView fx:id="lstComentarios" prefHeight="260.0"/>
+
+            <Label style="-fx-font-weight: bold;" text="Agregar comentario"/>
+            <HBox spacing="10">
+                <ComboBox fx:id="cmbTipoComentario" prefWidth="180.0"/>
+                <Region HBox.hgrow="ALWAYS"/>
+            </HBox>
+            <TextArea fx:id="txtNuevoComentario" prefHeight="100.0" promptText="Escribe el comentario, horario, ubicación o requisito..." wrapText="true"/>
+
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Button fx:id="btnAgregarComentario" onAction="#agregarComentario" styleClass="btn-primary" text="Agregar Comentario"/>
+                <Button onAction="#volver" styleClass="btn-gray" text="Volver"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

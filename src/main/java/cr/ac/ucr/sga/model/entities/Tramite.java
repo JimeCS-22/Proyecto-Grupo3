@@ -17,6 +17,7 @@ public class Tramite {
                             DateTimeFormatter.ofPattern("yyyyMMdd"));
 
     private int contador = 1;
+    private TramiteDetails detalles;
 
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -32,6 +33,7 @@ public class Tramite {
         this.estadoNombre = "Pendiente";
         this.estudiante = estudiante;
         this.fechaEnvio = LocalDateTime.now();
+        this.detalles = new TramiteDetails(this.id);
     }
 
     // =========================
@@ -91,6 +93,19 @@ public class Tramite {
             reconstruirEstadoDesdeNombre();
         }
         return estado.getNombre();
+    }
+    public TramiteDetails getDetalles() {
+        if (detalles == null) {
+            detalles = new TramiteDetails(id);
+        }
+        if (detalles.getTramiteId() == null || detalles.getTramiteId().isEmpty()) {
+            detalles.setTramiteId(id);
+        }
+        return detalles;
+    }
+
+    public void setDetalles(TramiteDetails detalles) {
+        this.detalles = detalles;
     }
 
     private void reconstruirEstadoDesdeNombre() {

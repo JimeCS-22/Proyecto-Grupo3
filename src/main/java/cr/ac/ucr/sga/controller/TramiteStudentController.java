@@ -1,14 +1,22 @@
 package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.model.data.TramiteData;
+import cr.ac.ucr.sga.model.data.TramiteDetailsData;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.Tramite;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import cr.ac.ucr.sga.model.services.NotificationService;
 
 import java.net.URL;
@@ -50,6 +58,9 @@ public class TramiteStudentController implements Initializable {
     @FXML
     private TableColumn<Tramite, String> colFecha;
 
+    @FXML
+    private TableColumn<Tramite, Tramite> colAcciones;
+
     // =========================
     // ESTADO DEL CONTROLADOR
     // =========================
@@ -57,6 +68,7 @@ public class TramiteStudentController implements Initializable {
     private MainController mainController;
     private final ObservableList<Tramite> misTramites = FXCollections.observableArrayList();
     private final TramiteData tramiteData = new TramiteData();
+    private final TramiteDetailsData tramiteDetailsData = new TramiteDetailsData();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -92,6 +104,27 @@ public class TramiteStudentController implements Initializable {
         colFecha.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getFechaEnvio())
         );
+
+        if (colAcciones != null) {
+            colAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
+            colAcciones.setCellFactory(param -> new TableCell<>() {
+                private final Button btnDetalles = new Button("Ver Detalles");
+                private final HBox panel = new HBox(10, btnDetalles);
+
+                {
+                    btnDetalles.setOnAction(event -> {
+                        Tramite tramite = getTableView().getItems().get(getIndex());
+                        abrirDetalles(tramite);
+                    });
+                }
+
+                @Override
+                protected void updateItem(Tramite item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : panel);
+                }
+            });
+        }
     }
 
     // =========================
@@ -123,6 +156,7 @@ public class TramiteStudentController implements Initializable {
         // Filtrar solo los trámites del estudiante actual
         for (Tramite t : todosTramites) {
             if (t.getEstudiante().getId().equals(estudiante.getId())) {
+                t.setDetalles(tramiteDetailsData.getDetailsByTramiteId(t.getId()));
                 misTramites.add(t);
             }
         }
@@ -171,6 +205,7 @@ public class TramiteStudentController implements Initializable {
         // 2. GUARDAR EN JSON (persistencia)
         // =========================
         tramiteData.addTramite(nuevoTramite);
+        tramiteDetailsData.saveDetails(nuevoTramite.getDetalles());
         System.out.println("✓ Trámite guardado en JSON");
 
         // =========================
@@ -231,6 +266,32 @@ public class TramiteStudentController implements Initializable {
         txtDescripcion.clear();
         txtTipo.requestFocus();
         System.out.println("✓ Campos limpiados");
+    }
+
+    private void abrirDetalles(Tramite tramite) {
+        if (tramite == null) {
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tramite-details-view.fxml"));
+            Parent root = loader.load();
+
+            TramiteDetailsController controller = loader.getController();
+            controller.setContext(tramite, true);
+
+            Stage stage = new Stage();
+            stage.setTitle("Detalles del Trámite");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            if (tblMisTramites != null && tblMisTramites.getScene() != null) {
+                stage.initOwner(tblMisTramites.getScene().getWindow());
+            }
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudieron abrir los detalles del trámite.");
+        }
     }
 
     // =========================

@@ -1,14 +1,21 @@
 package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.model.data.TramiteData;
+import cr.ac.ucr.sga.model.data.TramiteDetailsData;
 import cr.ac.ucr.sga.model.entities.Tramite;
 import cr.ac.ucr.sga.model.services.NotificationService;
 import cr.ac.ucr.sga.model.structures.stacks.LinkedStack;
 import cr.ac.ucr.sga.model.structures.stacks.StackException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.List;
@@ -29,6 +36,9 @@ public class TramiteReviewController implements Initializable {
     private TableColumn<Tramite, String> colEstado;
 
     @FXML
+    private TableColumn<Tramite, Tramite> colAcciones;
+
+    @FXML
     private Button btnProcesar;
 
     @FXML
@@ -36,6 +46,7 @@ public class TramiteReviewController implements Initializable {
 
     private final LinkedStack<Tramite> pilaTramites = new LinkedStack<>();
     private final TramiteData tramiteData = new TramiteData();
+    private final TramiteDetailsData tramiteDetailsData = new TramiteDetailsData();
 
 
     @Override
@@ -80,6 +91,27 @@ public class TramiteReviewController implements Initializable {
         colEstado.setCellValueFactory(data ->
                 new SimpleStringProperty(data.getValue().getNombreEstado())
         );
+
+        if (colAcciones != null) {
+            colAcciones.setCellValueFactory(data -> new javafx.beans.property.SimpleObjectProperty<>(data.getValue()));
+            colAcciones.setCellFactory(param -> new TableCell<>() {
+                private final Button btnDetalles = new Button("Gestionar Detalles");
+                private final HBox panel = new HBox(10, btnDetalles);
+
+                {
+                    btnDetalles.setOnAction(event -> {
+                        Tramite tramite = getTableView().getItems().get(getIndex());
+                        abrirDetalles(tramite);
+                    });
+                }
+
+                @Override
+                protected void updateItem(Tramite item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : panel);
+                }
+            });
+        }
     }
 
     // =========================
@@ -91,7 +123,9 @@ public class TramiteReviewController implements Initializable {
         // Agregar a la pila en ORDEN INVERSO (para LIFO correcto)
         for (int i = tramitesPendientes.size() - 1; i >= 0; i--) {
             try {
-                pilaTramites.push(tramitesPendientes.get(i));
+                Tramite tramite = tramitesPendientes.get(i);
+                tramite.setDetalles(tramiteDetailsData.getDetailsByTramiteId(tramite.getId()));
+                pilaTramites.push(tramite);
             } catch (StackException e) {
                 e.printStackTrace();
             }
@@ -106,6 +140,7 @@ public class TramiteReviewController implements Initializable {
     // =========================
     public void pushTramite(Tramite t) {
         try {
+            t.setDetalles(tramiteDetailsData.getDetailsByTramiteId(t.getId()));
             pilaTramites.push(t);
             System.out.println("✓ Trámite agregado a la pila: " + t.getId());
             loadTramites();
@@ -238,6 +273,7 @@ public class TramiteReviewController implements Initializable {
             }
 
             t.resolver();
+            t.setDetalles(tramiteDetailsData.getDetailsByTramiteId(t.getId()));
 
             System.out.println("Nuevo estado = " + t.getNombreEstado());
 
@@ -265,6 +301,35 @@ public class TramiteReviewController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void abrirDetalles(Tramite tramite) {
+        if (tramite == null) {
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tramite-details-view.fxml"));
+            Parent root = loader.load();
+
+            TramiteDetailsController controller = loader.getController();
+            controller.setContext(tramite, false);
+
+            Stage stage = new Stage();
+            stage.setTitle("Detalles del Trámite");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            if (tblTramites != null && tblTramites.getScene() != null) {
+                stage.initOwner(tblTramites.getScene().getWindow());
+            }
+            stage.showAndWait();
+
+            tramiteData.updateTramite(tramite);
+            loadTramites();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudieron abrir los detalles del trámite.");
         }
     }
 
