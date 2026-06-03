@@ -118,15 +118,12 @@ public class TramiteReviewController implements Initializable {
     // CARGAR TRAMITES EN LA TABLA
     // =========================
     private void loadTramites() {
-
         tblTramites.getItems().clear();
 
         try {
-
             LinkedStack<Tramite> aux = new LinkedStack<>();
 
             while (!pilaTramites.isEmpty()) {
-
                 Tramite t = pilaTramites.pop();
 
                 System.out.println(
@@ -136,7 +133,7 @@ public class TramiteReviewController implements Initializable {
                                 t.getNombreEstado()
                 );
 
-                tblTramites.getItems().add(t);
+                tblTramites.getItems().add(0, t);
 
                 aux.push(t);
             }

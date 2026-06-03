@@ -178,5 +178,35 @@
       "password": "1234"
     },
     "fechaEnvio": "2026-06-01T09:08:41"
+  },
+  {
+    "id": "93a30d33-1900-43b4-8cd5-b3545dc17241",
+    "tipo": "aYUDA",
+    "descripcion": "1211212",
+    "estadoNombre": "Resuelto",
+    "estudiante": {
+      "id": "119520051",
+      "name": "Jimena Calvo Soto",
+      "carnet": "C4L408",
+      "age": 21,
+      "username": "JimeCS",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-06-02T18:42:04"
+  },
+  {
+    "id": "a1bf0475-9682-455c-86fa-8639a0db4d0f",
+    "tipo": "nose",
+    "descripcion": "1234",
+    "estadoNombre": "Pendiente",
+    "estudiante": {
+      "id": "305540343",
+      "name": "Alexander León Machado",
+      "carnet": "C24249",
+      "age": 21,
+      "username": "AlexanderLM",
+      "password": "1234"
+    },
+    "fechaEnvio": "2026-06-02T18:42:22"
   }
 ]
