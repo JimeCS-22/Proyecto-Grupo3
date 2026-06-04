@@ -2,6 +2,8 @@ package cr.ac.ucr.sga.model.data;
 
 
 import cr.ac.ucr.sga.model.entities.Student;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StudentDataTest {
 
     @Test
-    public void test(){
+    public void test() throws ListException {
 
         StudentData stData = new StudentData();
 
@@ -29,9 +31,9 @@ public class StudentDataTest {
         System.out.println("Estudiante agregado: " + (agregado != null ? agregado : "Ya existía"));
 
         // LEER TODOS
-        ArrayList<Student> students = stData.getAllStudents();
+        LinkedList<Student> students = stData.getAllStudents();
         System.out.println("Lista actual:");
-        for (Student stu : students) {
+        for (Student stu : students.toList()) {
             System.out.println(stu);
         }
 

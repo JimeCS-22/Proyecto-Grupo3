@@ -59,7 +59,7 @@ class EnrollmentApprovedDataTest {
         System.out.println("Matrícula agregada");
 
         // CARGAR TODOS
-        List<MatriculaAprobada> all = data.loadAll();
+        List<MatriculaAprobada> all = data.loadAll().toList();
 
         System.out.println("Matrículas registradas:");
         for (MatriculaAprobada m : all) {

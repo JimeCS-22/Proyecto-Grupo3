@@ -5,12 +5,11 @@ import cr.ac.ucr.sga.model.entities.EnrollmentRequest;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class EnrollmentRequestDTO {
     private String studentId;
-    private List<String> courseCodes;
+    private LinkedList<String> courseCodes;
     private int priority;
     private String status;
 
@@ -20,7 +19,7 @@ public class EnrollmentRequestDTO {
         this.priority = req.getPriority();
         this.status = req.getStatus();
 
-        this.courseCodes = new ArrayList<>();
+        this.courseCodes = new LinkedList<>();
         LinkedList<Course> courses = req.getCourses();
         if (courses != null && !courses.isEmpty()) {
             for (int i = 1; i <= courses.size(); i++) { // LinkedList es 1-based
@@ -39,8 +38,8 @@ public class EnrollmentRequestDTO {
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
 
-    public List<String> getCourseCodes() { return courseCodes; }
-    public void setCourseCodes(List<String> courseCodes) { this.courseCodes = courseCodes; }
+    public LinkedList<String> getCourseCodes() { return courseCodes; }
+    public void setCourseCodes(LinkedList<String> courseCodes) { this.courseCodes = courseCodes; }
 
     public int getPriority() { return priority; }
     public void setPriority(int priority) { this.priority = priority; }

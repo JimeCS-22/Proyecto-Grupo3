@@ -1,206 +1,24 @@
 [
   {
     "student": {
-      "id": "119520051",
-      "name": "Jimena Calvo Soto",
-      "carnet": "C4L408",
-      "age": 21,
-      "username": "JimeCS",
-      "password": "1234"
-    },
-    "courses": [
-      {
-        "id": "IF-3002",
-        "name": "Bases de datos",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo",
-        "cycle": "2026-I"
-      },
-      {
-        "id": "IF-0011",
-        "name": "Redes",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Inactivo",
-        "cycle": "2026-I"
-      },
-      {
-        "id": "IF-1100",
-        "name": "Programación I",
-        "credits": 4,
-        "grade": 89.5,
-        "status": "Aprobado",
-        "cycle": "2025-II"
-      },
-      {
-        "id": "IF-1101",
-        "name": "Programación II",
-        "credits": 4,
-        "grade": 76.0,
-        "status": "Aprobado",
-        "cycle": "2025-I"
-      },
-      {
-        "id": "IF-0050",
-        "name": "Matemática Discreta",
-        "credits": 3,
-        "grade": 58.5,
-        "status": "No Aprobado",
-        "cycle": "2024-II"
-      },
-      {
-        "id": "IF-0051",
-        "name": "Cálculo Diferencial",
-        "credits": 4,
-        "grade": 92.0,
-        "status": "Aprobado",
-        "cycle": "2024-I"
-      },
-      {
-        "id": "IF-0012",
-        "name": "Sistemas Operativos",
-        "credits": 4,
-        "grade": 81.3,
-        "status": "Aprobado",
-        "cycle": "2025-II"
-      }
-    ]
-  },
-  {
-    "student": {
-      "id": "119360128",
-      "name": "Camila Montoya Blanco",
+      "id": "001",
+      "name": "Camila Montoya",
       "carnet": "C4H457",
-      "age": 20,
-      "username": "camila.montoya",
+      "age": 21,
+      "username": "cami.montoya",
       "password": "1234"
     },
-    "courses": [
-      {
-        "id": "IF-1100",
-        "name": "Programación I",
-        "credits": 4,
-        "grade": 94.5,
-        "status": "Aprobado",
-        "cycle": "2025-II"
-      },
-      {
-        "id": "IF-0051",
-        "name": "Cálculo Diferencial",
-        "credits": 4,
-        "grade": 87.0,
-        "status": "Aprobado",
-        "cycle": "2025-I"
-      },
-      {
-        "id": "IF-0050",
-        "name": "Matemática Discreta",
-        "credits": 3,
-        "grade": 65.0,
-        "status": "No Aprobado",
-        "cycle": "2024-II"
-      },
-      {
-        "id": "IF-1301",
-        "name": "Desarrollo",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo",
-        "cycle": "2026-I"
-      }
-    ]
+    "courses": {}
   },
   {
     "student": {
-      "id": "305540343",
-      "name": "Alexander León Machado",
-      "carnet": "C24249",
-      "age": 21,
-      "username": "AlexanderLM",
+      "id": "002",
+      "name": "Jimena Calvo",
+      "carnet": "C4H679",
+      "age": 20,
+      "username": "jime.calvo",
       "password": "1234"
     },
-    "courses": [
-      {
-        "id": "IF-1301",
-        "name": "Desarrollo",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo",
-        "cycle": "2026-I"
-      },
-      {
-        "id": "IF-3002",
-        "name": "Bases de datos",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo",
-        "cycle": "2026-I"
-      },
-      {
-        "id": "IF-1300",
-        "name": "Algoritmos",
-        "credits": 4,
-        "grade": 0.0,
-        "status": "Activo",
-        "cycle": "2026-I"
-      },
-      {
-        "id": "IF-1100",
-        "name": "Programación I",
-        "credits": 4,
-        "grade": 85.0,
-        "status": "Aprobado",
-        "cycle": "2025-II"
-      },
-      {
-        "id": "IF-1101",
-        "name": "Programación II",
-        "credits": 4,
-        "grade": 79.5,
-        "status": "Aprobado",
-        "cycle": "2025-I"
-      },
-      {
-        "id": "IF-0011",
-        "name": "Redes",
-        "credits": 4,
-        "grade": 88.0,
-        "status": "Aprobado",
-        "cycle": "2025-I"
-      },
-      {
-        "id": "IF-0051",
-        "name": "Cálculo Diferencial",
-        "credits": 4,
-        "grade": 72.5,
-        "status": "Aprobado",
-        "cycle": "2024-II"
-      },
-      {
-        "id": "IF-0050",
-        "name": "Matemática Discreta",
-        "credits": 3,
-        "grade": 55.0,
-        "status": "No Aprobado",
-        "cycle": "2024-I"
-      },
-      {
-        "id": "IF-0012",
-        "name": "Sistemas Operativos",
-        "credits": 4,
-        "grade": 90.5,
-        "status": "Aprobado",
-        "cycle": "2025-II"
-      },
-      {
-        "id": "IF-1401",
-        "name": "Ingeniería de Software",
-        "credits": 4,
-        "grade": 83.0,
-        "status": "Aprobado",
-        "cycle": "2024-II"
-      }
-    ]
+    "courses": {}
   }
 ]

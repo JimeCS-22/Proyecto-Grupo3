@@ -4,6 +4,7 @@ import cr.ac.ucr.sga.model.data.TramiteData;
 import cr.ac.ucr.sga.model.data.TramiteDetailsData;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.Tramite;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -76,7 +77,13 @@ public class TramiteStudentController implements Initializable {
         setupTableColumns();
 
         // Configurar botones
-        btnEnviar.setOnAction(e -> enviarTramite());
+        btnEnviar.setOnAction(e -> {
+            try {
+                enviarTramite();
+            } catch (ListException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         btnLimpiar.setOnAction(e -> limpiarCampos());
 
         // Asignar lista de trámites a la tabla
@@ -151,7 +158,7 @@ public class TramiteStudentController implements Initializable {
         }
 
         misTramites.clear();
-        List<Tramite> todosTramites = tramiteData.getAllTramites();
+        List<Tramite> todosTramites = tramiteData.getAllTramites().toList();
 
         // Filtrar solo los trámites del estudiante actual
         for (Tramite t : todosTramites) {
@@ -168,7 +175,7 @@ public class TramiteStudentController implements Initializable {
     // US-05: ENVIAR TRAMITE EN ESTADO PENDIENTE
     // =========================
     @FXML
-    private void enviarTramite() {
+    private void enviarTramite() throws ListException {
         // Validar que el estudiante esté establecido
         if (estudiante == null) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error",

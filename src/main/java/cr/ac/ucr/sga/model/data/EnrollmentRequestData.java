@@ -14,8 +14,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -66,7 +66,7 @@ public class EnrollmentRequestData {
                     Student student = studentData.findStudentById(dto.getStudentId());
                     LinkedList<Course> courses = new LinkedList<>();
                     if (dto.getCourseCodes() != null) {
-                        for (String code : dto.getCourseCodes()) {
+                        for (String code : dto.getCourseCodes().toList()) {
                             Course c = courseData.findCourseById(code);
                             if (c != null) courses.add(c);
                         }

@@ -7,6 +7,7 @@ import cr.ac.ucr.sga.model.entities.AcademicRecord;
 import cr.ac.ucr.sga.model.entities.Role;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.User;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -96,7 +97,13 @@ public class StudentController implements Initializable {
     private void setupStudentController() {
         btnAdd.setOnAction(e->addStudent());
         btnUpdate.setOnAction(e->updateStudent());
-        btnDelete.setOnAction(e->deleteStudent());
+        btnDelete.setOnAction(e-> {
+            try {
+                deleteStudent();
+            } catch (ListException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         btnClear.setOnAction(e->clearFields());
     }
 
@@ -139,7 +146,7 @@ public class StudentController implements Initializable {
         studentList.clear();
 
         studentList.addAll(
-                studentData.getAllStudents()
+                studentData.getAllStudents().toList()
         );
 
         updateCount();
@@ -318,7 +325,7 @@ public class StudentController implements Initializable {
     // =========================
 
     @FXML
-    private void deleteStudent() {
+    private void deleteStudent() throws ListException {
 
         Student selected =
                 tblStudents.getSelectionModel()

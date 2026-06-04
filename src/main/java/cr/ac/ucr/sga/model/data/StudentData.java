@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import cr.ac.ucr.sga.model.entities.Student;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.LinkedList;
+
 
 /**
  * CRUD de estudiantes usando JSON
@@ -104,9 +105,9 @@ public class StudentData {
     /**
      * READ ALL
      */
-    public ArrayList<Student> getAllStudents() {
+    public LinkedList<Student> getAllStudents() {
 
-        return new ArrayList<>(students);
+        return students;
     }
 
     /**
@@ -116,7 +117,7 @@ public class StudentData {
 
         Student studentToReturn = null;
 
-        for (Student student : students) {
+        for (Student student : students.toList()) {
 
             if (student.getId()
                     .equalsIgnoreCase(id)) {
@@ -131,7 +132,7 @@ public class StudentData {
     /**
      * UPDATE
      */
-    public boolean updateStudent(Student updatedStudent) {
+    public boolean updateStudent(Student updatedStudent) throws ListException {
 
         for (int i = 0; i < students.size(); i++) {
 
@@ -139,7 +140,7 @@ public class StudentData {
                     .getId()
                     .equalsIgnoreCase(updatedStudent.getId())) {
 
-                students.set(i, updatedStudent);
+                students.add(i, updatedStudent);
 
                 saveStudents();
 
@@ -153,7 +154,7 @@ public class StudentData {
     /**
      * DELETE
      */
-    public boolean deleteStudent(String id) {
+    public boolean deleteStudent(String id) throws ListException {
 
         Student student = findStudentById(id);
 
@@ -172,14 +173,14 @@ public class StudentData {
     /**
      * COUNT
      */
-    public int getStudentsCount() {
+    public int getStudentsCount() throws ListException {
 
         return students.size();
     }
 
     public Student findByUsername(String username) {
 
-        for (Student student : students) {
+        for (Student student : students.toList()) {
 
             if (
                     student.getUsername() != null

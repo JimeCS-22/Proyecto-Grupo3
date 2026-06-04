@@ -125,7 +125,7 @@ public class CourseController implements Initializable {
 
         try {
 
-            for (Course course : courseData.getAllCourses()) {
+            for (Course course : courseData.getAllCourses().toList()) {
 
                 addCourseCard(course);
             }
@@ -389,7 +389,7 @@ public class CourseController implements Initializable {
     // =========================
 
     @FXML
-    private void deleteCourse() {
+    private void deleteCourse() throws ListException {
 
         if (selectedCourse == null) {
 

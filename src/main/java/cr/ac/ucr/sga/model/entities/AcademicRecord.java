@@ -53,10 +53,10 @@ public class AcademicRecord {
         return list;
     }
 
-    public void setCoursesFromList(List<Course> list) {
+    public void setCoursesFromList(DoublyLinkedList<Course> list) {
         this.courses = new DoublyLinkedList<>();
         if (list != null) {
-            for (Course c : list) {
+            for (Course c : list.toList()) {
                 courses.add(c);
             }
         }

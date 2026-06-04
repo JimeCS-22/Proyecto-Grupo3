@@ -2,6 +2,7 @@ package cr.ac.ucr.sga.model.data;
 
 import cr.ac.ucr.sga.model.entities.Role;
 import cr.ac.ucr.sga.model.entities.User;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ class UserDataTest {
         System.out.println("Login fallido: " + (wrongLogin != null ? "Inesperado" : "Correctamente denegado"));
 
         // Listar todos
-        ArrayList<User> users = userData.getAllUsers();
-        for (User u : users) System.out.println(u.getUsername() + " (" + u.getRole() + ")");
+        LinkedList<User> users = userData.getAllUsers();
+        for (User u : users.toList()) System.out.println(u.getUsername() + " (" + u.getRole() + ")");
     }
 
 }

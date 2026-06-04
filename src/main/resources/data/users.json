@@ -1,27 +1,37 @@
-[
-  {
-    "username": "admin",
-    "password": "123",
-    "role": "ADMIN"
+{
+  "head": {
+    "data": {
+      "username": "admin",
+      "password": "123",
+      "role": "ADMIN"
+    },
+    "next": {
+      "data": {
+        "username": "profesor",
+        "password": "123",
+        "role": "PROFESSOR"
+      },
+      "next": {
+        "data": {
+          "username": "cami.montoya",
+          "password": "1234",
+          "role": "STUDENT"
+        },
+        "next": {
+          "data": {
+            "username": "jime.calvo",
+            "password": "1234",
+            "role": "STUDENT"
+          }
+        }
+      }
+    }
   },
-  {
-    "username": "profesor",
-    "password": "123",
-    "role": "PROFESSOR"
-  },
-  {
-    "username": "JimeCS",
-    "password": "1234",
-    "role": "STUDENT"
-  },
-  {
-    "username": "camila.montoya",
-    "password": "1234",
-    "role": "STUDENT"
-  },
-  {
-    "username": "AlexanderLM",
-    "password": "1234",
-    "role": "STUDENT"
+  "tail": {
+    "data": {
+      "username": "jime.calvo",
+      "password": "1234",
+      "role": "STUDENT"
+    }
   }
-]
+}

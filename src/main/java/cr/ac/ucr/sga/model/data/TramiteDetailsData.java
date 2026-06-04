@@ -12,6 +12,8 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 import cr.ac.ucr.sga.model.entities.Comentario;
 import cr.ac.ucr.sga.model.entities.TramiteDetails;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -19,8 +21,7 @@ import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class TramiteDetailsData {
 
@@ -53,7 +54,7 @@ public class TramiteDetailsData {
         }
     }
 
-    public void saveAllDetails(List<TramiteDetails> detailsList) {
+    public void saveAllDetails(LinkedList<TramiteDetails> detailsList) {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(detailsList, writer);
         } catch (Exception e) {
@@ -61,26 +62,26 @@ public class TramiteDetailsData {
         }
     }
 
-    public List<TramiteDetails> getAllDetails() {
+    public LinkedList<TramiteDetails> getAllDetails() {
         try {
             File file = new File(FILE_PATH);
             if (!file.exists()) {
-                return new ArrayList<>();
+                return new LinkedList<>();
             }
 
             try (FileReader reader = new FileReader(file)) {
-                Type listType = new TypeToken<List<TramiteDetails>>() {
+                Type listType = new TypeToken<LinkedList<TramiteDetails>>() {
                 }.getType();
-                List<TramiteDetails> details = gson.fromJson(reader, listType);
-                return details != null ? details : new ArrayList<>();
+                LinkedList<TramiteDetails> details = gson.fromJson(reader, listType);
+                return details != null ? details : new LinkedList<>();
             }
         } catch (Exception e) {
-            return new ArrayList<>();
+            return new LinkedList<>();
         }
     }
 
     public TramiteDetails getDetailsByTramiteId(String tramiteId) {
-        for (TramiteDetails details : getAllDetails()) {
+        for (TramiteDetails details : getAllDetails().toList()) {
             if (details != null && tramiteId.equals(details.getTramiteId())) {
                 return details;
             }
@@ -88,13 +89,13 @@ public class TramiteDetailsData {
         return new TramiteDetails(tramiteId);
     }
 
-    public void saveDetails(TramiteDetails details) {
-        List<TramiteDetails> all = getAllDetails();
+    public void saveDetails(TramiteDetails details) throws ListException {
+        LinkedList<TramiteDetails> all = getAllDetails();
 
         for (int i = 0; i < all.size(); i++) {
             TramiteDetails current = all.get(i);
             if (current != null && details.getTramiteId().equals(current.getTramiteId())) {
-                all.set(i, details);
+                all.add(i, details);
                 saveAllDetails(all);
                 return;
             }
@@ -104,13 +105,13 @@ public class TramiteDetailsData {
         saveAllDetails(all);
     }
 
-    public void addComentario(String tramiteId, Comentario comentario) {
+    public void addComentario(String tramiteId, Comentario comentario) throws ListException {
         TramiteDetails details = getDetailsByTramiteId(tramiteId);
         details.agregarComentario(comentario);
         saveDetails(details);
     }
 
-    public List<Comentario> getComentariosByTramiteId(String tramiteId) {
-        return getDetailsByTramiteId(tramiteId).getComentarios();
+    public LinkedList<Comentario> getComentariosByTramiteId(String tramiteId) {
+        return  getDetailsByTramiteId(tramiteId).getComentarios();
     }
 }

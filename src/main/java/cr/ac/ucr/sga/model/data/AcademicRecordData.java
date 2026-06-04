@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,6 @@ public class AcademicRecordData {
 
     private void saveRecords() {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
-            System.out.println("💾 Guardando records...");
 
             ArrayList<AcademicRecordDTO> temp = new ArrayList<>();
 
@@ -68,7 +68,7 @@ public class AcademicRecordData {
                 AcademicRecord r = records.get(i);
 
                 if (r == null) {
-                    System.out.println("⚠️ Record null en índice " + i);
+                    System.out.println("Record null en índice " + i);
                     continue;
                 }
 
@@ -180,10 +180,9 @@ public class AcademicRecordData {
         return null;
     }
 
-    public ArrayList<Student> getAllStudentsFromRecords() {
+    public LinkedList<Student> getAllStudentsFromRecords() {
 
-        ArrayList<Student> list =
-                new ArrayList<>();
+        LinkedList<Student> list = new LinkedList<>();
 
         try {
 
@@ -212,6 +211,7 @@ public class AcademicRecordData {
 
         return list;
     }
+
 
 
 

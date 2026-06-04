@@ -2,6 +2,8 @@ package cr.ac.ucr.sga.model.data;
 
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.entities.Tramite;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TramiteDataTest {
 
     @Test
-    public void test() {
+    public void test() throws ListException {
 
         TramiteData data = new TramiteData();
 
@@ -42,22 +44,22 @@ class TramiteDataTest {
         );
 
         // GET ALL
-        List<Tramite> all =
+        LinkedList<Tramite> all =
                 data.getAllTramites();
 
         System.out.println("Todos los trámites:");
 
-        for (Tramite t : all) {
+        for (Tramite t : all.toList()) {
             System.out.println(t);
         }
 
         // GET PENDIENTES
-        List<Tramite> pendientes =
+        LinkedList<Tramite> pendientes =
                 data.getTramitesPendientes();
 
         System.out.println("Trámites pendientes:");
 
-        for (Tramite t : pendientes) {
+        for (Tramite t : pendientes.toList()) {
             System.out.println(t);
         }
 

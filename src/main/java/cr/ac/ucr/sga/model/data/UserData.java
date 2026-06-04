@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+
 
 public class UserData {
 
@@ -49,10 +49,10 @@ public class UserData {
                      new FileReader(FILE_PATH)) {
 
             Type listType =
-                    new TypeToken<ArrayList<User>>() {
+                    new TypeToken<LinkedList<User>>() {
                     }.getType();
 
-            ArrayList<User> temp =
+            LinkedList<User> temp =
                     gson.fromJson(reader, listType);
 
             LinkedList<User> loadedUsers =
@@ -60,7 +60,7 @@ public class UserData {
 
             if (temp != null) {
 
-                for (User user : temp) {
+                for (User user : temp.toList()) {
                     loadedUsers.add(user);
                 }
             }
@@ -82,8 +82,8 @@ public class UserData {
         try (FileWriter writer =
                      new FileWriter(FILE_PATH)) {
 
-            ArrayList<User> temp =
-                    new ArrayList<>();
+            LinkedList<User> temp =
+                    new LinkedList<>();
 
             try {
 
@@ -249,10 +249,10 @@ public class UserData {
     // GET ALL
     // =========================
 
-    public ArrayList<User> getAllUsers() {
+    public LinkedList<User> getAllUsers() {
 
-        ArrayList<User> temp =
-                new ArrayList<>();
+        LinkedList<User> temp =
+                new LinkedList<>();
 
         try {
 

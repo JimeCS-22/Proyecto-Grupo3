@@ -3,6 +3,7 @@ package cr.ac.ucr.sga.controller;
 import cr.ac.ucr.sga.model.data.AcademicRecordData;
 import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 import javafx.collections.FXCollections;
@@ -159,9 +160,8 @@ public class RecordController implements Initializable {
 
                 cmbStudents.getItems().clear();
 
-                cmbStudents.getItems().addAll(
-                        recordData.getAllStudentsFromRecords()
-                );
+                LinkedList<Student> students = recordData.getAllStudentsFromRecords();
+                cmbStudents.getItems().addAll(students.toList());
 
                 lblStudentInfo.setText(
                         "Administrador"
@@ -217,9 +217,7 @@ public class RecordController implements Initializable {
     @FXML
     private void onStudentSelected() {
 
-        Student selected =
-                cmbStudents.getSelectionModel()
-                        .getSelectedItem();
+        Student selected = cmbStudents.getSelectionModel().getSelectedItem();
 
         if (selected != null) {
 
@@ -632,7 +630,7 @@ public class RecordController implements Initializable {
     public void reloadStudents() {
         if (cmbStudents.isVisible()) {
             cmbStudents.getItems().clear();
-            cmbStudents.getItems().addAll(recordData.getAllStudentsFromRecords());
+            cmbStudents.getItems().addAll(recordData.getAllStudentsFromRecords().toList());
         }
     }
 }

@@ -5,6 +5,7 @@ import cr.ac.ucr.sga.model.data.TramiteDetailsData;
 import cr.ac.ucr.sga.model.entities.Comentario;
 import cr.ac.ucr.sga.model.entities.Tramite;
 import cr.ac.ucr.sga.model.entities.TramiteDetails;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -54,7 +55,7 @@ public class TramiteDetailsController implements Initializable {
     }
 
     @FXML
-    private void agregarComentario() {
+    private void agregarComentario() throws ListException {
         if (tramite == null || readOnly) {
             return;
         }
@@ -109,7 +110,7 @@ public class TramiteDetailsController implements Initializable {
             return;
         }
 
-        for (Comentario comentario : tramite.getDetalles().getComentarios()) {
+        for (Comentario comentario : tramite.getDetalles().getComentarios().toList()) {
             String fecha = comentario.getFecha() != null ? comentario.getFecha().format(formatter) : "Sin fecha";
             String tipo = comentario.getTipo() != null ? comentario.getTipo() : "INFO";
             String autor = comentario.getAutor() != null ? comentario.getAutor() : "Sistema";

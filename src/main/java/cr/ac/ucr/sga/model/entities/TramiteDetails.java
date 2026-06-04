@@ -1,19 +1,19 @@
 package cr.ac.ucr.sga.model.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 
 public class TramiteDetails {
     private String tramiteId;
-    private List<Comentario> comentarios;
+    private LinkedList<Comentario> comentarios;
 
     public TramiteDetails() {
-        this.comentarios = new ArrayList<>();
+        this.comentarios = new LinkedList<>();
     }
 
     public TramiteDetails(String tramiteId) {
         this.tramiteId = tramiteId;
-        this.comentarios = new ArrayList<>();
+        this.comentarios = new LinkedList<>();
     }
 
     public String getTramiteId() {
@@ -24,14 +24,14 @@ public class TramiteDetails {
         this.tramiteId = tramiteId;
     }
 
-    public List<Comentario> getComentarios() {
+    public LinkedList<Comentario> getComentarios() {
         if (comentarios == null) {
-            comentarios = new ArrayList<>();
+            comentarios = new LinkedList<>();
         }
         return comentarios;
     }
 
-    public void setComentarios(List<Comentario> comentarios) {
+    public void setComentarios(LinkedList<Comentario> comentarios) {
         this.comentarios = comentarios;
     }
 

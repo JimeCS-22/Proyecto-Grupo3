@@ -4,13 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.LinkedList;
+
 
 /**
  * CRUD de cursos usando JSON
@@ -95,9 +97,9 @@ public class CourseData {
     /**
      * READ ALL
      */
-    public ArrayList<Course> getAllCourses() {
+    public LinkedList<Course> getAllCourses() {
 
-        return new ArrayList<>(courses);
+        return courses;
     }
 
     /**
@@ -107,7 +109,7 @@ public class CourseData {
 
         Course courseToReturn = null;
 
-        for (Course course : courses) {
+        for (Course course : courses.toList()) {
 
             if (course.getId().equalsIgnoreCase(id)) {
 
@@ -121,13 +123,13 @@ public class CourseData {
     /**
      * UPDATE
      */
-    public boolean updateCourse(Course updatedCourse) {
+    public boolean updateCourse(Course updatedCourse) throws ListException {
 
         for (int i = 0; i < courses.size(); i++) {
 
             if (courses.get(i).getId().equalsIgnoreCase(updatedCourse.getId())) {
 
-                courses.set(i, updatedCourse);
+                courses.add(i, updatedCourse);
 
                 saveCourses();
 
@@ -141,7 +143,7 @@ public class CourseData {
     /**
      * DELETE
      */
-    public boolean removeCourse(String id) {
+    public boolean removeCourse(String id) throws ListException {
 
         Course course = findCourseById(id);
 
@@ -160,7 +162,7 @@ public class CourseData {
     /**
      * Cantidad de cursos
      */
-    public int getCoursesCount() {
+    public int getCoursesCount() throws ListException {
 
         return courses.size();
     }

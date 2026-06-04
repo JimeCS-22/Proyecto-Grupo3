@@ -2,6 +2,8 @@ package cr.ac.ucr.sga.model.structures.lists;
 
 import cr.ac.ucr.sga.model.Node;
 
+import java.util.ArrayList;
+
 public class DoublyLinkedList<T> implements List<T> {
 
     private Node<T> head;//Inicio de la lista
@@ -392,5 +394,16 @@ public class DoublyLinkedList<T> implements List<T> {
             pos++;
         }
         return null;
+    }
+    public ArrayList<T> toList() {
+        ArrayList<T> arrayList = new ArrayList<>();
+        Node<T> aux = head;
+
+        while (aux != null) {
+            arrayList.add(aux.data);
+            aux = aux.next; // seguimos avanzando hacia adelante
+        }
+
+        return arrayList;
     }
 }

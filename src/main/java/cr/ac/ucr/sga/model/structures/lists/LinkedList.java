@@ -2,6 +2,10 @@ package cr.ac.ucr.sga.model.structures.lists;
 
 import cr.ac.ucr.sga.model.Node;
 
+import java.util.ArrayList;
+
+
+
 public class LinkedList<T> implements List<T> {
 
     private Node<T> head; //Inicio de la lista
@@ -58,6 +62,45 @@ public class LinkedList<T> implements List<T> {
             tail = node;
         }
     }
+
+    //agregar a la lista en una cierta posición (index)
+    public void add(int index, T element) throws ListException {
+        int size= size();
+
+        if (index < 0 || index > size) {
+            throw new ListException("Index out of bounds");
+        }
+
+        Node<T> node = new Node<>(element);
+
+        // Caso 1: lista vacía
+        if (head == null) {
+            head = node;
+            tail = node;
+        }
+        // Caso 2: insertar al inicio
+        else if (index == 0) {
+            node.next = head;
+            head = node;
+        }
+        // Caso 3: insertar al final
+        else if (index == size) {
+            tail.next = node;
+            tail = node;
+        }
+        // Caso 4: insertar en la posición index
+        else {
+            Node<T> prev = head;
+            for (int i = 0; i < index - 1; i++) {
+                prev = prev.next;
+            }
+            node.next = prev.next;
+            prev.next = node;
+        }
+
+        size ++;
+    }
+
 
     @Override
     public void addFirst(T element) {
@@ -337,5 +380,18 @@ public class LinkedList<T> implements List<T> {
             pos++;
         }
         return null;
+    }
+    //-----------AYUDAS-----------
+    //para la manipulación se pasa la LinkedList propia a la Lista de java para usar en los componentes gráficos más fácilmente
+    public ArrayList<T> toList() {
+        ArrayList<T> arrayList = new ArrayList<>();
+        Node<T> aux = head;
+
+        while (aux != null) {
+            arrayList.add(aux.data);
+            aux = aux.next;
+        }
+
+        return arrayList;
     }
 }

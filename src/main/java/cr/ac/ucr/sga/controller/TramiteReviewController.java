@@ -4,6 +4,7 @@ import cr.ac.ucr.sga.model.data.TramiteData;
 import cr.ac.ucr.sga.model.data.TramiteDetailsData;
 import cr.ac.ucr.sga.model.entities.Tramite;
 import cr.ac.ucr.sga.model.services.NotificationService;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import cr.ac.ucr.sga.model.structures.stacks.LinkedStack;
 import cr.ac.ucr.sga.model.structures.stacks.StackException;
 import javafx.beans.property.SimpleStringProperty;
@@ -55,7 +56,11 @@ public class TramiteReviewController implements Initializable {
         setupTableColumns();
 
         // ✅ CARGAR TRAMITES DEL JSON
-        cargarTramitesDelJSON();
+        try {
+            cargarTramitesDelJSON();
+        } catch (ListException e) {
+            throw new RuntimeException(e);
+        }
 
         // Configurar botones
         btnProcesar.setOnAction(e -> procesarTramiteMasReciente());
@@ -117,8 +122,8 @@ public class TramiteReviewController implements Initializable {
     // =========================
     // CARGAR TRAMITES DEL JSON
     // =========================
-    private void cargarTramitesDelJSON() {
-        List<Tramite> tramitesPendientes = tramiteData.getTramitesPendientes();
+    private void cargarTramitesDelJSON() throws ListException {
+        List<Tramite> tramitesPendientes = tramiteData.getTramitesPendientes().toList();
 
         // Agregar a la pila en ORDEN INVERSO (para LIFO correcto)
         for (int i = tramitesPendientes.size() - 1; i >= 0; i--) {

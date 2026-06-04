@@ -8,6 +8,7 @@ import cr.ac.ucr.sga.model.entities.AcademicRecord;
 import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.MatriculaAprobada;
 import cr.ac.ucr.sga.model.entities.Student;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import cr.ac.ucr.sga.model.structures.queues.PriorityLinkedQueue;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -127,7 +128,13 @@ public class EnrollmentController implements Initializable {
         if (btnAgregarCurso != null) btnAgregarCurso.setOnAction(e -> agregarCursoAMatricular());
         if (btnQuitarCurso != null) btnQuitarCurso.setOnAction(e -> quitarCursoDeMatricula());
         if (btnMatricular != null) btnMatricular.setOnAction(e -> matricular());
-        if (btnNegar != null) btnNegar.setOnAction(e -> negar());
+        if (btnNegar != null) btnNegar.setOnAction(e -> {
+            try {
+                negar();
+            } catch (ListException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     // =========================
@@ -326,7 +333,7 @@ public class EnrollmentController implements Initializable {
     // NEGAR matrícula aprobada
     // =========================
     @FXML
-    private void negar() {
+    private void negar() throws ListException {
         if (matriculaActual == null) {
             showAlert(Alert.AlertType.WARNING, "Sin matrícula", "No hay matrícula aprobada para negar");
             return;
