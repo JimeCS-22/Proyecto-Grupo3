@@ -16,8 +16,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Usa un DTO para serializar y deserializar listas nativas.
@@ -39,11 +37,11 @@ public class AcademicRecordData {
 
     private LinkedList<AcademicRecord> loadRecords() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
-            Type listType = new TypeToken<ArrayList<AcademicRecordDTO>>() {}.getType();
-            ArrayList<AcademicRecordDTO> temp = gson.fromJson(reader, listType);
+            Type listType = new TypeToken<LinkedList<AcademicRecordDTO>>() {}.getType();
+            LinkedList<AcademicRecordDTO> temp = gson.fromJson(reader, listType);
             LinkedList<AcademicRecord> list = new LinkedList<>();
             if (temp != null) {
-                for (AcademicRecordDTO dto : temp) {
+                for (AcademicRecordDTO dto : temp.toList()) {
                     AcademicRecord record = new AcademicRecord(dto.getStudent());
                     record.setCoursesFromList(dto.getCourses());
                     list.add(record);
@@ -59,7 +57,7 @@ public class AcademicRecordData {
     private void saveRecords() {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
 
-            ArrayList<AcademicRecordDTO> temp = new ArrayList<>();
+            LinkedList<AcademicRecordDTO> temp = new LinkedList<>();
 
             int size = records.size();
             System.out.println("SIZE records = " + size);

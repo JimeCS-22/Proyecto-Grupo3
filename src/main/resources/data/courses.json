@@ -1,20 +1,44 @@
-{
-  "head": {
-    "data": {
-      "id": "001",
-      "name": "Matematicas",
-      "credits": 4,
-      "grade": 0.0,
-      "status": "Activo"
-    }
+[
+  {
+    "id": "IF0005",
+    "name": "MATEMÁTICAS DISCRETAS PARA INFORMÁTICA EMPRESARIAL",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo"
   },
-  "tail": {
-    "data": {
-      "id": "001",
-      "name": "Matematicas",
-      "credits": 4,
-      "grade": 0.0,
-      "status": "Activo"
-    }
+  {
+    "id": "EG-I",
+    "name": "CURSO INTEGRADO DE HUMANIDADES I",
+    "credits": 6,
+    "grade": 0.0,
+    "status": "Activo"
+  },
+  {
+    "id": "002",
+    "name": "CÁLCULO I PARA INFORMÁTICA EMPRESARIAL",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo"
+  },
+  {
+    "id": "IF0001",
+    "name": "DESARROLLO DE SOFTWARE I",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo"
+  },
+  {
+    "id": "IF0002",
+    "name": "INTRODUCCIÓN A LA INFORMÁTICA EMPRESARIAL",
+    "credits": 3,
+    "grade": 0.0,
+    "status": "Activo"
+  },
+  {
+    "id": "IF0003",
+    "name": "MATEMÁTICA BÁSICA PARA INFORMÁTICA EMPRESARIAL",
+    "credits": 3,
+    "grade": 0.0,
+    "status": "Activo"
   }
-}
+]

@@ -369,7 +369,7 @@ public class EnrollmentController implements Initializable {
         try {
             enrollmentQueue.clear();
             int size = studentData.getAllStudents().size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 1; i < size; i++) {
                 Student student = studentData.getAllStudents().get(i);
                 int totalCredits = calculateTotalCredits(student);
                 System.out.println("Alumno " + student.getName() + " créditos = " + totalCredits); // debug

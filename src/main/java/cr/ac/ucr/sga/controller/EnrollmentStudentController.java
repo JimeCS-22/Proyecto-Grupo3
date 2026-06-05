@@ -101,7 +101,7 @@ public class EnrollmentStudentController implements Initializable {
             if (cmbCourses == null) return;
             cmbCourses.getItems().clear();
             int size = courseData.getAllCourses().size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 1; i < size; i++) {
                 cmbCourses.getItems().add(courseData.getAllCourses().get(i));
             }
         } catch (Exception e) {
@@ -291,7 +291,7 @@ public class EnrollmentStudentController implements Initializable {
         try {
             enrollmentQueue.clear();
             int size = studentData.getAllStudents().size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 1; i < size; i++) {
                 Student student = studentData.getAllStudents().get(i);
                 int totalCredits = calculateTotalCredits(student);
                 System.out.println("Alumno " + student.getName() + " créditos = " + totalCredits); // debug

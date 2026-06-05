@@ -1,12 +1,15 @@
 package cr.ac.ucr.sga.model.entities;
 
+import com.google.gson.annotations.Expose;
+
 public class Course {
 
+    @Expose
     private String id;
-    private String name;
-    private int credits;
-    private double grade;
-    private String status;
+    @Expose private String name;
+    @Expose private int credits;
+    @Expose private double grade;
+    @Expose private String status;
 
     public Course(String id, String name, int credits, double grade, String status) {
         this.id = id;

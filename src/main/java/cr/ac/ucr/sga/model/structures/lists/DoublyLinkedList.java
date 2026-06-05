@@ -74,6 +74,51 @@ public class DoublyLinkedList<T> implements List<T> {
          }
 
     }
+    //agregar a la lista en una cierta posición (index)
+    public void add(int index, T element) throws ListException {
+        int size = size();
+
+        if (index < 0 || index > size) {
+            throw new ListException("Index out of bounds");
+        }
+
+        Node<T> node = new Node<>(element);
+
+        // Caso 1: lista vacía
+        if (head == null) {
+            head = node;
+            tail = node;
+        }
+        // Caso 2: insertar al inicio
+        else if (index == 0) {
+            node.next = head;
+            head.prev = node;
+            head = node;
+        }
+        // Caso 3: insertar al final
+        else if (index == size) {
+            tail.next = node;
+            node.prev = tail;
+            tail = node;
+        }
+        // Caso 4: insertar en medio
+        else {
+            Node<T> prev = head;
+            for (int i = 0; i < index - 1; i++) {
+                prev = prev.next;
+            }
+            Node<T> nextNode = prev.next;
+
+            // conectar nuevo nodo entre prev y nextNode
+            node.next = nextNode;
+            node.prev = prev;
+            prev.next = node;
+            nextNode.prev = node;
+        }
+
+        size++;
+    }
+
 
     @Override
     public void addFirst(T element) {

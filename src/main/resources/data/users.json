@@ -22,6 +22,13 @@
             "username": "jime.calvo",
             "password": "1234",
             "role": "STUDENT"
+          },
+          "next": {
+            "data": {
+              "username": "alex.leon",
+              "password": "1234",
+              "role": "STUDENT"
+            }
           }
         }
       }
@@ -29,7 +36,7 @@
   },
   "tail": {
     "data": {
-      "username": "jime.calvo",
+      "username": "alex.leon",
       "password": "1234",
       "role": "STUDENT"
     }

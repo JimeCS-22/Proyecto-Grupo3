@@ -71,11 +71,9 @@ public class StudentController implements Initializable {
     @FXML
     private Label lblCount;
 
-    private final StudentData studentData =
-            new StudentData();
+    private final StudentData studentData = new StudentData();
 
-    private final UserData userData =
-            new UserData();
+    private final UserData userData = new UserData();
 
     private final ObservableList<Student> studentList =
             FXCollections.observableArrayList();
