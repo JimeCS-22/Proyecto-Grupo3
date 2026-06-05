@@ -92,7 +92,9 @@
                     </VBox>
                 </content>
             </Tab>
-
+            <Tab fx:id="treeCoursesTab" text="Árbol Prerrequisitos" closable="false">
+                <fx:include source="tree-courses-view.fxml"/>
+            </Tab>
         </TabPane>
     </center>
 

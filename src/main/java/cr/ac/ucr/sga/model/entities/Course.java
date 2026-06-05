@@ -2,7 +2,7 @@ package cr.ac.ucr.sga.model.entities;
 
 import com.google.gson.annotations.Expose;
 
-public class Course {
+public class Course implements Comparable<Course> {
 
     @Expose
     private String id;
