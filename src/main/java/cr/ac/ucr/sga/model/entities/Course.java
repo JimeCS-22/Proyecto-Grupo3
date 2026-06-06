@@ -50,8 +50,15 @@ public class Course implements Comparable<Course> {
 
     @Override
     public String toString() {
-        return String.format("%s [ID: %s, Créditos: %d, Nota: %.1f, Estado: %s]",
-                name, id, credits, grade, status);
+      //  return String.format("%s [ID: %s, Créditos: %d, Nota: %.1f, Estado: %s]",name, id, credits, grade, status);
+        return name + " [ID: " + id + "]";
+    }
+
+  
+
+    @Override
+    public int compareTo(Course o) {
+        return this.id.compareToIgnoreCase(o.id);
     }
 
     // Clase interna de Builder

@@ -30,4 +30,9 @@ public class Career {
     public void setTotalCredits(int totalCredits) {
         this.totalCredits = totalCredits;
     }
+
+    @Override
+    public String toString() {
+        return  name ;
+    }
 }

@@ -1,13 +1,14 @@
-[
-  {
-    "tramiteId": "TRM-20260603-001",
-    "comentarios": [
-      {
-        "autor": "Admin",
-        "contenido": "Cita el lunes a las 10",
-        "fecha": "2026-06-03T15:01:41",
-        "tipo": "RECORDATORIO"
-      }
-    ]
+{
+  "head": {
+    "data": {
+      "tramiteId": "TRM-20260605-001",
+      "comentarios": {}
+    }
+  },
+  "tail": {
+    "data": {
+      "tramiteId": "TRM-20260605-001",
+      "comentarios": {}
+    }
   }
-]
+}

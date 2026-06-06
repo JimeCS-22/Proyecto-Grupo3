@@ -18,6 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -65,10 +66,10 @@ public class TreeCoursesController  implements Initializable {
             career.setCourses(courseData.getAllCourses());
             if (cbCarrera == null) return;
             cbCarrera.getItems().clear();
-            int size = courseData.getAllCourses().size();
-            for (int i = 1; i < size; i++) {
-                cbCarrera.getItems().add(career);
-            }
+            //int size = courseData.getAllCourses().size();
+            buildAVLFromCareer(career);
+            cbCarrera.getItems().add(career);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,6 +82,7 @@ public class TreeCoursesController  implements Initializable {
             } else {
                 showAlert("Error", "Debe seleccionar una carrera");
             }
+            playTours();
         } catch (Exception ex) {
             showAlert("Error", "No se pudo construir el árbol");
         }
@@ -100,26 +102,27 @@ public class TreeCoursesController  implements Initializable {
         gc.clearRect(0, 0, treeCoursesCanvas.getWidth(), treeCoursesCanvas.getHeight());
     }
 
-    private void playTours() throws ListException, TreeException {
+    private void playTours() throws TreeException {
         String tour = cbTours.getSelectionModel().getSelectedItem();
-        List<Course> recorrido = null;
+        String recorridoStr = "";
 
         switch (tour) {
             case "PreOrder":
-                recorrido = avl.preOrder();
+                recorridoStr = avl.preOrder();
+                System.out.println(avl.preOrder());
                 break;
             case "InOrder":
-                recorrido = avl.inOrder();
+                recorridoStr = avl.inOrder();
                 break;
             case "PostOrder":
-                recorrido = avl.postOrder();
+                recorridoStr = avl.postOrder();
                 break;
         }
 
-        if (recorrido != null) {
-            animateTraversal(recorrido);
-        }
+        List<String> recorrido = Arrays.asList(recorridoStr.split(", "));
+        animateTraversal(recorrido);
     }
+
 
 
 
@@ -131,7 +134,6 @@ public class TreeCoursesController  implements Initializable {
 
         // avl tree
         if (avl.root != null) {// si hay raiz entonces permite llamar metodo drawBTreeNodes
-            // getWidth()/2 para que se centrara el arbol
             if (tree.root.equals(avl.root)) {
                 drawTreeNode(treeGraphic, avl.root, treeCoursesCanvas.getWidth() / 2, 40, treeCoursesCanvas.getWidth() / 4,tree, true);
             }else{
@@ -153,26 +155,26 @@ public class TreeCoursesController  implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private void animateTraversal(List<Course> recorrido) {
+    private void animateTraversal(List<String> recorrido) {
         Timeline timeline = new Timeline();
-        int delay = 800; // milisegundos entre cada paso
+        int delay = 800; // milisegundos entre pasos
         GraphicsContext gc = treeCoursesCanvas.getGraphicsContext2D();
 
         for (int i = 0; i < recorrido.size(); i++) {
-            Course course = recorrido.get(i);
+            String courseId = recorrido.get(i);
             KeyFrame frame = new KeyFrame(
                     Duration.millis(i * delay),
                     e -> {
-                        // Limpia y dibuja el árbol
-                        drawAVL(avl);
-                        // Resalta el nodo actual
-                        gc.setFill(javafx.scene.paint.Color.RED);
-                        gc.fillText(">> " + course.getId(), 20, 20);
+                        drawAVL(avl); // redibuja el árbol
+                        // dibujar un círculo rojo alrededor, o cambiar el color.
+                        gc.setFill(javafx.scene.paint.Color.RED);  // resalta el nodo actual
+                        gc.fillText("Visitando: " + courseId, 20, 20);
                     }
             );
             timeline.getKeyFrames().add(frame);
         }
         timeline.play();
     }
+
 
 }
