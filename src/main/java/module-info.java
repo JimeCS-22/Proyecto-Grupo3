@@ -22,4 +22,5 @@ module cr.ac.ucr.sga {
     exports util;
     exports cr.ac.ucr.sga.controller;
     exports cr.ac.ucr.sga;
+    opens cr.ac.ucr.sga.graphics to com.google.gson, javafx.base;
 }

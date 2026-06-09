@@ -1,5 +1,8 @@
 package cr.ac.ucr.sga.model.structures.trees;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BTreeNode<T> {
 
         public T data;
@@ -21,4 +24,5 @@ public class BTreeNode<T> {
         this.path = path;
         this.left = right = null;
     }
+
 }

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cr.ac.ucr.sga.controller.TreeVisualizerController">
+
+    <!-- TÍTULO -->
+    <top>
+
+        <VBox spacing="10" style="-fx-padding:15;">
+
+            <Label text="Visualizador de Árboles de Cursos"
+                   style="-fx-font-size:24px; -fx-font-weight:bold;"/>
+
+            <HBox spacing="10">
+
+                <Label text="Tipo de Árbol:"/>
+
+                <ComboBox fx:id="treeTypeCombo"
+                          onAction="#onTreeTypeChanged"
+                          prefWidth="180"/>
+
+                <Label text="Buscar:"/>
+
+                <TextField fx:id="searchField"
+                           promptText="Código del curso"/>
+
+                <Button text="Buscar"
+                        onAction="#onSearchCourse"/>
+
+            </HBox>
+
+        </VBox>
+
+    </top>
+
+    <!-- PANEL IZQUIERDO -->
+    <left>
+
+        <VBox spacing="10"
+              prefWidth="220"
+              style="-fx-padding:10;">
+
+            <Label text="Recorridos"
+                   style="-fx-font-size:18px;"/>
+
+            <Button text="InOrden"
+                    onAction="#onInOrder"
+                    maxWidth="Infinity"/>
+
+            <Button text="PreOrden"
+                    onAction="#onPreOrder"
+                    maxWidth="Infinity"/>
+
+            <Button text="PostOrden"
+                    onAction="#onPostOrder"
+                    maxWidth="Infinity"/>
+
+            <Separator/>
+
+            <Label text="Animaciones"/>
+
+            <Button text="Buscar Animado"
+                    onAction="#onAnimatedSearch"
+                    maxWidth="Infinity"/>
+
+            <Button text="Mostrar AVL"
+                    onAction="#onShowAVLInfo"
+                    maxWidth="Infinity"/>
+
+        </VBox>
+
+    </left>
+
+    <!-- ÁRBOL -->
+    <center>
+
+        <ScrollPane fitToHeight="true"
+                    fitToWidth="true">
+
+            <Canvas fx:id="treeCanvas"
+                    width="2000"
+                    height="1500"/>
+
+        </ScrollPane>
+
+    </center>
+
+    <!-- PANEL DERECHO -->
+    <right>
+
+        <VBox spacing="15"
+              prefWidth="280"
+              style="-fx-padding:10;">
+
+            <Label text="Información del Curso"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <Separator/>
+
+            <Label text="Código"/>
+            <Label fx:id="courseId"/>
+
+            <Label text="Nombre"/>
+            <Label fx:id="courseName"/>
+
+            <Label text="Créditos"/>
+            <Label fx:id="courseCredits"/>
+
+            <Label text="Estado"/>
+            <Label fx:id="courseStatus"/>
+
+            <Separator/>
+
+            <Label text="Estadísticas"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <Label fx:id="lblNodes"/>
+
+            <Label fx:id="lblHeight"/>
+
+        </VBox>
+
+    </right>
+
+    <!-- PARTE INFERIOR -->
+    <bottom>
+
+        <VBox spacing="10"
+              style="-fx-padding:10;">
+
+            <Label text="Resultado"/>
+
+            <TextArea fx:id="resultArea"
+                      prefRowCount="4"
+                      editable="false"/>
+
+        </VBox>
+
+    </bottom>
+
+</BorderPane>

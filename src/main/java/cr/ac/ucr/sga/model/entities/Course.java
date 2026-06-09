@@ -117,4 +117,28 @@ public class Course implements Comparable<Course> {
             return name;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(this == obj)
+            return true;
+
+        if(obj == null ||
+                getClass() != obj.getClass())
+            return false;
+
+        Course other =
+                (Course) obj;
+
+        return id.equalsIgnoreCase(
+                other.id
+        );
+    }
+
+    @Override
+    public int hashCode() {
+
+        return id.toLowerCase().hashCode();
+    }
 }

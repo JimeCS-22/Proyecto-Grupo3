@@ -1,8 +1,6 @@
 package cr.ac.ucr.sga.model.structures.trees;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
 public class BTree<T extends Comparable<T>> implements Tree<T> {
     public BTreeNode<T> root; //representa la unica entrada al árbol
@@ -364,9 +362,110 @@ public class BTree<T extends Comparable<T>> implements Tree<T> {
         }
     }
 
+    public List<BTreeNode<T>>
+    getInOrderNodes(){
 
+        List<BTreeNode<T>> nodes =
+                new ArrayList<>();
 
+        getInOrderNodes(
+                root,
+                nodes
+        );
 
+        return nodes;
+    }
 
+    private void getInOrderNodes(
+            BTreeNode<T> node,
+            List<BTreeNode<T>> nodes
+    ){
 
+        if(node == null)
+            return;
+
+        getInOrderNodes(
+                node.left,
+                nodes
+        );
+
+        nodes.add(node);
+
+        getInOrderNodes(
+                node.right,
+                nodes
+        );
+    }
+
+    public List<BTreeNode<T>>
+    getPreOrderNodes(){
+
+        List<BTreeNode<T>> nodes =
+                new ArrayList<>();
+
+        getPreOrderNodes(
+                root,
+                nodes
+        );
+
+        return nodes;
+    }
+
+    private void getPreOrderNodes(
+            BTreeNode<T> node,
+            List<BTreeNode<T>> nodes
+    ){
+
+        if(node == null)
+            return;
+
+        nodes.add(node);
+
+        getPreOrderNodes(
+                node.left,
+                nodes
+        );
+
+        getPreOrderNodes(
+                node.right,
+                nodes
+        );
+    }
+
+    public List<BTreeNode<T>>
+    getPostOrderNodes(){
+
+        List<BTreeNode<T>> nodes =
+                new ArrayList<>();
+
+        getPostOrderNodes(
+                root,
+                nodes
+        );
+
+        return nodes;
+    }
+    private void getPostOrderNodes(
+            BTreeNode<T> node,
+            List<BTreeNode<T>> nodes
+    ){
+
+        if(node == null)
+            return;
+
+        getPostOrderNodes(
+                node.left,
+                nodes
+        );
+
+        getPostOrderNodes(
+                node.right,
+                nodes
+        );
+
+        nodes.add(node);
+    }
+    public BTreeNode<T> getRoot() {
+        return root;
+    }
 }

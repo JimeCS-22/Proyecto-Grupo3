@@ -1,5 +1,9 @@
 package cr.ac.ucr.sga.model.structures.trees;
 
+import javafx.animation.Timeline;
+
+import java.util.List;
+
 public class BST<T extends Comparable<T>> extends BTree<T> {
 
     @Override
@@ -123,4 +127,44 @@ public class BST<T extends Comparable<T>> extends BTree<T> {
         }
         return result;
     }
+
+    //Uso para la parte grafica
+    public List<BTreeNode<T>>
+    getSearchPath(T element){
+        return null;
+    }
+
+    private void getSearchPath(
+            BTreeNode<T> node,
+            T element,
+            List<BTreeNode<T>> path){
+
+        if(node == null)
+            return;
+
+        path.add(node);
+
+        if(node.data.equals(element))
+            return;
+
+        if(compareElement(
+                element,
+                node.data) < 0){
+
+            getSearchPath(
+                    node.left,
+                    element,
+                    path
+            );
+        }
+        else{
+
+            getSearchPath(
+                    node.right,
+                    element,
+                    path
+            );
+        }
+    }
+
 }

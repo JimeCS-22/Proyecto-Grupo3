@@ -93,7 +93,7 @@
                 </content>
             </Tab>
             <Tab fx:id="treeCoursesTab" text="Árbol Prerrequisitos" closable="false">
-                <fx:include source="tree-courses-view.fxml"/>
+                <fx:include source="Tree.fxml"/>
             </Tab>
         </TabPane>
     </center>
