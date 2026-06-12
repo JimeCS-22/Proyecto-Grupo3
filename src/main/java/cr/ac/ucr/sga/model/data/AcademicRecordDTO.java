@@ -1,28 +1,46 @@
 package cr.ac.ucr.sga.model.data;
 
-import cr.ac.ucr.sga.model.entities.Student;
-import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.AcademicRecord;
-import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
-import cr.ac.ucr.sga.model.structures.lists.LinkedList;
-
+import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.entities.Student;
 
 public class AcademicRecordDTO {
-    public Student student;
-    public DoublyLinkedList<Course> courses;
 
-    public AcademicRecordDTO() {}
+    private Student student;
+    private Course[] courses;
+
+    public AcademicRecordDTO() {
+    }
 
     public AcademicRecordDTO(AcademicRecord record) {
+
         this.student = record.getStudent();
-        this.courses = record.getCourses();
+
+        try {
+
+            int size = record.getCourses().size();
+
+            this.courses = new Course[size];
+
+            for (int i = 1; i <= size; i++) {
+
+                courses[i - 1] =
+                        record.getCourses().get(i);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            this.courses = new Course[0];
+        }
     }
 
     public Student getStudent() {
         return student;
     }
 
-    public DoublyLinkedList<Course> getCourses() {
+    public Course[] getCourses() {
         return courses;
     }
 
@@ -30,7 +48,7 @@ public class AcademicRecordDTO {
         this.student = student;
     }
 
-    public void setCourses(DoublyLinkedList<Course> courses) {
+    public void setCourses(Course[] courses) {
         this.courses = courses;
     }
 }

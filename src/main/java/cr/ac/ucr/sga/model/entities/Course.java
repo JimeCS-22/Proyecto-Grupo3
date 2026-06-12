@@ -1,15 +1,35 @@
 package cr.ac.ucr.sga.model.entities;
 
 import com.google.gson.annotations.Expose;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Course implements Comparable<Course> {
 
     @Expose
     private String id;
-    @Expose private String name;
-    @Expose private int credits;
-    @Expose private double grade;
-    @Expose private String status;
+    @Expose
+    private String name;
+    @Expose
+    private int credits;
+    @Expose
+    private double grade;
+    @Expose
+    private String status;
+
+    // =========================
+    // NUEVOS CAMPOS
+    // =========================
+    @Expose
+    private int semestre; // 1-8 (semestre académico)
+    @Expose
+    private List<String> prerequisitosIds; // IDs de cursos prerequisito
+    @Expose
+    private List<String> corequisitosIds;  // IDs de cursos corequisito
+
+    // =========================
+    // CONSTRUCTORES
+    // =========================
 
     public Course(String id, String name, int credits, double grade, String status) {
         this.id = id;
@@ -17,16 +37,30 @@ public class Course implements Comparable<Course> {
         this.credits = credits;
         this.grade = grade;
         this.status = status;
+        this.semestre = 1;
+        this.prerequisitosIds = new ArrayList<>();
+        this.corequisitosIds = new ArrayList<>();
     }
+
     public Course(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.credits = builder.credits;
         this.grade = builder.grade;
         this.status = builder.status;
+        this.semestre = builder.semestre;
+        this.prerequisitosIds = builder.prerequisitosIds != null ? builder.prerequisitosIds : new ArrayList<>();
+        this.corequisitosIds = builder.corequisitosIds != null ? builder.corequisitosIds : new ArrayList<>();
     }
+
     public Course() {
+        this.prerequisitosIds = new ArrayList<>();
+        this.corequisitosIds = new ArrayList<>();
     }
+
+    // =========================
+    // GETTERS
+    // =========================
 
     public String getId() {
         return id;
@@ -48,20 +82,114 @@ public class Course implements Comparable<Course> {
         return status;
     }
 
+    public int getSemestre() {
+        return semestre;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+
+    public List<String> getPrerequisitosIds() {
+        return prerequisitosIds;
+    }
+
+    public void setPrerequisitosIds(List<String> ids) {
+        this.prerequisitosIds = ids;
+    }
+
+    public void addPrerequisito(String courseId) {
+        if (!this.prerequisitosIds.contains(courseId)) {
+            this.prerequisitosIds.add(courseId);
+        }
+    }
+
+    public void removePrerequisito(String courseId) {
+        this.prerequisitosIds.remove(courseId);
+    }
+
+    public List<String> getCorequisitosIds() {
+        return corequisitosIds;
+    }
+
+    public void setCorequisitosIds(List<String> ids) {
+        this.corequisitosIds = ids;
+    }
+
+    public void addCorequisito(String courseId) {
+        if (!this.corequisitosIds.contains(courseId)) {
+            this.corequisitosIds.add(courseId);
+        }
+    }
+
+    public void removeCorequisito(String courseId) {
+        this.corequisitosIds.remove(courseId);
+    }
+
+    // =========================
+    // TO STRING
+    // =========================
+
     @Override
     public String toString() {
-      //  return String.format("%s [ID: %s, Créditos: %d, Nota: %.1f, Estado: %s]",name, id, credits, grade, status);
         return name + " [ID: " + id + "]";
     }
 
-  
+    // =========================
+    // COMPARABLE
+    // =========================
 
     @Override
     public int compareTo(Course o) {
         return this.id.compareToIgnoreCase(o.id);
     }
 
-    // Clase interna de Builder
+    // =========================
+    // EQUALS Y HASHCODE
+    // =========================
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+
+        if(obj == null || getClass() != obj.getClass())
+            return false;
+
+        Course other = (Course) obj;
+
+        return id.equalsIgnoreCase(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.toLowerCase().hashCode();
+    }
+
+    // =========================
+    // BUILDER
+    // =========================
+
     public static class Builder {
 
         private String id;
@@ -69,6 +197,9 @@ public class Course implements Comparable<Course> {
         private int credits;
         private double grade;
         private String status;
+        private int semestre = 1;
+        private List<String> prerequisitosIds;
+        private List<String> corequisitosIds;
 
         public Builder setId(String id) {
             this.id = id;
@@ -95,8 +226,38 @@ public class Course implements Comparable<Course> {
             return this;
         }
 
-        public Course build() {
+        public Builder setSemestre(int semestre) {
+            this.semestre = semestre;
+            return this;
+        }
 
+        public Builder setPrerequisitosIds(List<String> ids) {
+            this.prerequisitosIds = ids;
+            return this;
+        }
+
+        public Builder setCorequisitosIds(List<String> ids) {
+            this.corequisitosIds = ids;
+            return this;
+        }
+
+        public Builder addPrerequisito(String courseId) {
+            if (this.prerequisitosIds == null) {
+                this.prerequisitosIds = new ArrayList<>();
+            }
+            this.prerequisitosIds.add(courseId);
+            return this;
+        }
+
+        public Builder addCorequisito(String courseId) {
+            if (this.corequisitosIds == null) {
+                this.corequisitosIds = new ArrayList<>();
+            }
+            this.corequisitosIds.add(courseId);
+            return this;
+        }
+
+        public Course build() {
             if (id == null || id.isBlank()) {
                 throw new IllegalArgumentException("El ID no puede estar vacío");
             }
@@ -116,29 +277,5 @@ public class Course implements Comparable<Course> {
         public String toString() {
             return name;
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-
-        if(this == obj)
-            return true;
-
-        if(obj == null ||
-                getClass() != obj.getClass())
-            return false;
-
-        Course other =
-                (Course) obj;
-
-        return id.equalsIgnoreCase(
-                other.id
-        );
-    }
-
-    @Override
-    public int hashCode() {
-
-        return id.toLowerCase().hashCode();
     }
 }

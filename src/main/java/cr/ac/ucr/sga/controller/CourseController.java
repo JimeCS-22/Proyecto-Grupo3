@@ -6,6 +6,8 @@ import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CourseController implements Initializable {
@@ -39,6 +43,27 @@ public class CourseController implements Initializable {
     @FXML
     private ComboBox<String> cmbStatus;
 
+    @FXML
+    private Spinner<Integer> spnSemestre;
+
+    @FXML
+    private ComboBox<Course> cmbPrerequisitos;
+
+    @FXML
+    private Button btnAgregarPrerequisito;
+
+    @FXML
+    private ListView<String> lstPrerequisitos;
+
+    @FXML
+    private ComboBox<Course> cmbCorequisitos;
+
+    @FXML
+    private Button btnAgregarCorequisito;
+
+    @FXML
+    private ListView<String> lstCorequisitos;
+
     // BOTONES
     @FXML
     private Button btnAdd;
@@ -56,15 +81,19 @@ public class CourseController implements Initializable {
     // DATA
     // =========================
 
-    private final CourseData courseData =
-            new CourseData();
+    private final CourseData courseData = new CourseData();
 
-    private final AcademicRecordData recordData =
-            new AcademicRecordData();
+    private final AcademicRecordData recordData = new AcademicRecordData();
 
     private Course selectedCourse;
 
     private MainController mainController;
+
+    // =========================
+    // LISTAS OBSERVABLES PARA REQUISITOS
+    // =========================
+    private final ObservableList<String> prerequisitosSeleccionados = FXCollections.observableArrayList();
+    private final ObservableList<String> corequisitosSeleccionados = FXCollections.observableArrayList();
 
     // =========================
     // INITIALIZE
@@ -76,12 +105,36 @@ public class CourseController implements Initializable {
             ResourceBundle resourceBundle
     ) {
 
+        // Configurar ComboBox de estado
         if (cmbStatus != null) {
-
             cmbStatus.getItems().addAll(
                     "Activo",
                     "Inactivo"
             );
+        }
+
+        if (spnSemestre != null) {
+            spnSemestre.setValueFactory(
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, 1)
+            );
+        }
+
+        // Configurar ListViews para requisitos
+        if (lstPrerequisitos != null) {
+            lstPrerequisitos.setItems(prerequisitosSeleccionados);
+        }
+
+        if (lstCorequisitos != null) {
+            lstCorequisitos.setItems(corequisitosSeleccionados);
+        }
+
+        // Botones de agregar requisitos
+        if (btnAgregarPrerequisito != null) {
+            btnAgregarPrerequisito.setOnAction(e -> agregarPrerequisito());
+        }
+
+        if (btnAgregarCorequisito != null) {
+            btnAgregarCorequisito.setOnAction(e -> agregarCorequisito());
         }
     }
 
@@ -134,6 +187,9 @@ public class CourseController implements Initializable {
 
             e.printStackTrace();
         }
+
+        // Actualizar combos de requisitos
+        actualizarCombosRequisitos();
     }
 
     // =========================
@@ -228,59 +284,205 @@ public class CourseController implements Initializable {
         btnUpdate.setVisible(false);
         btnDelete.setVisible(false);
         btnClear.setVisible(false);
+
+        // Ocultar también los campos de requisitos
+        if (spnSemestre != null) spnSemestre.setVisible(false);
+        if (cmbPrerequisitos != null) cmbPrerequisitos.setVisible(false);
+        if (btnAgregarPrerequisito != null) btnAgregarPrerequisito.setVisible(false);
+        if (lstPrerequisitos != null) lstPrerequisitos.setVisible(false);
+        if (cmbCorequisitos != null) cmbCorequisitos.setVisible(false);
+        if (btnAgregarCorequisito != null) btnAgregarCorequisito.setVisible(false);
+        if (lstCorequisitos != null) lstCorequisitos.setVisible(false);
     }
 
     // =========================
-    // ADD COURSE
+    // ACTUALIZAR COMBOS DE REQUISITOS
     // =========================
+    private void actualizarCombosRequisitos() {
+        try {
+            List<Course> todos = courseData.getAllCourses().toList();
+            ObservableList<Course> cursos = FXCollections.observableArrayList(todos);
 
+            // =========================
+            // CONFIGURAR COMBOBOX PRE-REQUISITOS
+            // =========================
+            if (cmbPrerequisitos != null) {
+                // Agregar opción vacía al inicio
+                ObservableList<Course> cursosConVacio = FXCollections.observableArrayList();
+                cursosConVacio.add(null); // Opción vacía
+                cursosConVacio.addAll(cursos);
+
+                cmbPrerequisitos.setItems(cursosConVacio);
+                cmbPrerequisitos.setCellFactory(lv -> new ListCell<Course>() {
+                    @Override
+                    protected void updateItem(Course c, boolean empty) {
+                        super.updateItem(c, empty);
+                        if (empty || c == null) {
+                            setText("(Sin pre-requisito)"); // Texto para opción vacía
+                        } else {
+                            setText(c.getId() + " - " + c.getName());
+                        }
+                    }
+                });
+
+                // También configurar el botón de selección (para mostrar bien el null)
+                cmbPrerequisitos.setButtonCell(new ListCell<Course>() {
+                    @Override
+                    protected void updateItem(Course c, boolean empty) {
+                        super.updateItem(c, empty);
+                        if (empty || c == null) {
+                            setText("(Sin pre-requisito)");
+                        } else {
+                            setText(c.getId() + " - " + c.getName());
+                        }
+                    }
+                });
+            }
+
+            // =========================
+            // CONFIGURAR COMBOBOX CO-REQUISITOS
+            // =========================
+            if (cmbCorequisitos != null) {
+                // Agregar opción vacía al inicio
+                ObservableList<Course> cursosConVacio = FXCollections.observableArrayList();
+                cursosConVacio.add(null); // Opción vacía
+                cursosConVacio.addAll(cursos);
+
+                cmbCorequisitos.setItems(cursosConVacio);
+                cmbCorequisitos.setCellFactory(lv -> new ListCell<Course>() {
+                    @Override
+                    protected void updateItem(Course c, boolean empty) {
+                        super.updateItem(c, empty);
+                        if (empty || c == null) {
+                            setText("(Sin co-requisito)"); // Texto para opción vacía
+                        } else {
+                            setText(c.getId() + " - " + c.getName());
+                        }
+                    }
+                });
+
+                // También configurar el botón de selección (para mostrar bien el null)
+                cmbCorequisitos.setButtonCell(new ListCell<Course>() {
+                    @Override
+                    protected void updateItem(Course c, boolean empty) {
+                        super.updateItem(c, empty);
+                        if (empty || c == null) {
+                            setText("(Sin co-requisito)");
+                        } else {
+                            setText(c.getId() + " - " + c.getName());
+                        }
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // =========================
+    // AGREGAR PRE-REQUISITO
+    // =========================
+    @FXML
+    private void agregarPrerequisito() {
+        Course curso = cmbPrerequisitos.getValue();
+
+        // Si es null (Sin pre-requisito), no hacer nada
+        if (curso == null) {
+            return;
+        }
+
+        // Verificar que no esté duplicado
+        if (!prerequisitosSeleccionados.contains(curso.getId())) {
+            prerequisitosSeleccionados.add(curso.getId() + " - " + curso.getName());
+        }
+
+        cmbPrerequisitos.setValue(null);
+    }
+
+    // =========================
+    // AGREGAR CO-REQUISITO
+    // =========================
+    @FXML
+    private void agregarCorequisito() {
+        Course curso = cmbCorequisitos.getValue();
+
+        // Si es null (Sin co-requisito), no hacer nada
+        if (curso == null) {
+            return;
+        }
+
+        // Verificar que no esté duplicado
+        if (!corequisitosSeleccionados.contains(curso.getId())) {
+            corequisitosSeleccionados.add(curso.getId() + " - " + curso.getName());
+        }
+
+        cmbCorequisitos.setValue(null);
+    }
+
+    // =========================
+    // ADD COURSE (AGREGAR)
+    // =========================
     @FXML
     private void addCourse() {
-
         try {
 
             String id = txtId.getText().trim();
             String name = txtName.getText().trim();
 
-            if (
-                    id.isEmpty()
-                            || name.isEmpty()
-                            || txtCredits.getText().isEmpty()
-                            || cmbStatus.getValue() == null
-            ) {
+            if (id.isEmpty() || name.isEmpty()
+                    || txtCredits.getText().isEmpty()
+                    || cmbStatus.getValue() == null) {
 
                 showAlert(
                         Alert.AlertType.WARNING,
                         "Campos vacíos",
                         "Complete todos los campos"
                 );
-
                 return;
             }
 
-            int credits =
-                    Integer.parseInt(
-                            txtCredits.getText()
-                    );
+            int credits = Integer.parseInt(txtCredits.getText());
+            String status = cmbStatus.getValue();
+            int semestre = spnSemestre != null
+                    ? spnSemestre.getValue()
+                    : 1;
 
-            String status =
-                    cmbStatus.getValue();
+            List<String> prerequisitos = new ArrayList<>();
 
-            Course course =
-                    new Course.Builder()
-                            .setId(id)
-                            .setName(name)
-                            .setCredits(credits)
-                            .setStatus(status)
-                            .build();
+            if (cmbPrerequisitos != null
+                    && cmbPrerequisitos.getValue() != null) {
 
-            Course added =
-                    courseData.addCourse(course);
+                prerequisitos.add(
+                        cmbPrerequisitos.getValue().getId()
+                );
+            }
+
+            List<String> corequisitos = new ArrayList<>();
+
+            if (cmbCorequisitos != null
+                    && cmbCorequisitos.getValue() != null) {
+
+                corequisitos.add(
+                        cmbCorequisitos.getValue().getId()
+                );
+            }
+
+            Course course = new Course.Builder()
+                    .setId(id)
+                    .setName(name)
+                    .setCredits(credits)
+                    .setStatus(status)
+                    .setSemestre(semestre)
+                    .setPrerequisitosIds(prerequisitos)
+                    .setCorequisitosIds(corequisitos)
+                    .build();
+
+            Course added = courseData.addCourse(course);
 
             if (added != null) {
 
                 loadCourses();
-
                 clearFields();
 
                 showAlert(
@@ -317,9 +519,8 @@ public class CourseController implements Initializable {
     }
 
     // =========================
-    // UPDATE COURSE
+    // UPDATE COURSE (ACTUALIZAR)
     // =========================
-
     @FXML
     private void updateCourse() {
 
@@ -330,11 +531,30 @@ public class CourseController implements Initializable {
                     "Sin selección",
                     "Seleccione un curso"
             );
-
             return;
         }
 
         try {
+
+            List<String> prerequisitos = new ArrayList<>();
+
+            if (cmbPrerequisitos != null
+                    && cmbPrerequisitos.getValue() != null) {
+
+                prerequisitos.add(
+                        cmbPrerequisitos.getValue().getId()
+                );
+            }
+
+            List<String> corequisitos = new ArrayList<>();
+
+            if (cmbCorequisitos != null
+                    && cmbCorequisitos.getValue() != null) {
+
+                corequisitos.add(
+                        cmbCorequisitos.getValue().getId()
+                );
+            }
 
             Course updatedCourse =
                     new Course.Builder()
@@ -346,6 +566,13 @@ public class CourseController implements Initializable {
                                     )
                             )
                             .setStatus(cmbStatus.getValue())
+                            .setSemestre(
+                                    spnSemestre != null
+                                            ? spnSemestre.getValue()
+                                            : 1
+                            )
+                            .setPrerequisitosIds(prerequisitos)
+                            .setCorequisitosIds(corequisitos)
                             .build();
 
             boolean updated =
@@ -356,12 +583,11 @@ public class CourseController implements Initializable {
             if (updated) {
 
                 loadCourses();
-
                 clearFields();
 
                 showAlert(
                         Alert.AlertType.INFORMATION,
-                        "Actualizado",
+                        "Éxito",
                         "Curso actualizado correctamente"
                 );
 
@@ -381,6 +607,8 @@ public class CourseController implements Initializable {
                     "Error",
                     e.getMessage()
             );
+
+            e.printStackTrace();
         }
     }
 
@@ -438,6 +666,71 @@ public class CourseController implements Initializable {
         );
 
         cmbStatus.setValue(course.getStatus());
+
+        // Cargar nuevos campos
+        if (spnSemestre != null) {
+            spnSemestre.getValueFactory().setValue(course.getSemestre());
+        }
+
+        // Cargar prerequisito
+
+        if (!course.getPrerequisitosIds().isEmpty()) {
+
+            try {
+
+                Course pre =
+                        buscarCursoById(
+                                course.getPrerequisitosIds().get(0)
+                        );
+
+                cmbPrerequisitos.setValue(pre);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+        } else {
+
+            cmbPrerequisitos.setValue(null);
+        }
+
+
+        // Cargar corequisito
+
+        if (!course.getCorequisitosIds().isEmpty()) {
+
+            try {
+
+                Course co =
+                        buscarCursoById(
+                                course.getCorequisitosIds().get(0)
+                        );
+
+                cmbCorequisitos.setValue(co);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+        } else {
+
+            cmbCorequisitos.setValue(null);
+        }
+    }
+
+    // =========================
+    // BUSCAR CURSO POR ID
+    // =========================
+    private Course buscarCursoById(String id) throws Exception {
+        List<Course> todos = courseData.getAllCourses().toList();
+        for (Course c : todos) {
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     // =========================
@@ -452,6 +745,18 @@ public class CourseController implements Initializable {
         txtCredits.clear();
 
         cmbStatus.setValue(null);
+
+        if (spnSemestre != null) {
+            spnSemestre.getValueFactory().setValue(1);
+        }
+
+        if (cmbPrerequisitos != null) {
+            cmbPrerequisitos.setValue(null);
+        }
+
+        if (cmbCorequisitos != null) {
+            cmbCorequisitos.setValue(null);
+        }
 
         selectedCourse = null;
     }

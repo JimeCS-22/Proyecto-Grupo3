@@ -43,7 +43,13 @@ public class AcademicRecordData {
             if (temp != null) {
                 for (AcademicRecordDTO dto : temp.toList()) {
                     AcademicRecord record = new AcademicRecord(dto.getStudent());
-                    record.setCoursesFromList(dto.getCourses());
+                    if (dto.getCourses() != null) {
+
+                        for (Course course : dto.getCourses()) {
+
+                            record.addCourse(course);
+                        }
+                    }
                     list.add(record);
                 }
             }

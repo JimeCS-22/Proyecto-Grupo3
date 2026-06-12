@@ -63,11 +63,11 @@ public class AcademicRecordDataTest {
         System.out.println("Record encontrado: " + (buscado != null ? buscado : "No encontrado"));
 
         // Mostrar todos los estudiantes con récord académico
-        ArrayList<Student> conRecords = arData.getAllStudentsFromRecords();
-        System.out.println("Estudiantes con récord académico:");
-        for (Student s : conRecords) {
-            System.out.println(s);
-        }
+//        ArrayList<Student> conRecords = arData.getAllStudentsFromRecords();
+//        System.out.println("Estudiantes con récord académico:");
+//        for (Student s : conRecords) {
+//            System.out.println(s);
+//        }
 
         // Eliminar record
         boolean eliminado = arData.deleteRecord("198766543");

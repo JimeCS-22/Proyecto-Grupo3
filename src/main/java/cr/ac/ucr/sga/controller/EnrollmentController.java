@@ -8,6 +8,7 @@ import cr.ac.ucr.sga.model.entities.AcademicRecord;
 import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.entities.MatriculaAprobada;
 import cr.ac.ucr.sga.model.entities.Student;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 import cr.ac.ucr.sga.model.structures.queues.PriorityLinkedQueue;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -260,6 +261,7 @@ public class EnrollmentController implements Initializable {
         }
     }
 
+
     // =========================
     // AGREGAR / QUITAR CURSOS entre aprobados <-> a matricular
     // =========================
@@ -301,22 +303,60 @@ public class EnrollmentController implements Initializable {
                 showAlert(Alert.AlertType.WARNING, "Sin estudiante", "No hay estudiante en sesión");
                 return;
             }
+
             AcademicRecord record = recordData.findByStudentId(currentStudent.getId());
+
             if (record == null) {
                 record = new AcademicRecord(currentStudent);
                 recordData.addRecord(record);
             }
+
+            // Añadir cursos al expediente del estudiante
             for (Course c : cursosAMatricular) {
                 recordData.addCourseToStudent(currentStudent.getId(), c);
             }
-            if (matriculaActual != null) {
-                matriculaActual.setStatus("MATRICULATED");
-                matriculaData.addOrUpdate(matriculaActual);
+
+            // Buscar matrícula aprobada existente para ese estudiante
+            MatriculaAprobada matriculaActualExistente =
+                    matriculaData.findByStudentId(currentStudent.getId());
+
+            if (matriculaActualExistente != null) {
+                // Actualizar cursos y estado sin cambiar ID
+                LinkedList<Course> cursosFinales = new LinkedList<>();
+                for (Course c : cursosAMatricular) {
+                    cursosFinales.add(c);
+                }
+                matriculaActualExistente.setCoursesApproved(cursosFinales);
+                matriculaActualExistente.setStatus("MATRICULATED");
+                matriculaData.addOrUpdate(matriculaActualExistente);
+            } else {
+                // Crear nueva matrícula con nuevo ID si no existe aún
+                LinkedList<Course> cursosFinales = new LinkedList<>();
+                for (Course c : cursosAMatricular) {
+                    cursosFinales.add(c);
+                }
+
+                // Generar id único sin usar UUID
+                String id = currentStudent.getId() + "-" + System.currentTimeMillis();
+
+                MatriculaAprobada nuevaMatricula = new MatriculaAprobada(
+                        id,
+                        currentStudent,
+                        cursosFinales
+                );
+                nuevaMatricula.setStatus("MATRICULATED");
+                matriculaData.addOrUpdate(nuevaMatricula);
             }
+
             showAlert(Alert.AlertType.INFORMATION, "Éxito", "Cursos matriculados correctamente");
+
             cursosAprobados.clear();
             cursosAMatricular.clear();
             loadEnrollments();
+            loadCursosAprobados();
+
+            tblCursosAprobados.refresh();
+            tblCursosAMatricular.refresh();
 
             if (mainController != null) {
                 if (mainController.getRecordController() != null) {
@@ -328,6 +368,8 @@ public class EnrollmentController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
+
+
 
     // =========================
     // NEGAR matrícula aprobada

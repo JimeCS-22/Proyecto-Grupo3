@@ -90,30 +90,40 @@ public class EnrollmentApprovedData {
     // CREATE/ADD
     // =========================
     public MatriculaAprobada addOrUpdate(MatriculaAprobada matricula) {
-        LinkedList<MatriculaAprobada> allMatriculas = loadAll();
-        /*
-        code anterior de Alexander
-        all.removeIf(m -> m.getId().equals(matricula.getId())
-                || (m.getStudent() != null
-                && matricula.getStudent() != null
-                && m.getStudent().getId().equals(matricula.getStudent().getId())));
-        all.add(matricula);
-        saveAll(all);
-*/
-        MatriculaAprobada matriculaToReturn = null;
 
-        if (matricula != null && findByMatriculaId(matricula.getId()) == null) {
+        if (matricula == null) {
+            return null;
+        }
+
+        LinkedList<MatriculaAprobada> allMatriculas = loadAll();
+
+        try {
+
+            MatriculaAprobada existente = null;
+            for (MatriculaAprobada m : allMatriculas.toList()) {
+                if (m.getStudent() != null && matricula.getStudent() != null
+                        && m.getStudent().getId().equals(matricula.getStudent().getId())) {
+                    existente = m;
+                    break;
+                }
+            }
+
+            if (existente != null) {
+                allMatriculas.remove(existente);
+            }
 
             allMatriculas.add(matricula);
 
             saveAll(allMatriculas);
 
-            matriculaToReturn = matricula;
+            return matricula;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-
-        return matriculaToReturn;
-
     }
+
 
     // =========================
     // FIND BY ID

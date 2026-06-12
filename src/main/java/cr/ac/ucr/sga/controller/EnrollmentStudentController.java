@@ -74,8 +74,12 @@ public class EnrollmentStudentController implements Initializable {
     // CONFIGURACIÓN EXTERNA
     // =========================
     public void setStudent(Student student) {
+
         this.currentStudent = student;
+
         loadStudentPriority();
+
+        loadCourses();
     }
 
     // =========================
@@ -97,14 +101,45 @@ public class EnrollmentStudentController implements Initializable {
     // CARGA DE CURSOS
     // =========================
     private void loadCourses() {
+
         try {
-            if (cmbCourses == null) return;
-            cmbCourses.getItems().clear();
-            int size = courseData.getAllCourses().size();
-            for (int i = 1; i < size; i++) {
-                cmbCourses.getItems().add(courseData.getAllCourses().get(i));
+
+            if (cmbCourses == null) {
+                return;
             }
+
+            cmbCourses.getItems().clear();
+
+            int size = courseData.getAllCourses().size();
+
+            for (int i = 1; i <= size; i++) {
+
+                Course course =
+                        courseData.getAllCourses().get(i);
+
+                if (currentStudent == null) {
+
+                    cmbCourses.getItems().add(course);
+
+                    continue;
+                }
+
+                if (
+                        !cursoAprobado(course.getId())
+                                &&
+                                !cursoYaSeleccionado(course.getId())
+                                &&
+                                cumplePrerequisitos(course)
+                                &&
+                                cumpleSemestre(course)
+                ) {
+
+                    cmbCourses.getItems().add(course);
+                }
+            }
+
         } catch (Exception e) {
+
             e.printStackTrace();
         }
     }
@@ -165,6 +200,171 @@ public class EnrollmentStudentController implements Initializable {
     }
 
     // =========================
+    // VALIDACIONES DE CURSOS DE ESTUDIANTES
+    // PRE-REQUISITOS Y CO-REQUISITOS
+    // =========================
+    private boolean cursoAprobado(String courseId) {
+
+        try {
+
+            AcademicRecord record =
+                    recordData.findByStudentId(
+                            currentStudent.getId()
+                    );
+
+            if (record == null) {
+                return false;
+            }
+
+            for (
+                    int i = 1;
+                    i <= record.getCourses().size();
+                    i++
+            ) {
+
+                Course c = record.getCourses().get(i);
+
+                if (
+                        c.getId().equalsIgnoreCase(courseId)
+                                &&
+                                c.getGrade() >= 70
+                ) {
+
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    private boolean cursoYaSeleccionado(String courseId) {
+
+        for (EnrollmentRow row : selectedCourses) {
+
+            if (
+                    row.getCourse() != null
+                            &&
+                            row.getCourse()
+                                    .getId()
+                                    .equalsIgnoreCase(courseId)
+            ) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean cumplePrerequisitos(Course course) {
+
+        if (
+                course.getPrerequisitosIds() == null
+                        || course.getPrerequisitosIds().isEmpty()
+        ) {
+
+            return true;
+        }
+
+        for (String prereq : course.getPrerequisitosIds()) {
+
+            if (!cursoAprobado(prereq)) {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean cumpleCorequisitos(Course course) {
+
+        if (
+                course.getCorequisitosIds() == null
+                        || course.getCorequisitosIds().isEmpty()
+        ) {
+
+            return true;
+        }
+
+        for (String coreq : course.getCorequisitosIds()) {
+
+            boolean encontrado =
+                    cursoAprobado(coreq);
+
+            for (EnrollmentRow row : selectedCourses) {
+
+                if (
+                        row.getCourse() != null
+                                &&
+                                row.getCourse()
+                                        .getId()
+                                        .equalsIgnoreCase(coreq)
+                ) {
+
+                    encontrado = true;
+                    break;
+                }
+            }
+
+            if (!encontrado) {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean cumpleSemestre(Course course) {
+
+        try {
+
+            AcademicRecord record =
+                    recordData.findByStudentId(
+                            currentStudent.getId()
+                    );
+
+            if (record == null) {
+                return course.getSemestre() == 1;
+            }
+
+            int creditosAprobados = 0;
+
+            for (
+                    int i = 1;
+                    i <= record.getCourses().size();
+                    i++
+            ) {
+
+                Course curso =
+                        record.getCourses().get(i);
+
+                if (curso.getGrade() >= 70) {
+
+                    creditosAprobados +=
+                            curso.getCredits();
+                }
+            }
+
+            int semestreActual =
+                    (creditosAprobados / 15) + 1;
+
+            return semestreActual >= course.getSemestre();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // =========================
     // ASIGNAR CURSO AL ESTUDIANTE (PRE-MATRÍCULA)
     // =========================
     @FXML
@@ -176,13 +376,54 @@ public class EnrollmentStudentController implements Initializable {
                 showAlert(Alert.AlertType.WARNING, "Curso vacío", "Seleccione un curso");
                 return;
             }
+            if (!cumplePrerequisitos(course)) {
+
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Prerequisitos",
+                        "No cumple los prerequisitos"
+                );
+
+                return;
+            }
+
+            if (!cumpleCorequisitos(course)) {
+
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Corequisitos",
+                        "Debe agregar primero los corequisitos"
+                );
+
+                return;
+            }
+
+            if (!cumpleSemestre(course)) {
+
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Semestre",
+                        "Este curso pertenece a un semestre superior"
+                );
+
+                return;
+            }
             for (EnrollmentRow row : selectedCourses) {
                 if (row.getCourseName().equals(course.getName())) {
                     showAlert(Alert.AlertType.WARNING, "Duplicado", "Ese curso ya fue agregado");
                     return;
                 }
             }
-            selectedCourses.add(new EnrollmentRow(course, course.getName(), course.getCredits()));
+            selectedCourses.add(
+                    new EnrollmentRow(
+                            course,
+                            course.getName(),
+                            course.getCredits()
+                    )
+            );
+
+            loadCourses();
+
             cmbCourses.getSelectionModel().clearSelection();
             tblEnrollments.setItems(selectedCourses);
         } catch (Exception e) {
@@ -202,6 +443,8 @@ public class EnrollmentStudentController implements Initializable {
                     if (sel != null) {
                         selectedCourses.remove(sel);
                         enrollmentRows.remove(sel);
+
+                        loadCourses();
                     }
                 }
             }

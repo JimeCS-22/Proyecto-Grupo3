@@ -1,109 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cr.ac.ucr.sga.controller.CourseController"
-            styleClass="root-pane"
-            stylesheets="@../styles.css">
+<BorderPane styleClass="root-pane" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.CourseController">
 
     <!-- TOP -->
 
     <top>
 
-        <VBox spacing="15"
-              styleClass="panel">
+        <VBox spacing="15" styleClass="panel">
 
             <padding>
-                <Insets top="20"
-                        right="20"
-                        bottom="20"
-                        left="20"/>
+                <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
 
-            <Label text="Administración de Cursos"
-                   styleClass="panel-title"/>
+            <Label styleClass="panel-title" text="Administración de Cursos" />
 
-            <GridPane hgap="15"
-                      vgap="10">
+            <GridPane hgap="15" prefHeight="272.0" prefWidth="1002.0" vgap="10">
 
                 <columnConstraints>
-                    <ColumnConstraints percentWidth="50"/>
-                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50" />
+                    <ColumnConstraints percentWidth="50" />
                 </columnConstraints>
 
                 <!-- Código -->
+                <Label text="Código" GridPane.columnIndex="0" />
 
-                <Label text="Código"
-                       GridPane.rowIndex="0"
-                       GridPane.columnIndex="0"/>
-
-                <TextField fx:id="txtId"
-                           promptText="Código del curso"
-                           GridPane.rowIndex="1"
-                           GridPane.columnIndex="0"/>
+                <TextField fx:id="txtId" promptText="Código del curso" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
                 <!-- Nombre -->
+                <Label text="Nombre" GridPane.columnIndex="1" />
 
-                <Label text="Nombre"
-                       GridPane.rowIndex="0"
-                       GridPane.columnIndex="1"/>
-
-                <TextField fx:id="txtName"
-                           promptText="Nombre del curso"
-                           GridPane.rowIndex="1"
-                           GridPane.columnIndex="1"/>
+                <TextField fx:id="txtName" promptText="Nombre del curso" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                 <!-- Créditos -->
+                <Label text="Créditos" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-                <Label text="Créditos"
-                       GridPane.rowIndex="2"
-                       GridPane.columnIndex="0"/>
+                <TextField fx:id="txtCredits" promptText="Cantidad de créditos" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
-                <TextField fx:id="txtCredits"
-                           promptText="Cantidad de créditos"
-                           GridPane.rowIndex="3"
-                           GridPane.columnIndex="0"/>
+                <!-- Estado y Semestre (FILA 2) -->
+                <HBox prefHeight="14.0" prefWidth="493.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <children>
+                        <Label text="Estado" />
+                        <Label text="Semestre">
+                            <HBox.margin>
+                                <Insets left="115.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
 
-                <!-- Estado -->
+                <!-- ComboBox Estado y Spinner Semestre -->
+                <HBox prefHeight="53.0" prefWidth="493.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <children>
+                        <ComboBox fx:id="cmbStatus" />
+                        <Spinner fx:id="spnSemestre" prefHeight="63.0" prefWidth="97.0">
+                            <HBox.margin>
+                                <Insets left="55.0" />
+                            </HBox.margin>
+                        </Spinner>
+                    </children>
+                </HBox>
 
-                <Label text="Estado"
-                       GridPane.rowIndex="2"
-                       GridPane.columnIndex="1"/>
+                <!-- Pre-requisitos -->
+                <Label text="Pre-requisitos" GridPane.rowIndex="4" />
+                <ComboBox fx:id="cmbPrerequisitos" prefHeight="63.0" prefWidth="495.0" GridPane.rowIndex="5" />
 
-                <ComboBox fx:id="cmbStatus"
-                          GridPane.rowIndex="3"
-                          GridPane.columnIndex="1"/>
+                <!-- Co-requisitos -->
+                <Label text="Co-requisitos" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <ComboBox fx:id="cmbCorequisitos" prefHeight="63.0" prefWidth="494.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                </rowConstraints>
 
             </GridPane>
 
             <!-- BOTONES -->
-
             <HBox spacing="10">
-
-                <Button fx:id="btnAdd"
-                        text="Agregar"
-                        onAction="#addCourse"
-                        styleClass="btn-primary"/>
-
-                <Button fx:id="btnUpdate"
-                        text="Actualizar"
-                        onAction="#updateCourse"
-                        styleClass="btn-accent"/>
-
-                <Button fx:id="btnDelete"
-                        text="Eliminar"
-                        onAction="#deleteCourse"
-                        styleClass="btn-gray"/>
-
-                <Button fx:id="btnClear"
-                        text="Limpiar"
-                        onAction="#clearFields"
-                        styleClass="btn-ghost"/>
-
+                <Button fx:id="btnAdd" onAction="#addCourse" styleClass="btn-primary" text="Agregar" />
+                <Button fx:id="btnUpdate" onAction="#updateCourse" styleClass="btn-accent" text="Actualizar" />
+                <Button fx:id="btnDelete" onAction="#deleteCourse" styleClass="btn-gray" text="Eliminar" />
+                <Button fx:id="btnClear" onAction="#clearFields" styleClass="btn-ghost" text="Limpiar" />
             </HBox>
+
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
 
         </VBox>
 
@@ -113,21 +114,14 @@
 
     <center>
 
-        <ScrollPane fitToWidth="true"
-                    style="-fx-background-color: transparent;">
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
 
             <content>
 
-                <FlowPane fx:id="coursesContainer"
-                          hgap="20"
-                          vgap="20"
-                          prefWrapLength="1000">
+                <FlowPane fx:id="coursesContainer" hgap="20" prefHeight="235.0" prefWidth="1040.0" prefWrapLength="1000" vgap="20">
 
                     <padding>
-                        <Insets top="20"
-                                right="20"
-                                bottom="20"
-                                left="20"/>
+                        <Insets bottom="20" left="20" right="20" top="20" />
                     </padding>
 
                 </FlowPane>

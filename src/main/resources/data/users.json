@@ -28,6 +28,27 @@
               "username": "alex.leon",
               "password": "1234",
               "role": "STUDENT"
+            },
+            "next": {
+              "data": {
+                "username": "camila.montoya",
+                "password": "1234",
+                "role": "STUDENT"
+              },
+              "next": {
+                "data": {
+                  "username": "jimena.calvo",
+                  "password": "1234",
+                  "role": "STUDENT"
+                },
+                "next": {
+                  "data": {
+                    "username": "alexander.leon",
+                    "password": "1234",
+                    "role": "STUDENT"
+                  }
+                }
+              }
             }
           }
         }
@@ -36,7 +57,7 @@
   },
   "tail": {
     "data": {
-      "username": "alex.leon",
+      "username": "alexander.leon",
       "password": "1234",
       "role": "STUDENT"
     }
