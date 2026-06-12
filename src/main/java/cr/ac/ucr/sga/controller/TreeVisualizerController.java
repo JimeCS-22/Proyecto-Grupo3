@@ -1,8 +1,10 @@
 package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.graphics.TreeAnimationManager;
+import cr.ac.ucr.sga.model.data.CourseData;
 import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.graphics.TreeRenderer;
+import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.trees.AVL;
 import cr.ac.ucr.sga.model.structures.trees.BST;
 import cr.ac.ucr.sga.model.structures.trees.BTree;
@@ -360,77 +362,24 @@ public class TreeVisualizerController {
     }
 
     private void loadTrees() {
+        CourseData courseData = new CourseData();
+        DoublyLinkedList<Course> cursos = courseData.getAllCourses();
 
         binaryTree = new BTree<>();
-
         bstTree = new BST<>();
-
         avlTree = new AVL<>();
 
-        Course c1 =
-                new Course.Builder()
-                        .setId("CI0110")
-                        .setName("Introducción")
-                        .setCredits(4)
-                        .setStatus("Aprobado")
-                        .build();
-
-        Course c2 =
-                new Course.Builder()
-                        .setId("CI0120")
-                        .setName("Programación I")
-                        .setCredits(4)
-                        .setStatus("Aprobado")
-                        .build();
-
-        Course c3 =
-                new Course.Builder()
-                        .setId("CI0130")
-                        .setName("Estructuras")
-                        .setCredits(4)
-                        .setStatus("Cursando")
-                        .build();
-
-        Course c4 =
-                new Course.Builder()
-                        .setId("CI0140")
-                        .setName("Algoritmos")
-                        .setCredits(4)
-                        .setStatus("Pendiente")
-                        .build();
-
-        Course c5 =
-                new Course.Builder()
-                        .setId("CI0150")
-                        .setName("Bases de Datos")
-                        .setCredits(4)
-                        .setStatus("Pendiente")
-                        .build();
-
-        // Binary Tree
-
-        binaryTree.addBFS(c1);
-        binaryTree.addBFS(c2);
-        binaryTree.addBFS(c3);
-        binaryTree.addBFS(c4);
-        binaryTree.addBFS(c5);
-
-        // BST
-
-        bstTree.add(c1);
-        bstTree.add(c2);
-        bstTree.add(c3);
-        bstTree.add(c4);
-        bstTree.add(c5);
-
-        // AVL
-
-        avlTree.add(c1);
-        avlTree.add(c2);
-        avlTree.add(c3);
-        avlTree.add(c4);
-        avlTree.add(c5);
+        try {
+            for (Course curso : cursos.toList()) {
+                binaryTree.addBFS(curso);
+                bstTree.add(curso);
+                avlTree.add(curso);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void updateCurrentTree() {
 

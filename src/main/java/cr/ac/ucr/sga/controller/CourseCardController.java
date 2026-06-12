@@ -65,18 +65,28 @@ public class CourseCardController {
     @FXML
     private void showDetails() {
 
+        String prereqs = "Ninguno";
+        if (course.getPrerequisitosIds() != null && !course.getPrerequisitosIds().isEmpty()) {
+            prereqs = String.join(", ", course.getPrerequisitosIds());
+        }
+
+        String coreqs = "Ninguno";
+        if (course.getCorequisitosIds() != null && !course.getCorequisitosIds().isEmpty()) {
+            coreqs = String.join(", ", course.getCorequisitosIds());
+        }
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
         alert.setTitle("Detalles del Curso");
-
         alert.setHeaderText(course.getName());
-
         alert.setContentText(
-                "Código: " + course.getId()
-                        + "\nCréditos: " + course.getCredits()
-                        + "\nEstado: " + course.getStatus()
+                "Código: " + course.getId() + "\n" +
+                        "Créditos: " + course.getCredits() + "\n" +
+                        "Estado: " + course.getStatus() + "\n" +
+                        "Pre-requisitos: " + prereqs + "\n" +
+                        "Co-requisitos: " + coreqs
         );
 
         alert.showAndWait();
     }
+
 }
