@@ -1,0 +1,178 @@
+[
+  {
+    "id": "EG-I",
+    "name": "HUMANIDADES I",
+    "credits": 6,
+    "grade": 0.0,
+    "status": "Activo",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0001",
+    "name": "DESARROLLO DE SOFTWARE I",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0002",
+    "name": "INTRODUCCIÓN A LA INFORMÁTICA EMPRESARIAL",
+    "credits": 3,
+    "grade": 0.0,
+    "status": "Activo",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0003",
+    "name": "MATEMÁTICA BÁSICA PARA INFORMÁTICA EMPRESARIAL",
+    "credits": 3,
+    "grade": 0.0,
+    "status": "Activo",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "EF-",
+    "name": "ACTIVIDAD DEPORTIVA",
+    "credits": 0,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 2,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "EG-",
+    "name": "CURSO DE ARTE",
+    "credits": 2,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 2,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "EG-II",
+    "name": "CURSO INTEGRADO DE HUMANIDADES II",
+    "credits": 6,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 2,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0004",
+    "name": "DESARROLLO DE SOFTWARE II",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 2,
+    "prerequisitosIds": [
+      "IF0001"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0005",
+    "name": "MATEMÁTICAS DISCRETAS PARA INFORMÁTICA EMPRESARIAL",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 2,
+    "prerequisitosIds": [
+      "IF0003"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0006",
+    "name": "DESARROLLO DE SOFTWARE III",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 3,
+    "prerequisitosIds": [
+      "IF0004"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0007",
+    "name": "BASES DE DATOS I",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 3,
+    "prerequisitosIds": [
+      "IF0004"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0008",
+    "name": "CÁLCULO I PARA INFORMÁTICA EMPRESARIAL",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 3,
+    "prerequisitosIds": [
+      "IF0003"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF3001",
+    "name": "ALGORITMOS Y ESTRUCTURAS DE DATOS",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 3,
+    "prerequisitosIds": [
+      "IF2000"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "SR-I",
+    "name": "SEMINARIO DE REALIDAD NACIONAL I",
+    "credits": 2,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 3,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0009",
+    "name": "DESARROLLO DE SOFTWARE IV",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 4,
+    "prerequisitosIds": [
+      "IF0006"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF0010",
+    "name": "BASES DE DATOS II",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Inactivo",
+    "semestre": 4,
+    "prerequisitosIds": [
+      "IF0007"
+    ],
+    "corequisitosIds": []
+  }
+]

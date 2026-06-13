@@ -101,9 +101,7 @@ public class TreeVisualizerController {
             return;
         }
 
-        renderer.render(
-                currentTree.getRoot()
-        );
+        renderer.render(avlTree, currentTree.getRoot());
 
         gc().setFill(Color.WHITE);
 
@@ -291,12 +289,12 @@ public class TreeVisualizerController {
 
         try {
 
-            AVL<Course> avl =
-                    (AVL<Course>) currentTree;
+            AVL<Course> avl = (AVL<Course>) currentTree;
 
             resultArea.setText(
                     avl.getRebalancingInfo()
             );
+
 
         } catch (Exception e) {
 

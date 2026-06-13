@@ -46,6 +46,13 @@
                     "username": "alexander.leon",
                     "password": "1234",
                     "role": "STUDENT"
+                  },
+                  "next": {
+                    "data": {
+                      "username": "mari.solano",
+                      "password": "12340",
+                      "role": "STUDENT"
+                    }
                   }
                 }
               }
@@ -57,8 +64,8 @@
   },
   "tail": {
     "data": {
-      "username": "alexander.leon",
-      "password": "1234",
+      "username": "mari.solano",
+      "password": "12340",
       "role": "STUDENT"
     }
   }

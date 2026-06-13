@@ -75,6 +75,19 @@
               "corequisitosIds": []
             }
           ]
+        },
+        "next": {
+          "data": {
+            "student": {
+              "id": "000",
+              "name": "Maria Solano",
+              "carnet": "C3H467",
+              "age": 22,
+              "username": "mari.solano",
+              "password": "12340"
+            },
+            "courses": []
+          }
         }
       }
     }
@@ -82,55 +95,14 @@
   "tail": {
     "data": {
       "student": {
-        "id": "003",
-        "name": "Alexander León",
-        "carnet": "C24249",
-        "age": 21,
-        "username": "alexander.leon",
-        "password": "1234"
+        "id": "000",
+        "name": "Maria Solano",
+        "carnet": "C3H467",
+        "age": 22,
+        "username": "mari.solano",
+        "password": "12340"
       },
-      "courses": [
-        {
-          "id": "EG-I",
-          "name": "CURSO INTEGRADO DE HUMANIDADES I",
-          "credits": 6,
-          "grade": 0.0,
-          "status": "Activo",
-          "semestre": 1,
-          "prerequisitosIds": [],
-          "corequisitosIds": []
-        },
-        {
-          "id": "IF0001",
-          "name": "DESARROLLO DE SOFTWARE I",
-          "credits": 4,
-          "grade": 0.0,
-          "status": "Activo",
-          "semestre": 1,
-          "prerequisitosIds": [],
-          "corequisitosIds": []
-        },
-        {
-          "id": "IF0002",
-          "name": "INTRODUCCIÓN A LA INFORMÁTICA EMPRESARIAL",
-          "credits": 3,
-          "grade": 0.0,
-          "status": "Activo",
-          "semestre": 1,
-          "prerequisitosIds": [],
-          "corequisitosIds": []
-        },
-        {
-          "id": "IF0003",
-          "name": "MATEMÁTICA BÁSICA PARA INFORMÁTICA EMPRESARIAL",
-          "credits": 3,
-          "grade": 0.0,
-          "status": "Activo",
-          "semestre": 1,
-          "prerequisitosIds": [],
-          "corequisitosIds": []
-        }
-      ]
+      "courses": []
     }
   }
 }

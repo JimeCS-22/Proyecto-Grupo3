@@ -60,7 +60,7 @@ public class AVL <T extends Comparable<T>> extends BST<T>{
     }
 
     //get balance factor for node
-    int getBalanceFactor(BTreeNode<T> node){
+    public int getBalanceFactor(BTreeNode<T> node){
         if(node==null){
             return 0;
         }else{

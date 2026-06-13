@@ -1,6 +1,7 @@
 package cr.ac.ucr.sga.graphics;
 
 import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.structures.trees.AVL;
 import cr.ac.ucr.sga.model.structures.trees.BTree;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -41,6 +42,6 @@ public class TreeCanvas extends Canvas {
         TreeRenderer renderer =
                 new TreeRenderer(gc);
 
-        renderer.render(tree.root);
+        renderer.render( (AVL<Course>) tree,tree.root);
     }
 }
