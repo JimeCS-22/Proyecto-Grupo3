@@ -21,6 +21,7 @@ public class TreeRenderer {
 
     private BTreeNode<Course> foundNode;
     private BTreeNode<Course> highlightedNode;
+    private double currentX;
 
     public TreeRenderer(GraphicsContext gc) {
         this.gc = gc;
@@ -33,20 +34,40 @@ public class TreeRenderer {
         nodeViews.clear();
 
         if (root == null) return;
+        currentX = 150;
 
-        calculatePositions(root, 800, 100, 300);
+        calculatePositions(root, 0);
+
+        double requiredWidth = currentX + 300;
+
+        if (requiredWidth > gc.getCanvas().getWidth()) {
+            gc.getCanvas().setWidth(requiredWidth);
+        }
+
+        centerTree();
+
         drawEdges(root);
         drawNodes(avl, root, true);
     }
 
-    private void calculatePositions(BTreeNode<Course> node, double x, double y, double offset) {
-        if (node == null) return;
+    private void calculatePositions(BTreeNode<Course> node,
+                                    int level) {
+
+        if(node == null)
+            return;
+
+        calculatePositions(node.left, level + 1);
+
+        double x = currentX;
+        double y = 100 + level * 180;
 
         positions.put(node, new Point2D(x, y));
-        nodeViews.put(node, new NodeViewInfo(x, y, node.data));
+        nodeViews.put(node,
+                new NodeViewInfo(x, y, node.data));
 
-        calculatePositions(node.left, x - offset, y + 180, offset / 1.5);
-        calculatePositions(node.right, x + offset, y + 180, offset / 1.5);
+        currentX += 220;
+
+        calculatePositions(node.right, level + 1);
     }
 
     private void drawEdges(BTreeNode<Course> node) {
@@ -192,5 +213,48 @@ public class TreeRenderer {
                 root.right,
                 course
         );
+    }
+
+    private void centerTree() {
+
+        if (positions.isEmpty()) {
+            return;
+        }
+
+        double minX = Double.MAX_VALUE;
+        double maxX = Double.MIN_VALUE;
+
+        for (Point2D p : positions.values()) {
+            minX = Math.min(minX, p.getX());
+            maxX = Math.max(maxX, p.getX());
+        }
+
+        double treeCenter = (minX + maxX) / 2.0;
+        double canvasCenter = gc.getCanvas().getWidth() / 2.0;
+
+        double offset = canvasCenter - treeCenter;
+
+        for (Map.Entry<BTreeNode<Course>, Point2D> entry : positions.entrySet()) {
+
+            Point2D old = entry.getValue();
+
+            Point2D updated = new Point2D(
+                    old.getX() + offset,
+                    old.getY()
+            );
+
+            entry.setValue(updated);
+
+            NodeViewInfo info = nodeViews.get(entry.getKey());
+
+            nodeViews.put(
+                    entry.getKey(),
+                    new NodeViewInfo(
+                            updated.getX(),
+                            updated.getY(),
+                            info.getCourse()
+                    )
+            );
+        }
     }
 }

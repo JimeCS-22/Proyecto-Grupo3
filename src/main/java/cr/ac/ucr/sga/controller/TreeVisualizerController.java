@@ -20,18 +20,6 @@ public class TreeVisualizerController {
     @FXML
     private Canvas treeCanvas;
 
-    @FXML
-    private Label courseId;
-
-    @FXML
-    private Label courseName;
-
-    @FXML
-    private Label courseCredits;
-
-    @FXML
-    private Label courseStatus;
-
     private TreeRenderer renderer;
 
     private BTree<Course> currentTree;
@@ -49,10 +37,6 @@ public class TreeVisualizerController {
     private TextArea resultArea;
     @FXML
     private ComboBox<String> treeTypeCombo;
-    @FXML
-    private Label lblNodes;
-    @FXML
-    private Label lblHeight;
 
     @FXML
     public void initialize() {
@@ -112,7 +96,6 @@ public class TreeVisualizerController {
                 20
         );
 
-        updateStats();
     }
 
     private GraphicsContext gc(){
@@ -123,41 +106,47 @@ public class TreeVisualizerController {
 
         treeCanvas.setOnMouseClicked(event -> {
 
-            Course course =
-                    renderer.findCourseAt(
-                            event.getX(),
-                            event.getY()
-                    );
+            if(event.getClickCount() == 2){
 
-            if(course != null){
+                Course course =
+                        renderer.findCourseAt(
+                                event.getX(),
+                                event.getY()
+                        );
 
-                showCourseInfo(course);
+                if(course != null){
+                    showCourseDialog(course);
+                }
             }
+
         });
     }
 
-    private void showCourseInfo(
-            Course course
-    ){
+    private void showCourseDialog(Course course){
 
-        courseId.setText(
-                course.getId()
-        );
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-        courseName.setText(
-                course.getName()
-        );
+        alert.setTitle("Información del Curso");
+        alert.setHeaderText(course.getId());
 
-        courseCredits.setText(
-                String.valueOf(
-                        course.getCredits()
-                )
-        );
+        StringBuilder info = new StringBuilder();
 
-        courseStatus.setText(
-                course.getStatus()
-        );
+        info.append("Nombre: ")
+                .append(course.getName())
+                .append("\n\n");
+
+        info.append("Créditos: ")
+                .append(course.getCredits())
+                .append("\n\n");
+
+        info.append("Estado: ")
+                .append(course.getStatus());
+
+        alert.setContentText(info.toString());
+
+        alert.showAndWait();
     }
+
 
 
     @FXML
@@ -411,22 +400,5 @@ public class TreeVisualizerController {
         }
     }
 
-    private void updateStats(){
 
-        try{
-
-            lblNodes.setText(
-                    "Nodos: " +
-                            currentTree.size()
-            );
-
-            lblHeight.setText(
-                    "Altura: " +
-                            currentTree.height()
-            );
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 }

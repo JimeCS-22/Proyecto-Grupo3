@@ -78,53 +78,18 @@
     <!-- ÁRBOL -->
     <center>
 
-        <ScrollPane fitToHeight="true"
-                    fitToWidth="true">
+        <ScrollPane
+                pannable="true"
+                fitToWidth="false"
+                fitToHeight="false">
 
             <Canvas fx:id="treeCanvas"
-                    width="2000"
-                    height="1500"/>
+                    width="3000"
+                    height="2000"/>
 
         </ScrollPane>
 
     </center>
-
-    <!-- PANEL DERECHO -->
-    <right>
-
-        <VBox spacing="15"
-              prefWidth="280"
-              style="-fx-padding:10;">
-
-            <Label text="Información del Curso"
-                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
-
-            <Separator/>
-
-            <Label text="Código"/>
-            <Label fx:id="courseId"/>
-
-            <Label text="Nombre"/>
-            <Label fx:id="courseName"/>
-
-            <Label text="Créditos"/>
-            <Label fx:id="courseCredits"/>
-
-            <Label text="Estado"/>
-            <Label fx:id="courseStatus"/>
-
-            <Separator/>
-
-            <Label text="Estadísticas"
-                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
-
-            <Label fx:id="lblNodes"/>
-
-            <Label fx:id="lblHeight"/>
-
-        </VBox>
-
-    </right>
 
     <!-- PARTE INFERIOR -->
     <bottom>
