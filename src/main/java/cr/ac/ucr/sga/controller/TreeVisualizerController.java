@@ -19,6 +19,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.util.List;
+
 public class TreeVisualizerController {
 
     @FXML
@@ -248,45 +250,36 @@ public class TreeVisualizerController {
         }
     }
 
-
     @FXML
     private void onAnimatedSearch() {
 
-        try{
+        try {
 
-            if(!(currentTree instanceof BST)){
+            String code = searchField.getText().trim();
 
-                resultArea.setText(
-                        "Seleccione BST para la búsqueda animada."
-                );
-
+            if (code.isEmpty()) {
+                resultArea.setText("Ingrese un código de curso.");
                 return;
             }
 
-            String code =
-                    searchField
-                            .getText()
-                            .trim();
+            Course target = new Course.Builder()
+                    .setId(code)
+                    .setName("TEMP")
+                    .setCredits(0)
+                    .build();
 
-            Course target =
-                    new Course.Builder()
-                            .setId(code)
-                            .setName("TEMP")
-                            .setCredits(0)
-                            .build();
+            List<BTreeNode<Course>> path =
+                    currentTree.getSearchPath(target);
 
-            BST<Course> bst =
-                    (BST<Course>) currentTree;
+            if (path == null || path.isEmpty()) {
+                resultArea.setText("✗ Curso no encontrado");
+                return;
+            }
 
-            animator.animateSearchPath(
-                    bst.getSearchPath(target)
-            );
+            animator.animateSearchPath(path);
 
-        }catch(Exception ex){
-
-            resultArea.setText(
-                    ex.getMessage()
-            );
+        } catch (Exception ex) {
+            resultArea.setText(ex.getMessage());
         }
     }
     @FXML

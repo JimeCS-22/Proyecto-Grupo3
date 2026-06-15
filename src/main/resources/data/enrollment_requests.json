@@ -1,0 +1,192 @@
+[
+  {
+    "studentId": "001",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0001",
+          "next": {
+            "data": "IF0002",
+            "next": {
+              "data": "IF0003"
+            }
+          }
+        }
+      },
+      "tail": {
+        "data": "IF0003"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "002",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0002",
+          "next": {
+            "data": "IF0001"
+          }
+        }
+      },
+      "tail": {
+        "data": "IF0001"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "003",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0002"
+        }
+      },
+      "tail": {
+        "data": "IF0002"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "000",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I"
+      },
+      "tail": {
+        "data": "EG-I"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "004",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0001",
+          "next": {
+            "data": "IF0002",
+            "next": {
+              "data": "IF0003"
+            }
+          }
+        }
+      },
+      "tail": {
+        "data": "IF0003"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "005",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0003",
+          "next": {
+            "data": "IF0002"
+          }
+        }
+      },
+      "tail": {
+        "data": "IF0002"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "006",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0001",
+          "next": {
+            "data": "IF0002",
+            "next": {
+              "data": "IF0003"
+            }
+          }
+        }
+      },
+      "tail": {
+        "data": "IF0003"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "007",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0002"
+        }
+      },
+      "tail": {
+        "data": "IF0002"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "008",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0001",
+          "next": {
+            "data": "IF0002",
+            "next": {
+              "data": "IF0003"
+            }
+          }
+        }
+      },
+      "tail": {
+        "data": "IF0003"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "009",
+    "courseCodes": {
+      "head": {
+        "data": "EG-I",
+        "next": {
+          "data": "IF0001",
+          "next": {
+            "data": "IF0002"
+          }
+        }
+      },
+      "tail": {
+        "data": "IF0002"
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  }
+]

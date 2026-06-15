@@ -1,5 +1,8 @@
 package cr.ac.ucr.sga.model.structures.trees;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Árbol AVL (Adelson-Velsky & Landis, 1962).
 
@@ -173,20 +176,6 @@ public class AVL <T extends Comparable<T>> extends BST<T>{
 
         return isBalanced(node.left)
                 && isBalanced(node.right);
-    }
-
-    //practice
-    public String printTree() throws TreeException {
-        return printTree(root,height());
-    }
-    private String printTree(BTreeNode<T> node, int level) {
-        String result = "";
-        if (node != null) {
-            printTree(node.right, level + 1);
-            result +=" ".repeat(level * 4) + node.data;
-            printTree(node.left, level + 1);
-        }
-        return result;
     }
 
 }

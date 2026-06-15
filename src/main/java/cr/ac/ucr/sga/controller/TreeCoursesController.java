@@ -49,7 +49,6 @@ public class TreeCoursesController  implements Initializable {
     private void setupAVL() {
         avl = new AVL<>();
 
-        //config boton
         btShowTree.setOnAction(e -> runSearchAVL());
         loadCoursesInCareer();
         cbTours.getSelectionModel().selectFirst();
@@ -96,9 +95,9 @@ public class TreeCoursesController  implements Initializable {
     private void buildAVLFromCareer(Career career) throws ListException {
 
         for (Course course : career.getCourses().toList()) {
-            avl.add(course); // insertar cada curso en el árbol
+            avl.add(course);
         }
-        drawAVL(avl); // dibujar en el canvas
+        drawAVL(avl);
     }
 
     private void clearAVL() {
@@ -133,13 +132,10 @@ public class TreeCoursesController  implements Initializable {
 
 
     private void drawAVL(AVL<Course> tree) {
-        // graphicContext:forma de "dibujar" es como un objeto
         GraphicsContext treeGraphic = treeCoursesCanvas.getGraphicsContext2D();
-        // limpiar cada vez antes de entrar al if
         treeGraphic.clearRect(0, 0, treeCoursesCanvas.getWidth(), treeCoursesCanvas.getHeight());
 
-        // avl tree
-        if (avl.root != null) {// si hay raiz entonces permite llamar metodo drawBTreeNodes
+        if (avl.root != null) {
             if (tree.root.equals(avl.root)) {
                 drawTreeNode(treeGraphic, avl.root, treeCoursesCanvas.getWidth() / 2, 40, treeCoursesCanvas.getWidth() / 4,tree, true);
             }else{
@@ -149,11 +145,7 @@ public class TreeCoursesController  implements Initializable {
         }
 
     }
-/*
-    private void registrarOperacion(int nodos, int altura, boolean isBalanced) {
-        String texto = "Nodos: " +nodos + "| Altura: " + altura + "| Balanceado:  " + isBalanced;
-        lblAvlInfo.setText(texto);
-    }*/
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -163,7 +155,7 @@ public class TreeCoursesController  implements Initializable {
     }
     private void animateTraversal(List<String> recorrido) {
         Timeline timeline = new Timeline();
-        int delay = 800; // milisegundos entre pasos
+        int delay = 800;
         GraphicsContext gc = treeCoursesCanvas.getGraphicsContext2D();
 
         for (int i = 0; i < recorrido.size(); i++) {
@@ -171,9 +163,8 @@ public class TreeCoursesController  implements Initializable {
             KeyFrame frame = new KeyFrame(
                     Duration.millis(i * delay),
                     e -> {
-                        drawAVL(avl); // redibuja el árbol
-                        // dibujar un círculo rojo alrededor, o cambiar el color.
-                        gc.setFill(javafx.scene.paint.Color.RED);  // resalta el nodo actual
+                        drawAVL(avl);
+                        gc.setFill(javafx.scene.paint.Color.RED);
                         gc.fillText("Visitando: " + courseId, 20, 20);
                     }
             );

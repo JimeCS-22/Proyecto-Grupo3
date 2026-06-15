@@ -129,46 +129,5 @@ public class BST<T extends Comparable<T>> extends BTree<T> {
         return result;
     }
 
-    //Uso para la parte grafica
-    public List<BTreeNode<T>> getSearchPath(T element) {
-
-        List<BTreeNode<T>> path = new ArrayList<>();
-
-        getSearchPath(root, element, path);
-
-        return path;
-    }
-
-    private boolean getSearchPath(
-            BTreeNode<T> node,
-            T element,
-            List<BTreeNode<T>> path) {
-
-        if (node == null) {
-            return false;
-        }
-
-        path.add(node);
-
-        int cmp = compareElement(element, node.data);
-
-        if (cmp == 0) {
-            return true;
-        }
-
-        boolean found;
-
-        if (cmp < 0) {
-            found = getSearchPath(node.left, element, path);
-        } else {
-            found = getSearchPath(node.right, element, path);
-        }
-
-        if (!found) {
-            path.remove(path.size() - 1);
-        }
-
-        return found;
-    }
 
 }
