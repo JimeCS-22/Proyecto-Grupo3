@@ -14,6 +14,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class TreeVisualizerController {
 
@@ -37,7 +40,8 @@ public class TreeVisualizerController {
     private TextArea resultArea;
     @FXML
     private ComboBox<String> treeTypeCombo;
-
+    @FXML
+    private ComboBox<String> rotationCombo;
     @FXML
     public void initialize() {
 
@@ -54,6 +58,15 @@ public class TreeVisualizerController {
                 "BST",
                 "AVL"
         );
+
+        rotationCombo.getItems().addAll(
+                "LL - Derecha",
+                "RR - Izquierda",
+                "LR - Izquierda-Derecha",
+                "RL - Derecha-Izquierda"
+        );
+
+        rotationCombo.getSelectionModel().selectFirst();
 
         treeTypeCombo.getSelectionModel()
                 .select("AVL");
@@ -401,4 +414,127 @@ public class TreeVisualizerController {
     }
 
 
+    @FXML
+    private void onRotationDemo() {
+
+        try {
+
+            avlTree = new AVL<>();
+
+            currentTree = avlTree;
+
+            CourseData data = new CourseData();
+
+            DoublyLinkedList<Course> cursos =
+                    data.getAllCourses();
+
+            animateRotation(
+                    rotationCombo.getValue(),
+                    cursos
+            );
+
+            resultArea.setText(
+                    "Demostrando " +
+                            rotationCombo.getValue()
+            );
+
+        } catch (Exception ex) {
+
+            resultArea.setText(
+                    ex.getMessage()
+            );
+        }
+    }
+
+    private void insertCourse(String code,
+                              DoublyLinkedList<Course> cursos)
+            throws Exception {
+
+        for (Course c : cursos.toList()) {
+
+            if (c.getId().equals(code)) {
+
+                avlTree.add(c);
+
+                return;
+            }
+        }
+    }
+
+    private void animateRotation(String tipo,
+                                 DoublyLinkedList<Course> cursos) {
+
+        Timeline timeline = new Timeline();
+
+        String[] ids;
+
+        switch (tipo) {
+
+            case "LL - Derecha":
+                ids = new String[]{
+                        "IF0003",
+                        "IF0002",
+                        "IF0001"
+                };
+                break;
+
+            case "RR - Izquierda":
+                ids = new String[]{
+                        "IF0001",
+                        "IF0002",
+                        "IF0003"
+                };
+                break;
+
+            case "LR - Izquierda-Derecha":
+                ids = new String[]{
+                        "IF0003",
+                        "IF0001",
+                        "IF0002"
+                };
+                break;
+
+            case "RL - Derecha-Izquierda":
+                ids = new String[]{
+                        "IF0001",
+                        "IF0003",
+                        "IF0002"
+                };
+                break;
+
+            default:
+                return;
+        }
+
+        for (int i = 0; i < ids.length; i++) {
+
+            String id = ids[i];
+
+            timeline.getKeyFrames().add(
+
+                    new KeyFrame(
+
+                            Duration.seconds(i + 1),
+
+                            e -> {
+
+                                try {
+
+                                    insertCourse(id, cursos);
+
+                                    currentTree = avlTree;
+
+                                    drawTree();
+
+                                } catch (Exception ex) {
+
+                                    ex.printStackTrace();
+                                }
+
+                            })
+            );
+        }
+
+        timeline.play();
+    }
 }

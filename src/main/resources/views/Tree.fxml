@@ -71,6 +71,17 @@
                     onAction="#onShowAVLInfo"
                     maxWidth="Infinity"/>
 
+            <Separator/>
+
+            <Label text="Rotaciones AVL"/>
+
+            <ComboBox fx:id="rotationCombo"
+                      prefWidth="180"/>
+
+            <Button text="Demostrar Rotación"
+                    onAction="#onRotationDemo"
+                    maxWidth="Infinity"/>
+
         </VBox>
 
     </left>
