@@ -10,6 +10,7 @@ import cr.ac.ucr.sga.model.structures.trees.BST;
 import cr.ac.ucr.sga.model.structures.trees.BTree;
 import cr.ac.ucr.sga.model.structures.trees.BTreeNode;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -42,6 +43,13 @@ public class TreeVisualizerController {
     private ComboBox<String> treeTypeCombo;
     @FXML
     private ComboBox<String> rotationCombo;
+
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private Group canvasGroup;
+    private double scaleValue = 1.0;  // escala inicial
+
     @FXML
     public void initialize() {
 
@@ -83,6 +91,22 @@ public class TreeVisualizerController {
         drawTree();
 
         initializeMouseEvents();
+
+        // Listener para zoom con rueda del ratón
+        scrollPane.setOnScroll(event -> {
+            if (event.isControlDown()) {  // opcional: solo zoom con Ctrl
+                double zoomFactor = 1.05;
+                if (event.getDeltaY() < 0) {
+                    scaleValue /= zoomFactor;
+                } else {
+                    scaleValue *= zoomFactor;
+                }
+                scaleValue = Math.min(Math.max(scaleValue, 0.5), 3); // limitar zoom entre 0.5x y 3x
+                canvasGroup.setScaleX(scaleValue);
+                canvasGroup.setScaleY(scaleValue);
+                event.consume();
+            }
+        });
     }
     private void drawTree(){
 

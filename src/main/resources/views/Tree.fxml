@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.Group?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="cr.ac.ucr.sga.controller.TreeVisualizerController">
 
@@ -94,9 +95,12 @@
                 fitToWidth="false"
                 fitToHeight="false">
 
-            <Canvas fx:id="treeCanvas"
-                    width="3000"
-                    height="2000"/>
+            <ScrollPane fx:id="scrollPane" pannable="true" fitToWidth="false" fitToHeight="false">
+                <Group fx:id="canvasGroup">
+                    <Canvas fx:id="treeCanvas" width="3000" height="2000" />
+                </Group>
+            </ScrollPane>
+
 
         </ScrollPane>
 

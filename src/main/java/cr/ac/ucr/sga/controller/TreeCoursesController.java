@@ -9,12 +9,15 @@ import cr.ac.ucr.sga.model.structures.trees.TreeException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -36,6 +39,7 @@ public class TreeCoursesController  implements Initializable {
     private ComboBox<String> cbTours;
     private final CourseData courseData = new CourseData();
 
+
     private AVL<Course> avl;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,6 +58,8 @@ public class TreeCoursesController  implements Initializable {
                 "InOrder", "PostOrder"
         ));
         cbTours.getSelectionModel().selectFirst();
+
+
 
     }
 
