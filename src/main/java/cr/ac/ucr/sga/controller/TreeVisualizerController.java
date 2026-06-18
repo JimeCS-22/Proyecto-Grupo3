@@ -96,18 +96,20 @@ public class TreeVisualizerController {
 
         // Listener para zoom con rueda del ratón
         scrollPane.setOnScroll(event -> {
-            if (event.isControlDown()) {  // opcional: solo zoom con Ctrl
-                double zoomFactor = 1.05;
-                if (event.getDeltaY() < 0) {
-                    scaleValue /= zoomFactor;
-                } else {
-                    scaleValue *= zoomFactor;
-                }
-                scaleValue = Math.min(Math.max(scaleValue, 0.5), 3); // limitar zoom entre 0.5x y 3x
-                canvasGroup.setScaleX(scaleValue);
-                canvasGroup.setScaleY(scaleValue);
-                event.consume();
+            double zoomFactor = 1.05;
+            if (event.getDeltaY() < 0) {
+                scaleValue /= zoomFactor;
+            } else {
+                scaleValue *= zoomFactor;
             }
+            scaleValue = Math.min(Math.max(scaleValue, 0.2), 3.0);
+
+            canvasGroup.setScaleX(scaleValue);
+            canvasGroup.setScaleY(scaleValue);
+
+            canvasGroup.layout();
+
+            event.consume();
         });
     }
     private void drawTree(){
@@ -159,6 +161,33 @@ public class TreeVisualizerController {
             }
 
         });
+
+        scrollPane.addEventFilter(javafx.scene.input.ScrollEvent.SCROLL, event -> {
+            double zoomFactor = 1.05;
+            double delta = event.getDeltaY();
+
+            if (delta < 0) {
+                scaleValue /= zoomFactor;
+            } else if (delta > 0) {
+                scaleValue *= zoomFactor;
+            }
+
+            // Límites estrictos
+            scaleValue = Math.max(0.2, Math.min(scaleValue, 3.0));
+
+            canvasGroup.setScaleX(scaleValue);
+            canvasGroup.setScaleY(scaleValue);
+
+            event.consume();
+        });
+
+        treeCanvas.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 2){
+                Course course = renderer.findCourseAt(event.getX(), event.getY());
+                if(course != null) showCourseDialog(course);
+            }
+        });
+
     }
 
     private void showCourseDialog(Course course){

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cr.ac.ucr.sga.controller.CampuController"
+            stylesheets="@../styles.css">
+
+    <!-- Barra superior -->
+    <top>
+
+        <ToolBar>
+
+            <Label text="🏫 Campus Navigator"/>
+
+            <Pane HBox.hgrow="ALWAYS"/>
+
+            <TextField fx:id="searchField"
+                       promptText="Buscar edificio..."/>
+
+            <Button text="🌙"/>
+
+            <Button text="⚙"/>
+
+        </ToolBar>
+
+    </top>
+
+    <!-- Panel izquierdo -->
+    <left>
+
+        <VBox fx:id="buildingList"
+              prefWidth="220"
+              spacing="8"/>
+
+    </left>
+
+    <!-- Centro -->
+    <center>
+
+        <ScrollPane fitToWidth="true"
+                    fitToHeight="true">
+
+            <Pane fx:id="mapPane"
+                  prefWidth="1400"
+                  prefHeight="900"/>
+
+        </ScrollPane>
+
+    </center>
+
+    <!-- Panel derecho -->
+
+    <right>
+
+        <VBox fx:id="infoPanel"
+              prefWidth="260"
+              spacing="10"/>
+
+    </right>
+
+    <!-- Barra inferior -->
+
+    <bottom>
+
+        <HBox spacing="20">
+
+            <Label fx:id="statusLabel"
+                   text="Sistema listo"/>
+
+            <Pane HBox.hgrow="ALWAYS"/>
+
+            <Label text="Zoom"/>
+
+            <Label fx:id="zoomLabel"
+                   text="100%"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

@@ -95,6 +95,10 @@
             <Tab fx:id="treeCoursesTab" text="Árbol Prerrequisitos" closable="false">
                 <fx:include source="Tree.fxml"/>
             </Tab>
+
+            <Tab fx:id="CampusTab" text="Campus(grafos)" closable="false">
+                <fx:include source="campus-view.fxml"/>
+            </Tab>
         </TabPane>
     </center>
 

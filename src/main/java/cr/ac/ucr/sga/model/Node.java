@@ -3,9 +3,19 @@ package cr.ac.ucr.sga.model;
 public class Node<T> {
 
     public T data;
+    public Object weight;
     public Node<T> next; //apuntador al nodo siguiente
     public Node<T> prev;//apuntador al nodo siguiente
     public Integer priority;// 1-Alta,2-media y 3-baja
+    public Node<T> neighbor;
+    public boolean visited;
+
+    //Constructor sobrecargado No.3 utilizando con grafos de listas
+    public Node(T element, Object weight) {
+        this.data = element;
+        this.weight = weight;
+        this.neighbor = null;
+    }
 
     public Node(T data, Node<T> next) {
         this.data = data;
@@ -20,14 +30,17 @@ public class Node<T> {
     public Node() {
         this.data = null;
         this.next = null;
+        this.next = this.prev = null;
     }
 
-    //Constructor para la Cola de Prioridad
     public Node(T element, Integer priority) {
+
         this.data = element;
         this.priority = priority;
         this.next = null;
+
     }
+
 
     public T getData() {
         return data;

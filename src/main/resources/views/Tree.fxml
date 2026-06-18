@@ -3,123 +3,57 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.Group?>
+
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="cr.ac.ucr.sga.controller.TreeVisualizerController">
 
-    <!-- TÍTULO -->
     <top>
-
         <VBox spacing="10" style="-fx-padding:15;">
-
             <Label text="Visualizador de Árboles de Cursos"
                    style="-fx-font-size:24px; -fx-font-weight:bold;"/>
-
             <HBox spacing="10">
-
                 <Label text="Tipo de Árbol:"/>
-
-                <ComboBox fx:id="treeTypeCombo"
-                          onAction="#onTreeTypeChanged"
-                          prefWidth="180"/>
-
+                <ComboBox fx:id="treeTypeCombo" onAction="#onTreeTypeChanged" prefWidth="180"/>
                 <Label text="Buscar:"/>
-
-                <TextField fx:id="searchField"
-                           promptText="Código del curso"/>
-
-                <Button text="Buscar"
-                        onAction="#onSearchCourse"/>
-
+                <TextField fx:id="searchField" promptText="Código del curso"/>
+                <Button text="Buscar" onAction="#onSearchCourse"/>
             </HBox>
-
         </VBox>
-
     </top>
 
-    <!-- PANEL IZQUIERDO -->
     <left>
-
-        <VBox spacing="10"
-              prefWidth="220"
-              style="-fx-padding:10;">
-
-            <Label text="Recorridos"
-                   style="-fx-font-size:18px;"/>
-
-            <Button text="InOrden"
-                    onAction="#onInOrder"
-                    maxWidth="Infinity"/>
-
-            <Button text="PreOrden"
-                    onAction="#onPreOrder"
-                    maxWidth="Infinity"/>
-
-            <Button text="PostOrden"
-                    onAction="#onPostOrder"
-                    maxWidth="Infinity"/>
-
+        <VBox spacing="10" prefWidth="220" style="-fx-padding:10;">
+            <Label text="Recorridos" style="-fx-font-size:18px;"/>
+            <Button text="InOrden" onAction="#onInOrder" maxWidth="Infinity"/>
+            <Button text="PreOrden" onAction="#onPreOrder" maxWidth="Infinity"/>
+            <Button text="PostOrden" onAction="#onPostOrder" maxWidth="Infinity"/>
             <Separator/>
-
             <Label text="Animaciones"/>
-
-            <Button text="Buscar Animado"
-                    onAction="#onAnimatedSearch"
-                    maxWidth="Infinity"/>
-
-            <Button text="Mostrar AVL"
-                    onAction="#onShowAVLInfo"
-                    maxWidth="Infinity"/>
-
+            <Button text="Buscar Animado" onAction="#onAnimatedSearch" maxWidth="Infinity"/>
+            <Button text="Mostrar AVL" onAction="#onShowAVLInfo" maxWidth="Infinity"/>
             <Separator/>
-
             <Label text="Rotaciones AVL"/>
-
-            <ComboBox fx:id="rotationCombo"
-                      prefWidth="180"/>
-
-            <Button text="Demostrar Rotación"
-                    onAction="#onRotationDemo"
-                    maxWidth="Infinity"/>
-
+            <ComboBox fx:id="rotationCombo" prefWidth="180"/>
+            <Button text="Demostrar Rotación" onAction="#onRotationDemo" maxWidth="Infinity"/>
         </VBox>
-
     </left>
 
-    <!-- ÁRBOL -->
     <center>
-
-        <ScrollPane
-                pannable="true"
-                fitToWidth="false"
-                fitToHeight="false">
-
+        <SplitPane orientation="VERTICAL" dividerPositions="0.75">
             <ScrollPane fx:id="scrollPane" pannable="true" fitToWidth="false" fitToHeight="false">
-                <Group fx:id="canvasGroup">
-                    <Canvas fx:id="treeCanvas" width="3000" height="2000" />
-                </Group>
+                <content>
+                    <Group fx:id="canvasGroup">
+                        <Canvas fx:id="treeCanvas" width="3000" height="2000" />
+                    </Group>
+                </content>
             </ScrollPane>
 
-
-        </ScrollPane>
-
+            <VBox spacing="5" style="-fx-padding:10;">
+                <Label text="Resultado" style="-fx-font-weight:bold;"/>
+                <TextArea fx:id="resultArea" editable="false" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </SplitPane>
     </center>
-
-    <!-- PARTE INFERIOR -->
-    <bottom>
-
-        <VBox spacing="10"
-              style="-fx-padding:10;">
-
-            <Label text="Resultado"/>
-
-            <TextArea fx:id="resultArea"
-                      prefRowCount="4"
-                      editable="false"/>
-
-        </VBox>
-
-    </bottom>
 
 </BorderPane>
