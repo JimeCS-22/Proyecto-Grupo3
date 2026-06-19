@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cr.ac.ucr.sga.controller.CampuController"
-            stylesheets="@../styles.css">
+<BorderPane stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.CampuController">
 
     <!-- Barra superior -->
     <top>
 
         <ToolBar>
 
-            <Label text="🏫 Campus Navigator"/>
+            <Label text="🏫 Campus Navigator" />
 
-            <Pane HBox.hgrow="ALWAYS"/>
+            <Pane HBox.hgrow="ALWAYS" />
 
-            <TextField fx:id="searchField"
-                       promptText="Buscar edificio..."/>
+            <TextField fx:id="searchField" promptText="Buscar edificio..." />
 
-            <Button text="🌙"/>
+            <Button text="🌙" />
 
-            <Button text="⚙"/>
+            <Button text="⚙" />
 
         </ToolBar>
 
@@ -30,21 +34,22 @@
     <!-- Panel izquierdo -->
     <left>
 
-        <VBox fx:id="buildingList"
-              prefWidth="220"
-              spacing="8"/>
+        <VBox fx:id="buildingList" prefWidth="220" spacing="8">
+         <children>
+            <Label fx:id="lblTours" text="Recorridos" />
+             <Button fx:id="btnBFS" onAction="#runBFS" text="BFS" />
+
+             <Button fx:id="btnDFS" onAction="#runDFS" text="DFS" />
+         </children></VBox>
 
     </left>
 
     <!-- Centro -->
     <center>
 
-        <ScrollPane fitToWidth="true"
-                    fitToHeight="true">
+        <ScrollPane fitToHeight="true" fitToWidth="true">
 
-            <Pane fx:id="mapPane"
-                  prefWidth="1400"
-                  prefHeight="900"/>
+            <Pane fx:id="mapPane" prefHeight="900" prefWidth="1400" />
 
         </ScrollPane>
 
@@ -54,9 +59,7 @@
 
     <right>
 
-        <VBox fx:id="infoPanel"
-              prefWidth="260"
-              spacing="10"/>
+        <VBox fx:id="infoPanel" prefWidth="260" spacing="10" />
 
     </right>
 
@@ -66,15 +69,13 @@
 
         <HBox spacing="20">
 
-            <Label fx:id="statusLabel"
-                   text="Sistema listo"/>
+            <Label fx:id="statusLabel" text="Sistema listo" />
 
-            <Pane HBox.hgrow="ALWAYS"/>
+            <Pane HBox.hgrow="ALWAYS" />
 
-            <Label text="Zoom"/>
+            <Label text="Zoom" />
 
-            <Label fx:id="zoomLabel"
-                   text="100%"/>
+            <Label fx:id="zoomLabel" text="100%" />
 
         </HBox>
 

@@ -171,6 +171,23 @@ public class BuildingView extends StackPane{
     }
 
 
+    public void visit() {
 
+        background.setFill(Color.ORANGE);
 
+        ScaleTransition transition =
+                new ScaleTransition(Duration.millis(300), this);
+
+        transition.setToX(1.2);
+        transition.setToY(1.2);
+        transition.setAutoReverse(true);
+        transition.setCycleCount(2);
+
+        transition.play();
+    }
+    public void finish() {
+
+        background.setFill(Color.web("#27AE60"));
+
+    }
 }

@@ -1,6 +1,7 @@
 package cr.ac.ucr.sga.model.structures.graph;
 
 import cr.ac.ucr.sga.model.Node;
+import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 import cr.ac.ucr.sga.model.structures.queues.QueueException;
 import cr.ac.ucr.sga.model.structures.stacks.StackException;
@@ -391,4 +392,94 @@ public class AdjacencyListGraph<T extends Comparable<T>> extends AdjacencyMatrix
 
     }
 
+    //para animar los recorridos
+    public LinkedList<T> bfsTraversal() throws ListException, QueueException {
+        if (isEmpty())
+            throw new GraphException("Graph is empty");
+
+        setVisited(false);
+        queue.clear();
+
+        cr.ac.ucr.sga.model.structures.lists.LinkedList<T> recorrido =
+                new cr.ac.ucr.sga.model.structures.lists.LinkedList<>();
+
+        for (int i = 0; i < size(); i++) {
+
+            if (!vertexList[i].isVisited()) {
+
+                vertexList[i].setVisited(true);
+
+                recorrido.add(vertexList[i].data);
+
+                queue.enQueue(i);
+
+                while (!queue.isEmpty()) {
+
+                    int current = (int) queue.deQueue();
+
+                    Node<T> aux = vertexList[current].headNode;
+
+                    while (aux != null) {
+
+                        int neighbor = indexOf(aux.data);
+
+                        if (neighbor != -1 &&
+                                !vertexList[neighbor].isVisited()) {
+
+                            vertexList[neighbor].setVisited(true);
+
+                            recorrido.add(vertexList[neighbor].data);
+
+                            queue.enQueue(neighbor);
+
+                        }
+
+                        aux = aux.neighbor;
+                    }
+                }
+            }
+        }
+
+        return recorrido;
+    }
+
+    public LinkedList<T> dfsTraversal() throws StackException, ListException {
+        if (isEmpty())
+            throw new GraphException("Graph is empty");
+
+        setVisited(false);
+        stack.clear();
+
+        LinkedList<T> recorrido = new LinkedList<>();
+
+        for (int i = 0; i < size(); i++) {
+
+            if (!vertexList[i].isVisited()) {
+
+                vertexList[i].setVisited(true);
+                recorrido.add(vertexList[i].data);
+
+                stack.push(i);
+
+                while (!stack.isEmpty()) {
+
+                    int current = (int) stack.pop();
+
+                    int neighbor;
+
+                    while ((neighbor = adjacentVertexNotVisited(current)) != -1) {
+
+                        vertexList[neighbor].setVisited(true);
+
+                        recorrido.add(vertexList[neighbor].data);
+
+                        stack.push(neighbor);
+
+                    }
+                }
+            }
+        }
+
+        return recorrido;
+    }
 }

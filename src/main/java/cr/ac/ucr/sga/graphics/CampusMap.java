@@ -4,7 +4,10 @@ import cr.ac.ucr.sga.model.Node;
 import cr.ac.ucr.sga.model.entities.Building;
 import cr.ac.ucr.sga.model.structures.graph.AdjacencyListGraph;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class CampusMap extends Pane {
 
@@ -224,6 +227,87 @@ public class CampusMap extends Pane {
 
     public double getZoom() {
         return zoom;
+    }
+
+    public void animateBFS() {
+
+        try {
+
+            LinkedList<Building> recorrido = graph.bfsTraversal();
+
+            animateTraversal(recorrido);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void animateDFS() {
+        try {
+
+            LinkedList<Building> recorrido = graph.dfsTraversal();
+
+            animateTraversal(recorrido);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void animateTraversal(LinkedList<Building> recorrido) {
+
+        Timeline timeline = new Timeline();
+
+        Node<Building> aux = recorrido.getHead();
+
+        int tiempo = 0;
+
+        while (aux != null) {
+
+            Building edificio = aux.data;
+
+            timeline.getKeyFrames().add(
+
+                    new KeyFrame(
+
+                            Duration.seconds(tiempo),
+
+                            e -> {
+
+                                BuildingView view = findView(edificio);
+
+                                if (view != null) {
+                                    view.visit();
+                                }
+
+                            })
+
+            );
+
+            tiempo++;
+
+            aux = aux.next;
+        }
+
+        timeline.play();
+
+    }
+
+    private BuildingView findView(Building building) {
+
+        Node<BuildingView> aux = buildingViews.getHead();
+
+        while (aux != null) {
+
+            if (aux.data.getBuilding().equals(building)) {
+                return aux.data;
+            }
+
+            aux = aux.next;
+        }
+
+        return null;
     }
 }
 

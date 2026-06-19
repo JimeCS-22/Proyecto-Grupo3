@@ -4,8 +4,10 @@ package cr.ac.ucr.sga.controller;
 import cr.ac.ucr.sga.graphics.CampusMap;
 import cr.ac.ucr.sga.model.Node;
 import cr.ac.ucr.sga.model.entities.Building;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -31,6 +33,12 @@ public class CampuController implements Initializable {
     private VBox buildingList;
 
     private CampusMap campusMap;
+    @javafx.fxml.FXML
+    private Button btnBFS;
+    @javafx.fxml.FXML
+    private Button btnDFS;
+    @FXML
+    private Label lblTours;
 
 
     @Override
@@ -77,6 +85,30 @@ public class CampuController implements Initializable {
             loadBuildingList(newValue);
 
         });
+        buildingList.getChildren().add(lblTours);
+        buildingList.getChildren().add(btnDFS);
+        buildingList.getChildren().add(btnBFS);
+        btnBFS.setOnAction(e-> runBFS());
+        btnBFS.setOnAction(e-> runBFS());
+    }
+
+
+    @FXML
+    private void runBFS() {
+
+        statusLabel.setText("Recorrido BFS en ejecución...");
+
+        campusMap.animateBFS();
+
+    }
+
+
+    @FXML
+    private void runDFS() {
+
+        statusLabel.setText("Recorrido DFS en ejecución...");
+
+        campusMap.animateDFS();
 
     }
 
