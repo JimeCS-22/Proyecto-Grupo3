@@ -16,6 +16,8 @@ public class Course implements Comparable<Course> {
     private double grade;
     @Expose
     private String status;
+    @Expose
+    private String careerId;
 
     // =========================
     // NUEVOS CAMPOS
@@ -118,6 +120,12 @@ public class Course implements Comparable<Course> {
         this.prerequisitosIds = ids;
     }
 
+    public String getCareerId() {
+        return careerId;
+    }
+
+
+
     public void addPrerequisito(String courseId) {
         if (!this.prerequisitosIds.contains(courseId)) {
             this.prerequisitosIds.add(courseId);
@@ -200,6 +208,7 @@ public class Course implements Comparable<Course> {
         private int semestre = 1;
         private List<String> prerequisitosIds;
         private List<String> corequisitosIds;
+        private String careerId;
 
         public Builder setId(String id) {
             this.id = id;
@@ -238,6 +247,11 @@ public class Course implements Comparable<Course> {
 
         public Builder setCorequisitosIds(List<String> ids) {
             this.corequisitosIds = ids;
+            return this;
+        }
+
+        public Builder setCareerId(String careerId) {
+            this.careerId = careerId;
             return this;
         }
 

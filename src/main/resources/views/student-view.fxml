@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ScrollPane?>
 
+<?import javafx.scene.control.ComboBox?>
 <BorderPane prefHeight="700" prefWidth="1200" styleClass="root-pane" stylesheets="@../styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="cr.ac.ucr.sga.controller.StudentController">
 
     <!-- HEADER -->
@@ -89,24 +90,48 @@
 
                         <TextField fx:id="txtCarnet" promptText="Ingrese carnet" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
+                        <!-- Carrera -->
+
+                        <Label styleClass="section-label"
+                               text="Carrera"
+                               GridPane.columnIndex="0"
+                               GridPane.rowIndex="4"/>
+
+                        <ComboBox fx:id="cmbCareer"
+                                  GridPane.columnIndex="0"
+                                  GridPane.rowIndex="5"/>
+
                         <!-- USERNAME -->
 
-                        <Label styleClass="section-label" text="Usuario" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <Label styleClass="section-label"
+                               text="Usuario"
+                               GridPane.columnIndex="0"
+                               GridPane.rowIndex="6"/>
 
-                        <TextField fx:id="txtUsername" promptText="Ingrese usuario" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-
+                        <TextField fx:id="txtUsername"
+                                   promptText="Ingrese usuario"
+                                   GridPane.columnIndex="0"
+                                   GridPane.rowIndex="7"/>
                         <!-- PASSWORD -->
 
-                        <Label styleClass="section-label" text="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label styleClass="section-label"
+                               text="Contraseña"
+                               GridPane.columnIndex="1"
+                               GridPane.rowIndex="6"/>
 
-                        <PasswordField fx:id="txtPassword" promptText="Ingrese contraseña" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <PasswordField fx:id="txtPassword"
+                                       promptText="Ingrese contraseña"
+                                       GridPane.columnIndex="1"
+                                       GridPane.rowIndex="7"/>
                         <rowConstraints>
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
+                            <RowConstraints/>
                         </rowConstraints>
 
                     </GridPane>
@@ -145,6 +170,7 @@
                             <TableColumn fx:id="colAge" text="Edad"/>
                             <TableColumn fx:id="colCarnet" text="Carnet"/>
                             <TableColumn fx:id="colUsername" text="Usuario"/>
+                            <TableColumn fx:id="colCareer" text="Carrera"/>
                         </columns>
                     </TableView>
                 </VBox>

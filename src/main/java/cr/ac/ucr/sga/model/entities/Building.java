@@ -1,6 +1,6 @@
 package cr.ac.ucr.sga.model.entities;
 
-public class Building {
+public class Building implements Comparable<Building> {
 
     private String id;
     private String name;
@@ -51,5 +51,18 @@ public class Building {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public double getCenterX() {
+        return x + 85;
+    }
+
+    public double getCenterY() {
+        return y + 45;
+    }
+
+    @Override
+    public int compareTo(Building o) {
+        return 0;
     }
 }

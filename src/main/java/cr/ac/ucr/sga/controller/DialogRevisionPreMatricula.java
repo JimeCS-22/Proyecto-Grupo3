@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import cr.ac.ucr.sga.model.services.NotificationService;
 
 import java.util.UUID;
 
@@ -175,6 +176,13 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
         );
         matriculaData.addOrUpdate(matricula);
 
+        NotificationService.getInstance().notifyObservers(
+                request.getStudent().getId(),
+                "✓ PRE-MATRÍCULA APROBADA\n"
+                        + "Tu solicitud de pre-matrícula fue aprobada correctamente.\n"
+                        + "Ya puedes continuar con el proceso de matrícula."
+        );
+
         showAlert(Alert.AlertType.INFORMATION, "Éxito", "Pre-matrícula aceptada correctamente");
         this.close();
     }
@@ -182,6 +190,12 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
     private void rechazarPreMatricula() {
         // Simplemente elimina la solicitud
         requestData.deleteRequest(request);
+        NotificationService.getInstance().notifyObservers(
+                request.getStudent().getId(),
+                "✗ PRE-MATRÍCULA RECHAZADA\n"
+                        + "Tu solicitud de pre-matrícula fue rechazada.\n"
+                        + "Puedes realizar una nueva solicitud."
+        );
         showAlert(Alert.AlertType.INFORMATION, "Rechazado", "Pre-matrícula rechazada y eliminada");
         this.close();
     }

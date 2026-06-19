@@ -2,10 +2,13 @@ package cr.ac.ucr.sga.graphics;
 
 import cr.ac.ucr.sga.model.Node;
 import cr.ac.ucr.sga.model.entities.Building;
+import cr.ac.ucr.sga.model.structures.graph.AdjacencyListGraph;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import javafx.scene.layout.Pane;
 
 public class CampusMap extends Pane {
+
+    private AdjacencyListGraph<Building> graph;
 
     private LinkedList<Building> buildings;
 
@@ -20,6 +23,8 @@ public class CampusMap extends Pane {
         buildings = new LinkedList<>();
         buildingViews = new LinkedList<>();
         connections = new LinkedList<>();
+
+        graph = new AdjacencyListGraph<>(20,false);
 
         setPrefSize(1500,900);
 
@@ -98,112 +103,73 @@ public class CampusMap extends Pane {
                         420
                 );
 
-        buildings.add(biblioteca);
-        buildings.add(ingenieria);
-        buildings.add(AulaMagna);
-        buildings.add(Laboratorios);
-        buildings.add(cafeteria);
-        buildings.add(Administracion);
-        buildings.add(Gimnasio);
+        addBuilding(biblioteca);
+        addBuilding(ingenieria);
+        addBuilding(AulaMagna);
+        addBuilding(Laboratorios);
+        addBuilding(cafeteria);
+        addBuilding(Administracion);
+        addBuilding(Gimnasio);
 
-        BuildingView bibliotecaView = new BuildingView(biblioteca);
-        BuildingView ingenieriaView = new BuildingView(ingenieria);
-        BuildingView cafeteriaView = new BuildingView(cafeteria);
-        BuildingView AdministracionView = new BuildingView(Administracion);
-        BuildingView GimnasioView = new BuildingView(Gimnasio);
-        BuildingView AulaMagnaView = new BuildingView(AulaMagna);
-        BuildingView LaboratoriosView = new BuildingView(Laboratorios);
+        connect(biblioteca, ingenieria, 120);
 
-        buildingViews.add(bibliotecaView);
-        buildingViews.add(ingenieriaView);
-        buildingViews.add(cafeteriaView);
-        buildingViews.add(AdministracionView);
-        buildingViews.add(GimnasioView);
-        buildingViews.add(AulaMagnaView);
-        buildingViews.add(LaboratoriosView);
+        connect(ingenieria, AulaMagna, 80);
 
-        ConnectionView c1 = new ConnectionView(
-                335,
-                195,
-                735,
-                195
-        );
+        connect(biblioteca, Laboratorios, 90);
 
-        ConnectionView c2 = new ConnectionView(
-                735,
-                195,
-                1135,
-                195
-        );
+        connect(ingenieria, cafeteria, 60);
 
-        ConnectionView c3 = new ConnectionView(
-                335,
-                195,
-                335,
-                495
-        );
-        ConnectionView c4 = new ConnectionView(
-                735,
-                195,
-                735,
-                495
-        );
-        ConnectionView c5 = new ConnectionView(
-                1135,
-                195,
-                1135,
-                495
-        );
-        ConnectionView c6 = new ConnectionView(
-                335,
-                495,
-                735,
-                495
-        );
-        ConnectionView c7 = new ConnectionView(
-                735,
-                495,
-                1135,
-                495
-        );
-        ConnectionView c8 = new ConnectionView(
-                735,
-                495,
-                735,
-                765
-        );
+        connect(AulaMagna, Administracion, 75);
 
-        connections.add(c1);
-        connections.add(c2);
-        connections.add(c3);
-        connections.add(c4);
-        connections.add(c5);
-        connections.add(c6);
-        connections.add(c7);
-        connections.add(c8);
+        connect(Laboratorios, cafeteria, 50);
 
-        getChildren().addAll(
-                c1,
-                c2,
-                c3,
-                c4,
-                c5,
-                c6,
-                c7,
-                c8
-        );
+        connect(cafeteria, Administracion, 45);
+
+        connect(cafeteria, Gimnasio, 40);
 
 
-        getChildren().addAll(
-                bibliotecaView,
-                ingenieriaView,
-                cafeteriaView,
-                AdministracionView,
-                GimnasioView,
-                AulaMagnaView,
-                LaboratoriosView
-        );
+    }
 
+    private void addBuilding(Building building){
+
+        buildings.add(building);
+
+        try{
+            graph.addVertex(building);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        BuildingView view = new BuildingView(building);
+
+        buildingViews.add(view);
+
+        getChildren().add(view);
+
+    }
+    private void connect(Building a,
+                         Building b,
+                         int weight) {
+
+        try {
+
+            graph.addEdge(a, b);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ConnectionView connection =
+                new ConnectionView(
+                        a.getCenterX(),
+                        a.getCenterY(),
+                        b.getCenterX(),
+                        b.getCenterY()
+                );
+
+        connections.add(connection);
+
+        getChildren().add(0, connection);
     }
 
     public LinkedList<Building> getBuildings() {

@@ -1,13 +1,12 @@
 package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.model.data.AcademicRecordData;
+import cr.ac.ucr.sga.model.data.CareerData;
 import cr.ac.ucr.sga.model.data.StudentData;
 import cr.ac.ucr.sga.model.data.UserData;
-import cr.ac.ucr.sga.model.entities.AcademicRecord;
-import cr.ac.ucr.sga.model.entities.Role;
-import cr.ac.ucr.sga.model.entities.Student;
-import cr.ac.ucr.sga.model.entities.User;
+import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,6 +33,9 @@ public class StudentController implements Initializable {
 
     @FXML
     private TableColumn<Student, String> colUsername;
+
+    @FXML
+    private TableColumn<Student, String> colCareer;
 
     @FXML
     private TableView<Student> tblStudents;
@@ -71,14 +73,19 @@ public class StudentController implements Initializable {
     @FXML
     private Label lblCount;
 
+    @FXML
+    private ComboBox<Career> cmbCareer;
     private final StudentData studentData = new StudentData();
 
     private final UserData userData = new UserData();
+
+    private CareerData careerData = new CareerData();
 
     private final ObservableList<Student> studentList =
             FXCollections.observableArrayList();
 
     private MainController mainController;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -88,21 +95,54 @@ public class StudentController implements Initializable {
         loadStudents();
 
         tableListener();
+        cmbCareer.getItems().addAll(
+                careerData.getAllCareers().toList()
+        );
+
+        cmbCareer.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Career career, boolean empty) {
+                super.updateItem(career, empty);
+
+                if (empty || career == null) {
+                    setText("");
+                } else {
+                    setText(career.getName());
+                }
+            }
+        });
+
+        cmbCareer.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Career career, boolean empty) {
+                super.updateItem(career, empty);
+
+                if (empty || career == null) {
+                    setText("");
+                } else {
+                    setText(career.getName());
+                }
+            }
+        });
+
+        cmbCareer.getItems().addAll(
+                careerData.getAllCareers().toList()
+        );
 
         System.out.println("StudentController iniciado");
     }
 
     private void setupStudentController() {
-        btnAdd.setOnAction(e->addStudent());
-        btnUpdate.setOnAction(e->updateStudent());
-        btnDelete.setOnAction(e-> {
+        btnAdd.setOnAction(e -> addStudent());
+        btnUpdate.setOnAction(e -> updateStudent());
+        btnDelete.setOnAction(e -> {
             try {
                 deleteStudent();
             } catch (ListException ex) {
                 throw new RuntimeException(ex);
             }
         });
-        btnClear.setOnAction(e->clearFields());
+        btnClear.setOnAction(e -> clearFields());
     }
 
     public void setMainController(
@@ -131,6 +171,20 @@ public class StudentController implements Initializable {
 
         colUsername.setCellValueFactory(
                 new PropertyValueFactory<>("username"));
+
+        colCareer.setCellValueFactory(cell -> {
+
+            Career career =
+                    careerData.findCareerById(
+                            cell.getValue().getCareerId()
+                    );
+
+            String nombre = career != null
+                    ? career.getName()
+                    : "";
+
+            return new SimpleStringProperty(nombre);
+        });
 
         tblStudents.setItems(studentList);
     }
@@ -179,12 +233,23 @@ public class StudentController implements Initializable {
             String password =
                     txtPassword.getText();
 
+            Career career = cmbCareer.getValue();
+
+            if (career == null) {
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Carrera",
+                        "Seleccione una carrera."
+                );
+                return;
+            }
             Student student =
                     new Student.Builder()
                             .setId(id)
                             .setName(name)
                             .setAge(age)
                             .setCarnet(carnet)
+                            .setcareerId(career.getId())
                             .setUsername(username)
                             .setPassword(password)
                             .build();
@@ -280,6 +345,17 @@ public class StudentController implements Initializable {
             return;
         }
 
+        Career career = cmbCareer.getValue();
+
+        if (career == null) {
+            showAlert(
+                    Alert.AlertType.WARNING,
+                    "Carrera",
+                    "Seleccione una carrera."
+            );
+            return;
+        }
+
         try {
 
             Student updatedStudent =
@@ -291,7 +367,10 @@ public class StudentController implements Initializable {
                                             txtAge.getText()
                                     )
                             )
-                            .setCarnet(txtCarnet.getText())
+                            .setcareerId(career.getId())
+
+
+                    .setCarnet(txtCarnet.getText())
                             .setUsername(txtUsername.getText())
                             .setPassword(txtPassword.getText())
                             .build();
@@ -374,6 +453,7 @@ public class StudentController implements Initializable {
         txtCarnet.clear();
         txtUsername.clear();
         txtPassword.clear();
+        cmbCareer.setValue(null);
 
         tblStudents.getSelectionModel()
                 .clearSelection();
@@ -415,6 +495,11 @@ public class StudentController implements Initializable {
                                 txtPassword.setText(
                                         student.getPassword()
                                 );
+                                Career career = careerData.findCareerById(student.getCareerId());
+
+                                if (career != null) {
+                                    cmbCareer.setValue(career);
+                                }
                             }
                         });
     }

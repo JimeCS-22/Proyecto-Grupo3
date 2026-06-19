@@ -63,6 +63,15 @@
                     </children>
                 </HBox>
 
+                <!-- Carrera -->
+                <Label text="Carrera"
+                       GridPane.columnIndex="0"
+                       GridPane.rowIndex="6"/>
+
+                <ComboBox fx:id="cmbCareer"
+                          GridPane.columnIndex="0"
+                          GridPane.rowIndex="7"/>
+
                 <!-- ComboBox Estado y Spinner Semestre -->
                 <HBox prefHeight="53.0" prefWidth="493.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                     <children>
@@ -90,6 +99,8 @@
                     <RowConstraints />
                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
                     <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                    <RowConstraints/>
+                    <RowConstraints/>
                 </rowConstraints>
 
             </GridPane>

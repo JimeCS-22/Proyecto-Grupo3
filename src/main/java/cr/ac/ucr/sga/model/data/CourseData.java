@@ -3,6 +3,7 @@ package cr.ac.ucr.sga.model.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import cr.ac.ucr.sga.model.entities.Career;
 import cr.ac.ucr.sga.model.entities.Course;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
@@ -302,4 +303,5 @@ public class CourseData {
 
         return result;
     }
+
 }

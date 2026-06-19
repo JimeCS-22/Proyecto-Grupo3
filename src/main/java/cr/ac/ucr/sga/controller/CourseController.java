@@ -1,6 +1,7 @@
 package cr.ac.ucr.sga.controller;
 
 import cr.ac.ucr.sga.model.data.AcademicRecordData;
+import cr.ac.ucr.sga.model.data.CareerData;
 import cr.ac.ucr.sga.model.data.CourseData;
 import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
@@ -50,6 +51,9 @@ public class CourseController implements Initializable {
     private ComboBox<Course> cmbPrerequisitos;
 
     @FXML
+    private ComboBox<Career> cmbCareer;
+
+    @FXML
     private Button btnAgregarPrerequisito;
 
     @FXML
@@ -85,6 +89,8 @@ public class CourseController implements Initializable {
 
     private final AcademicRecordData recordData = new AcademicRecordData();
 
+    private final CareerData careerData = new CareerData();
+
     private Course selectedCourse;
 
     private MainController mainController;
@@ -118,6 +124,36 @@ public class CourseController implements Initializable {
                     new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, 1)
             );
         }
+
+        cmbCareer.getItems().addAll(
+                careerData.getAllCareers().toList()
+        );
+
+        cmbCareer.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Career career, boolean empty) {
+                super.updateItem(career, empty);
+
+                if (empty || career == null) {
+                    setText("");
+                } else {
+                    setText(career.getName());
+                }
+            }
+        });
+
+        cmbCareer.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Career career, boolean empty) {
+                super.updateItem(career, empty);
+
+                if (empty || career == null) {
+                    setText("");
+                } else {
+                    setText(career.getName());
+                }
+            }
+        });
 
         // Configurar ListViews para requisitos
         if (lstPrerequisitos != null) {
@@ -468,12 +504,24 @@ public class CourseController implements Initializable {
                 );
             }
 
+            Career career = cmbCareer.getValue();
+
+            if (career == null) {
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Carrera",
+                        "Seleccione una carrera"
+                );
+                return;
+            }
+
             Course course = new Course.Builder()
                     .setId(id)
                     .setName(name)
                     .setCredits(credits)
                     .setStatus(status)
                     .setSemestre(semestre)
+                    .setCareerId(career.getId())   // <-- cambio
                     .setPrerequisitosIds(prerequisitos)
                     .setCorequisitosIds(corequisitos)
                     .build();
@@ -556,6 +604,17 @@ public class CourseController implements Initializable {
                 );
             }
 
+            Career career = cmbCareer.getValue();
+
+            if (career == null) {
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Carrera",
+                        "Seleccione una carrera"
+                );
+                return;
+            }
+
             Course updatedCourse =
                     new Course.Builder()
                             .setId(selectedCourse.getId())
@@ -571,6 +630,7 @@ public class CourseController implements Initializable {
                                             ? spnSemestre.getValue()
                                             : 1
                             )
+                            .setCareerId(career.getId())
                             .setPrerequisitosIds(prerequisitos)
                             .setCorequisitosIds(corequisitos)
                             .build();
@@ -667,6 +727,13 @@ public class CourseController implements Initializable {
 
         cmbStatus.setValue(course.getStatus());
 
+        Career career =
+                careerData.findCareerById(
+                        course.getCareerId()
+                );
+
+        cmbCareer.setValue(career);
+
         // Cargar nuevos campos
         if (spnSemestre != null) {
             spnSemestre.getValueFactory().setValue(course.getSemestre());
@@ -749,6 +816,8 @@ public class CourseController implements Initializable {
         if (spnSemestre != null) {
             spnSemestre.getValueFactory().setValue(1);
         }
+
+        cmbCareer.setValue(null);
 
         if (cmbPrerequisitos != null) {
             cmbPrerequisitos.setValue(null);

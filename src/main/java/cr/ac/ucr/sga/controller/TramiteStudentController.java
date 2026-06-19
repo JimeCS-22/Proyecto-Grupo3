@@ -302,34 +302,6 @@ public class TramiteStudentController implements Initializable {
     }
 
     // =========================
-    // NOTIFICAR AL ESTUDIANTE (Observer Pattern)
-    // =========================
-//    private void notificarEstudiante(String titulo, String mensaje) {
-//        try {
-//            NotificationService notificationService = NotificationService.getInstance();
-//
-//            // Crear observer para este estudiante
-//            StudentNotification observer = new StudentNotification(estudiante.getEmail());
-//
-//            // Agregar observer
-//            notificationService.addObserver(observer);
-//            System.out.println("✓ Observer agregado para: " + estudiante.getEmail());
-//
-//            // Notificar
-//            notificationService.notifyObservers(mensaje);
-//            System.out.println("✓ Notificación enviada: " + titulo);
-//
-//            // Remover observer (para no duplicar notificaciones)
-//            notificationService.removeObserver(observer);
-//            System.out.println("✓ Observer removido");
-//
-//        } catch (Exception e) {
-//            System.err.println("❌ Error al notificar: " + e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
-
-    // =========================
     // MOSTRAR ALERTAS
     // =========================
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {

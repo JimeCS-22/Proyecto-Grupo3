@@ -1,0 +1,26 @@
+[
+  {
+    "id": "CAR01",
+    "code": "IE",
+    "name": "Informática Empresarial",
+    "totalCredits": 140
+  },
+  {
+    "id": "CAR02",
+    "code": "EM",
+    "name": "Enseñanza de la Matemática",
+    "totalCredits": 138
+  },
+  {
+    "id": "CAR03",
+    "code": "EI",
+    "name": "Enseñanza del Inglés",
+    "totalCredits": 144
+  },
+  {
+    "id": "CAR04",
+    "code": "DE",
+    "name": "Dirección de Empresas",
+    "totalCredits": 136
+  }
+]

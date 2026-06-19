@@ -8,9 +8,8 @@ public class Student {
     private String name;
     private String carnet;
     private int age;
-
+    private String careerId;
     private transient AcademicRecord academicRecord;
-
     private String username;
     private String password;
 
@@ -83,6 +82,14 @@ public class Student {
         return this.academicRecord;
     }
 
+    public String getCareerId() {
+        return careerId;
+    }
+
+    public void setCareerId(String careerId) {
+        this.careerId = careerId;
+    }
+
     public void setAcademicRecord(AcademicRecord academicRecord) {
         this.academicRecord = academicRecord;
     }
@@ -109,6 +116,8 @@ public class Student {
 
         private String username;
         private String password;
+
+        private String careerId;
 
         public Builder setId(String id) {
             this.id = id;
@@ -142,6 +151,11 @@ public class Student {
             return this;
         }
 
+        public Builder setcareerId(String careerId) {
+            this.careerId = careerId;
+            return this;
+        }
+
         public Student build() {
 
             if (id == null || id.isBlank()) {
@@ -167,5 +181,6 @@ public class Student {
         public String toString() {
             return name;
         }
+
     }
 }

@@ -3,16 +3,34 @@ package cr.ac.ucr.sga.model.entities;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 
 public class Career {
-    private DoublyLinkedList<Course> courses;
+    private String id;
+    private String code;
     private String name;
     private int totalCredits;
 
-    public DoublyLinkedList<Course> getCourses() {
-        return courses;
+    public Career(){}
+
+    public Career(String id, String code, String name, int totalCredits) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.totalCredits = totalCredits;
     }
 
-    public void setCourses(DoublyLinkedList<Course> courses) {
-        this.courses = courses;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -33,6 +51,6 @@ public class Career {
 
     @Override
     public String toString() {
-        return  name ;
+        return name;
     }
 }
