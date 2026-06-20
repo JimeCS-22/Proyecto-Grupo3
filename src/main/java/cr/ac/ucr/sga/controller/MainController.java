@@ -58,7 +58,10 @@ public class MainController implements Initializable, NotificationObserver {
     private CourseController courseController;
     private StudentController studentController;
     private TramiteReviewController tramiteReviewController;
+    @FXML private Tab reportsTab;
+    @FXML private AnchorPane reportsContent;
 
+    private ReportsController reportsController;
 
     // =========================
     // SERVICES / STATE
@@ -136,6 +139,25 @@ public class MainController implements Initializable, NotificationObserver {
         loadTramiteView();
         loadNotifications();
         mostrarNombreEstudianteSiCorresponde();
+        loadReportsView();
+    }
+
+    private void loadReportsView() {
+        if (reportsContent == null || currentUser == null) {
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/reports-view.fxml"));
+            Parent view = loader.load();
+
+            reportsController = loader.getController();
+            reportsController.setMainController(this);
+
+            setFullAnchor(view, reportsContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // =========================
@@ -149,6 +171,7 @@ public class MainController implements Initializable, NotificationObserver {
         if (currentUser.getRole() == Role.STUDENT) {
             removeTab(studentTab);
             removeTab(reviewStudentTab);
+            removeTab(reportsTab);
             mainTabs.getSelectionModel().select(0);
             return;
         }
@@ -156,8 +179,13 @@ public class MainController implements Initializable, NotificationObserver {
         removeTab(preMatriculaTab);
         removeTab(matriculaEstudianteTab);
 
-        if (currentUser.getRole() != Role.ADMIN) {
+        if (currentUser.getRole() == Role.ADMIN) {
             removeTab(reviewStudentTab);
+            removeTab(reportsTab); //
+        }
+        if (currentUser.getRole() == Role.PROFESSOR) {
+            removeTab(reviewStudentTab);
+
         }
     }
 

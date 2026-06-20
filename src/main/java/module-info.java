@@ -2,9 +2,10 @@ module cr.ac.ucr.sga {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.base;
-    requires java.desktop;
     requires com.google.gson;
     requires itextpdf;
+    requires org.apache.poi.ooxml;
+
 
     //----- GSON REFLECTION (CLAVE: agrega todos los opens relevantes) -----
     opens cr.ac.ucr.sga.model to com.google.gson, javafx.base;

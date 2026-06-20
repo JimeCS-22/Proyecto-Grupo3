@@ -99,6 +99,11 @@
             <Tab fx:id="CampusTab" text="Campus(grafos)" closable="false">
                 <fx:include source="campus-view.fxml"/>
             </Tab>
+            <Tab fx:id="reportsTab" text="Reportes">
+                <content>
+                    <AnchorPane fx:id="reportsContent"/>
+                </content>
+            </Tab>
         </TabPane>
     </center>
 

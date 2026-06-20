@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.ucr.sga.controller.ReportsController">
+
+    <!-- ====================== ENCABEZADO ====================== -->
+
+        <VBox spacing="10" BorderPane.alignment="CENTER">
+
+            <padding>
+                <Insets bottom="10" left="20" right="20" top="20" />
+            </padding>
+
+            <Label style="-fx-font-size:24px;                           -fx-font-weight:bold;                           -fx-text-fill:#1E3A8A;" text="Reportes Académicos" />
+
+            <Separator />
+
+        </VBox>
+
+
+    <!-- ====================== CONTENIDO ====================== -->
+
+
+        <VBox spacing="20">
+
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="15" />
+            </padding>
+
+            <!-- ================= FILTROS ================= -->
+
+            <TitledPane collapsible="false" text="Filtros">
+
+                <content>
+
+                    <GridPane hgap="15" vgap="15">
+
+                        <Label text="Período:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                        <ComboBox fx:id="cbPeriodo" prefWidth="220" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="Carrera:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                        <ComboBox fx:id="cbCarrera" prefWidth="220" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                        <Label text="Curso:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                        <ComboBox fx:id="cbCurso" prefWidth="220" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label text="Profesor:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                        <ComboBox fx:id="cbProfesor" prefWidth="220" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                        <Button fx:id="btnBuscar" prefWidth="140" text="Buscar" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+
+                    </GridPane>
+
+                </content>
+
+            </TitledPane>
+
+            <!-- ================= MÉTRICAS ================= -->
+
+            <HBox spacing="20">
+
+                <VBox alignment="CENTER" prefWidth="180" spacing="10" style="-fx-background-color:white;                              -fx-border-color:#D1D5DB;                              -fx-border-radius:10;                              -fx-background-radius:10;                              -fx-padding:15;">
+
+                    <Label text="Estudiantes" />
+
+                    <Label fx:id="lblEstudiantes" style="-fx-font-size:28px;                                   -fx-font-weight:bold;" text="0" />
+                </VBox>
+
+                <VBox alignment="CENTER" prefWidth="180" spacing="10" style="-fx-background-color:white;                              -fx-border-color:#D1D5DB;                              -fx-border-radius:10;                              -fx-background-radius:10;                              -fx-padding:15;">
+
+                    <Label text="Cursos" />
+
+                    <Label fx:id="lblCursos" style="-fx-font-size:28px;                                   -fx-font-weight:bold;" text="0" />
+                </VBox>
+
+                <VBox alignment="CENTER" prefWidth="180" spacing="10" style="-fx-background-color:white;                              -fx-border-color:#D1D5DB;                              -fx-border-radius:10;                              -fx-background-radius:10;                              -fx-padding:15;">
+
+                    <Label text="Matrículas" />
+
+                    <Label fx:id="lblMatriculas" style="-fx-font-size:28px;                                   -fx-font-weight:bold;" text="0" />
+                </VBox>
+
+                <VBox alignment="CENTER" prefWidth="180" spacing="10" style="-fx-background-color:white;                              -fx-border-color:#D1D5DB;                              -fx-border-radius:10;                              -fx-background-radius:10;                              -fx-padding:15;">
+
+                    <Label text="Promedio" />
+
+                    <Label fx:id="lblPromedio" style="-fx-font-size:28px;                                   -fx-font-weight:bold;" text="0.0" />
+                </VBox>
+
+            </HBox>
+
+            <!-- ================= TABLA ================= -->
+
+            <TitledPane collapsible="false" text="Resultados">
+
+                <content>
+
+                    <TableView fx:id="tblReportes" prefHeight="320">
+
+                        <columns>
+
+                            <TableColumn fx:id="colCurso" prefWidth="180" text="Curso" />
+
+                            <TableColumn fx:id="colProfesor" prefWidth="180" text="Profesor" />
+
+                            <TableColumn fx:id="colCarrera" prefWidth="170" text="Carrera" />
+
+                            <TableColumn fx:id="colEstudiantes" prefWidth="110" text="Estudiantes" />
+
+                            <TableColumn fx:id="colPromedio" prefWidth="110" text="Promedio" />
+
+                            <TableColumn fx:id="colAprobados" prefWidth="110" text="Aprobados" />
+
+                            <TableColumn fx:id="colReprobados" prefWidth="110" text="Reprobados" />
+
+                        </columns>
+
+                    </TableView>
+
+                </content>
+
+            </TitledPane>
+
+        </VBox>
+
+
+
+    <!-- ====================== EXPORTACIÓN ====================== -->
+
+
+
+        <HBox alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="1004.0" spacing="20">
+
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="15" />
+            </padding>
+
+            <Label text="Formato:" />
+
+
+            <fx:define>
+                <ToggleGroup fx:id="formatoGroup"/>
+            </fx:define>
+
+            <HBox spacing="10">
+                <RadioButton text="PDF"
+                             toggleGroup="$formatoGroup"
+                             userData="PDF"/>
+
+                <RadioButton text="Excel"
+                             toggleGroup="$formatoGroup"
+                             userData="Excel"/>
+
+                <RadioButton text="CSV"
+                             toggleGroup="$formatoGroup"
+                             userData="CSV"/>
+
+            </HBox>
+
+            <Button fx:id="btnGenerar" prefWidth="170" text="Generar Reporte" />
+
+            <Button fx:id="btnDescargar" prefWidth="140" text="Descargar" />
+
+        </HBox>
+
+
+
+
+
+</AnchorPane>
