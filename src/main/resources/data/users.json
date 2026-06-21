@@ -70,24 +70,45 @@
                             "username": "said.quesada",
                             "password": "1234",
                             "role": "STUDENT"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                          },
+                          "next": {
+                            "data": {
+                              "username": "EB",
+                              "password": "1234",
+                              "role": "PROFESSOR"
+                            },
+                            "visited": false
+                          },
+                          "visited": false
+                        },
+                        "visited": false
+                      },
+                      "visited": false
+                    },
+                    "visited": false
+                  },
+                  "visited": false
+                },
+                "visited": false
+              },
+              "visited": false
+            },
+            "visited": false
+          },
+          "visited": false
+        },
+        "visited": false
+      },
+      "visited": false
+    },
+    "visited": false
   },
   "tail": {
     "data": {
-      "username": "said.quesada",
+      "username": "EB",
       "password": "1234",
-      "role": "STUDENT"
-    }
+      "role": "PROFESSOR"
+    },
+    "visited": false
   }
 }

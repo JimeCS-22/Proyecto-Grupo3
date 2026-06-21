@@ -4,10 +4,7 @@ import cr.ac.ucr.sga.model.data.AcademicRecordData;
 import cr.ac.ucr.sga.model.data.CourseData;
 import cr.ac.ucr.sga.model.data.EnrollmentApprovedData;
 import cr.ac.ucr.sga.model.data.StudentData;
-import cr.ac.ucr.sga.model.entities.AcademicRecord;
-import cr.ac.ucr.sga.model.entities.Course;
-import cr.ac.ucr.sga.model.entities.MatriculaAprobada;
-import cr.ac.ucr.sga.model.entities.Student;
+import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
 import cr.ac.ucr.sga.model.structures.queues.PriorityLinkedQueue;
@@ -20,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * Controlador para Matrícula Final (estudiante selecciona de los cursos aprobados).
@@ -151,23 +149,6 @@ public class EnrollmentController implements Initializable {
         this.mainController = mainController;
     }
 
-    // =========================
-    // LOAD: estudiantes (combo), cursos (combo)
-    // =========================
-    private void loadStudents() {
-        if (cmbStudents == null) return;
-        try {
-            cmbStudents.getItems().clear();
-            int size = studentData.getAllStudents().size();
-            for (int i = 0; i < size; i++) {
-                Student student = studentData.getAllStudents().get(i);
-                cmbStudents.getItems().add(student);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void loadCourses() {
         if (cmbCourses == null) return;
         try {
@@ -252,8 +233,11 @@ public class EnrollmentController implements Initializable {
         matriculaActual = matriculaData.findByStudentId(currentStudent.getId());
         if (matriculaActual != null && "APPROVED".equalsIgnoreCase(matriculaActual.getStatus())) {
             try {
-                for (int i = 1; i <= matriculaActual.getCoursesApproved().size(); i++) {
-                    cursosAprobados.add(matriculaActual.getCoursesApproved().get(i));
+                for (Enrollment e : matriculaActual.getEnrollments().toList()) {
+                    Course c = courseData.findCourseById(e.getCourseId());
+                    if (c != null) {
+                        cursosAprobados.add(c);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -326,23 +310,38 @@ public class EnrollmentController implements Initializable {
                 for (Course c : cursosAMatricular) {
                     cursosFinales.add(c);
                 }
-                matriculaActualExistente.setCoursesApproved(cursosFinales);
-                matriculaActualExistente.setStatus("MATRICULATED");
-                matriculaData.addOrUpdate(matriculaActualExistente);
-            } else {
-                // Crear nueva matrícula con nuevo ID si no existe aún
-                LinkedList<Course> cursosFinales = new LinkedList<>();
+                LinkedList<Enrollment> nuevos = new LinkedList<>();
+
                 for (Course c : cursosAMatricular) {
-                    cursosFinales.add(c);
+                    Enrollment e = new Enrollment();
+                    e.setStudentId(currentStudent.getId());
+                    e.setCourseId(c.getId());
+                    e.setStatus("ENROLLED");
+                    nuevos.add(e);
                 }
 
-                // Generar id único sin usar UUID
-                String id = currentStudent.getId() + "-" + System.currentTimeMillis();
+                matriculaActualExistente.setEnrollments(nuevos);
+                matriculaActualExistente.setStatus("MATRICULATED");
+                matriculaData.addOrUpdate(matriculaActualExistente);
+
+            } else {
+                // Crear nueva matrícula con nuevo ID si no existe aún
+                LinkedList<Enrollment> nuevos = new LinkedList<>();
+
+                for (Course c : cursosAMatricular) {
+                    Enrollment e = new Enrollment();
+                    e.setStudentId(currentStudent.getId());
+                    e.setCourseId(c.getId());
+                    e.setStatus("ENROLLED");
+                    nuevos.add(e);
+                }
+
+                String id = UUID.randomUUID().toString();
 
                 MatriculaAprobada nuevaMatricula = new MatriculaAprobada(
                         id,
                         currentStudent,
-                        cursosFinales
+                        nuevos
                 );
                 nuevaMatricula.setStatus("MATRICULATED");
                 matriculaData.addOrUpdate(nuevaMatricula);

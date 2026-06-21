@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.entities.Enrollment;
 import cr.ac.ucr.sga.model.entities.MatriculaAprobada;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
@@ -47,16 +48,22 @@ public class EnrollmentApprovedData {
 
                 for (MatriculaAprobadaDTO dto : dtoList) {
                     Student student = studentData.findStudentById(dto.getStudentId());
-                    LinkedList<Course> courses = new LinkedList<>();
+                    LinkedList<Enrollment> enrollments = new LinkedList<>();
 
-                    if (dto.getCourseCodes() != null) {
-                        for (String code : dto.getCourseCodes().toList()) {
-                            Course c = courseData.findCourseById(code);
-                            if (c != null) courses.add(c);
-                        }
+                    for (EnrollmentDTO dtoE : dto.getEnrollments().toList()) {
+
+                        Enrollment e = new Enrollment();
+
+                        e.setStudentId(dto.getStudentId());
+                        e.setCourseId(dtoE.getCourseId());
+                        e.setProfessorId(dtoE.getProfessorId());
+                        e.setGrade(dtoE.getGrade());
+                        e.setStatus(dtoE.getStatus());
+
+                        enrollments.add(e);
                     }
-
-                    MatriculaAprobada mat = new MatriculaAprobada(dto.getId(), student, courses);
+                    MatriculaAprobada mat =
+                            new MatriculaAprobada(dto.getId(), student, enrollments);
                     mat.setStatus(dto.getStatus());
                     result.add(mat);
                 }
@@ -171,21 +178,27 @@ public class EnrollmentApprovedData {
     // DTO
     // =========================
     public static class MatriculaAprobadaDTO {
+
         private String id;
         private String studentId;
-        private LinkedList<String> courseCodes;
+        private LinkedList<EnrollmentDTO> enrollments;
         private String status;
 
-        public MatriculaAprobadaDTO(MatriculaAprobada mat) throws Exception {
-            this.id = mat.getId();
-            this.studentId = mat.getStudent() != null ? mat.getStudent().getId() : null;
-            this.status = mat.getStatus();
-            this.courseCodes = new LinkedList<>();
+        public MatriculaAprobadaDTO(MatriculaAprobada mat) {
 
-            if (mat.getCoursesApproved() != null && mat.getCoursesApproved().size() > 0) {
-                for (int i = 1; i <= mat.getCoursesApproved().size(); i++) {
-                    Course c = mat.getCoursesApproved().get(i);
-                    if (c != null) this.courseCodes.add(c.getId());
+            this.id = mat.getId();
+
+            this.studentId = (mat.getStudent() != null)
+                    ? mat.getStudent().getId()
+                    : null;
+
+            this.status = mat.getStatus();
+
+            this.enrollments = new LinkedList<>();
+
+            if (mat.getEnrollments() != null) {
+                for (Enrollment e : mat.getEnrollments().toList()) {
+                    enrollments.add(new EnrollmentDTO(e));
                 }
             }
         }
@@ -198,8 +211,8 @@ public class EnrollmentApprovedData {
         public String getStudentId() { return studentId; }
         public void setStudentId(String studentId) { this.studentId = studentId; }
 
-        public LinkedList<String> getCourseCodes() { return courseCodes; }
-        public void setCourseCodes(LinkedList<String> courseCodes) { this.courseCodes = courseCodes; }
+        public LinkedList<EnrollmentDTO> getEnrollments() { return enrollments; }
+        public void setEnrollments(LinkedList<EnrollmentDTO> enrollments) { this.enrollments = enrollments; }
 
         public String getStatus() { return status; }
         public void setStatus(String status) { this.status = status; }

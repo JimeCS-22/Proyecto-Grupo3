@@ -54,6 +54,9 @@
             <Tab fx:id="studentTab" closable="false" text="Estudiantes">
                 <AnchorPane fx:id="studentContent"/>
             </Tab>
+            <Tab fx:id="professorTab" closable="false" text="Profesor">
+                <fx:include source="professor-view.fxml"/>
+            </Tab>
 
             <Tab fx:id="coursesTab" closable="false" text="Cursos">
                 <AnchorPane fx:id="coursesContent"/>

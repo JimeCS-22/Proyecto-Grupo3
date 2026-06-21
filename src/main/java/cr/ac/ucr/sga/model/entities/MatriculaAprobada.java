@@ -8,18 +8,21 @@ import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 public class MatriculaAprobada {
     private String id; // ID de la solicitud aprobada
     private Student student;
-    private LinkedList<Course> coursesApproved; // Cursos que pasaron la revisión admin
+    private LinkedList<Enrollment> enrollments;
     private String status;
 
-    public MatriculaAprobada(String id, Student student, LinkedList<Course> courses) {
-        this.id = id;
-        this.student = student;
-        this.coursesApproved = courses;
-        this.status = "APPROVED";
+    public MatriculaAprobada() {
+        enrollments = new LinkedList<>();
     }
 
-    public MatriculaAprobada() {
-        this.coursesApproved = new LinkedList<>();
+    public MatriculaAprobada(String id,
+                             Student student,
+                             LinkedList<Enrollment> enrollments) {
+
+        this.id = id;
+        this.student = student;
+        this.enrollments = enrollments;
+        this.status = "APPROVED";
     }
 
     // Getters y Setters
@@ -29,8 +32,13 @@ public class MatriculaAprobada {
     public Student getStudent() { return student; }
     public void setStudent(Student student) { this.student = student; }
 
-    public LinkedList<Course> getCoursesApproved() { return coursesApproved; }
-    public void setCoursesApproved(LinkedList<Course> courses) { this.coursesApproved = courses; }
+    public LinkedList<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(LinkedList<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

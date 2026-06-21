@@ -49,6 +49,7 @@ public class MainController implements Initializable, NotificationObserver {
     @FXML private AnchorPane preMatriculaContent;
     @FXML private AnchorPane matriculaEstudianteContent;
     @FXML private AnchorPane expedienteContent;
+    @FXML private Tab professorTab;
 
     // =========================
     // CONTROLLERS / MODELS
@@ -164,6 +165,7 @@ public class MainController implements Initializable, NotificationObserver {
     // CONTROL DE ACCESO POR ROL
     // =========================
     private void applyAccessByRole() {
+
         if (mainTabs == null || currentUser == null) {
             return;
         }
@@ -172,6 +174,7 @@ public class MainController implements Initializable, NotificationObserver {
             removeTab(studentTab);
             removeTab(reviewStudentTab);
             removeTab(reportsTab);
+            removeTab(professorTab);
             mainTabs.getSelectionModel().select(0);
             return;
         }
@@ -181,11 +184,11 @@ public class MainController implements Initializable, NotificationObserver {
 
         if (currentUser.getRole() == Role.ADMIN) {
             removeTab(reviewStudentTab);
-            removeTab(reportsTab); //
         }
+
         if (currentUser.getRole() == Role.PROFESSOR) {
             removeTab(reviewStudentTab);
-
+            removeTab(professorTab);
         }
     }
 

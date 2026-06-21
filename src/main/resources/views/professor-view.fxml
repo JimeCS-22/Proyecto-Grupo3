@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+
+<?import javafx.scene.control.ComboBox?>
+<BorderPane prefHeight="700" prefWidth="1200"
+            styleClass="root-pane"
+            stylesheets="@../styles.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="cr.ac.ucr.sga.controller.ProfessorController">
+
+    <!-- HEADER -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header-bar">
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="20"/>
+            </padding>
+
+            <Label styleClass="header-badge" text="SGA"/>
+
+            <VBox spacing="2">
+                <Label styleClass="header-title" text="Sistema de Gestión Académica"/>
+                <Label styleClass="header-sub" text="Administración de profesores"/>
+            </VBox>
+        </HBox>
+    </top>
+
+    <!-- CENTER -->
+    <center>
+        <ScrollPane fitToWidth="true" pannable="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED">
+
+            <VBox spacing="20">
+                <padding>
+                    <Insets bottom="20" left="20" right="20" top="20"/>
+                </padding>
+
+                <!-- FORM -->
+                <VBox spacing="18" styleClass="panel">
+
+                    <Label styleClass="panel-title" text="Registro de Profesores"/>
+
+                    <GridPane hgap="18" vgap="12">
+
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+
+                        <!-- ID -->
+                        <Label text="Identificación" GridPane.rowIndex="0"/>
+                        <TextField fx:id="txtId" GridPane.rowIndex="1"/>
+
+                        <!-- NAME -->
+                        <Label text="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <!-- CAREER -->
+                        <Label text="Carrera" GridPane.rowIndex="2"/>
+                        <ComboBox fx:id="cmbCareer" GridPane.rowIndex="3"/>
+
+                        <!-- USERNAME -->
+                        <Label text="Usuario" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <TextField fx:id="txtUsername" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                        <!-- PASSWORD -->
+                        <Label text="Contraseña" GridPane.rowIndex="4"/>
+                        <PasswordField fx:id="txtPassword" GridPane.rowIndex="5"/>
+
+                    </GridPane>
+
+                    <!-- BUTTONS -->
+                    <HBox spacing="12">
+                        <Button fx:id="btnAdd" text="Agregar" onAction="#addProfessor"/>
+                        <Button fx:id="btnUpdate" text="Actualizar" onAction="#updateProfessor"/>
+                        <Button fx:id="btnDelete" text="Eliminar" onAction="#deleteProfessor"/>
+                        <Button fx:id="btnClear" text="Limpiar" onAction="#clearFields"/>
+                    </HBox>
+
+                </VBox>
+
+                <!-- TABLE -->
+                <VBox spacing="16" styleClass="panel">
+
+                    <Label styleClass="panel-title" text="Lista de Profesores"/>
+
+                    <TableView fx:id="tblProfessors">
+                        <columns>
+                            <TableColumn fx:id="colId" text="ID"/>
+                            <TableColumn fx:id="colName" text="Nombre"/>
+                            <TableColumn fx:id="colCareer" text="Carrera"/>
+                            <TableColumn fx:id="colUsername" text="Usuario"/>
+                        </columns>
+                    </TableView>
+
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

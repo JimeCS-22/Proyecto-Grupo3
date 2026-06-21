@@ -18,6 +18,8 @@ public class Course implements Comparable<Course> {
     private String status;
     @Expose
     private String careerId;
+    @Expose
+    private String professorId;
 
     // =========================
     // NUEVOS CAMPOS
@@ -53,6 +55,8 @@ public class Course implements Comparable<Course> {
         this.semestre = builder.semestre;
         this.prerequisitosIds = builder.prerequisitosIds != null ? builder.prerequisitosIds : new ArrayList<>();
         this.corequisitosIds = builder.corequisitosIds != null ? builder.corequisitosIds : new ArrayList<>();
+        this.careerId = builder.careerId;
+        this.professorId = builder.professorId;
     }
 
     public Course() {
@@ -124,7 +128,17 @@ public class Course implements Comparable<Course> {
         return careerId;
     }
 
+    public void setCareerId(String careerId) {
+        this.careerId = careerId;
+    }
 
+    public String getProfessorId() {
+        return professorId;
+    }
+
+    public void setProfessorId(String professorId) {
+        this.professorId = professorId;
+    }
 
     public void addPrerequisito(String courseId) {
         if (!this.prerequisitosIds.contains(courseId)) {
@@ -209,6 +223,7 @@ public class Course implements Comparable<Course> {
         private List<String> prerequisitosIds;
         private List<String> corequisitosIds;
         private String careerId;
+        private  String professorId;
 
         public Builder setId(String id) {
             this.id = id;
@@ -268,6 +283,11 @@ public class Course implements Comparable<Course> {
                 this.corequisitosIds = new ArrayList<>();
             }
             this.corequisitosIds.add(courseId);
+            return this;
+        }
+
+        public Builder setProfessorId(String professorId) {
+            this.professorId = professorId;
             return this;
         }
 

@@ -3,9 +3,11 @@ package cr.ac.ucr.sga.controller;
 import cr.ac.ucr.sga.model.data.EnrollmentApprovedData;
 import cr.ac.ucr.sga.model.data.EnrollmentRequestData;
 import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.entities.Enrollment;
 import cr.ac.ucr.sga.model.entities.EnrollmentRequest;
 import cr.ac.ucr.sga.model.entities.MatriculaAprobada;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
+import cr.ac.ucr.sga.model.structures.lists.ListException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -122,7 +124,14 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
 
         Button btnAceptar = new Button("Aceptar Pre-Matrícula");
         btnAceptar.setStyle("-fx-background-color: #2DBE8D; -fx-text-fill: white; -fx-padding: 10 24; -fx-font-size: 13;");
-        btnAceptar.setOnAction(e -> aceptarPreMatricula());
+        btnAceptar.setOnAction(e -> {
+            try {
+                aceptarPreMatricula();
+            } catch (ListException ex) {
+                ex.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", ex.getMessage());
+            }
+        });
 
         Button btnRechazar = new Button("Rechazar Pre-Matrícula");
         btnRechazar.setStyle("-fx-background-color: #E85D75; -fx-text-fill: white; -fx-padding: 10 24; -fx-font-size: 13;");
@@ -156,7 +165,7 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
         }
     }
 
-    private void aceptarPreMatricula() {
+    private void aceptarPreMatricula() throws ListException {
         // 1. Reconstruye la lista con los cursos que quedan
         LinkedList<Course> cursosFinales = new LinkedList<>();
         for (Course c : cursosEnSolicitud) {
@@ -169,10 +178,24 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
         requestData.updateStatus(request, "APPROVED");
 
         // 3. Crea una MatriculaAprobada para el estudiante
+        LinkedList<Enrollment> enrollments = new LinkedList<>();
+
+        for (int i = 1; i <= cursosFinales.size(); i++) {
+
+            Course c = cursosFinales.get(i);
+
+            Enrollment e = new Enrollment();
+            e.setStudentId(request.getStudent().getId());
+            e.setCourseId(c.getId());
+            e.setStatus("APPROVED");
+
+            enrollments.add(e);
+        }
+
         MatriculaAprobada matricula = new MatriculaAprobada(
                 UUID.randomUUID().toString(),
                 request.getStudent(),
-                cursosFinales
+                enrollments
         );
         matriculaData.addOrUpdate(matricula);
 

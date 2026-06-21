@@ -202,6 +202,8 @@ public class CourseData {
                 oldCourse.setSemestre(updatedCourse.getSemestre());
                 oldCourse.setPrerequisitosIds(updatedCourse.getPrerequisitosIds());
                 oldCourse.setCorequisitosIds(updatedCourse.getCorequisitosIds());
+                oldCourse.setCareerId(updatedCourse.getCareerId());
+                oldCourse.setProfessorId(updatedCourse.getProfessorId());
 
                 saveCourses();
 
@@ -302,6 +304,25 @@ public class CourseData {
         }
 
         return result;
+    }
+
+    public DoublyLinkedList<Course> getCoursesByProfessor(String professorId)
+            throws ListException {
+
+        DoublyLinkedList<Course> result = new DoublyLinkedList<>();
+
+        for(Course c : courses.toList()){
+
+            if(professorId.equals(c.getProfessorId())){
+
+                result.add(c);
+
+            }
+
+        }
+
+        return result;
+
     }
 
 }
