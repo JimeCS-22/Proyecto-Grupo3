@@ -183,6 +183,9 @@ public class BuildingView extends StackPane{
         transition.setAutoReverse(true);
         transition.setCycleCount(2);
 
+        transition.setOnFinished(e ->
+                background.setFill(Color.web("#27AE60")));
+
         transition.play();
     }
     public void finish() {

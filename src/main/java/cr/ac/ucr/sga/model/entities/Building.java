@@ -63,6 +63,27 @@ public class Building implements Comparable<Building> {
 
     @Override
     public int compareTo(Building o) {
-        return 0;
+        if (o == null) return 1;
+        return this.id.compareTo(o.id);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Building other = (Building) obj;
+        return id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+
 }

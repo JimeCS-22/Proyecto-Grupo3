@@ -103,7 +103,7 @@ public class CampusMap extends Pane {
                         "Gimnasio Universitario",
                         "\uD83C\uDFCB",
                         650,
-                        420
+                        620
                 );
 
         addBuilding(biblioteca);
@@ -133,45 +133,27 @@ public class CampusMap extends Pane {
 
     }
 
-    private void addBuilding(Building building){
-
+    private void addBuilding(Building building) {
         buildings.add(building);
-
-        try{
+        try {
             graph.addVertex(building);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
         BuildingView view = new BuildingView(building);
-
         buildingViews.add(view);
-
         getChildren().add(view);
-
     }
-    private void connect(Building a,
-                         Building b,
-                         int weight) {
 
+    private void connect(Building a, Building b, int weight) {
         try {
-
-            graph.addEdge(a, b);
+            graph.addEdgeAndWeightInt(a, b, weight);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        ConnectionView connection =
-                new ConnectionView(
-                        a.getCenterX(),
-                        a.getCenterY(),
-                        b.getCenterX(),
-                        b.getCenterY()
-                );
-
+        ConnectionView connection = new ConnectionView(a, b);
         connections.add(connection);
-
         getChildren().add(0, connection);
     }
 
@@ -233,18 +215,22 @@ public class CampusMap extends Pane {
 
         try {
 
-            LinkedList<Building> recorrido = graph.bfsTraversal();
+            resetTraversal();
+
+            LinkedList<Building> recorrido =
+                    graph.bfsTraversal();
 
             animateTraversal(recorrido);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void animateDFS() {
         try {
+
+            resetTraversal();
 
             LinkedList<Building> recorrido = graph.dfsTraversal();
 
@@ -271,7 +257,7 @@ public class CampusMap extends Pane {
 
                     new KeyFrame(
 
-                            Duration.seconds(tiempo),
+                            Duration.seconds(tiempo * 0.7),
 
                             e -> {
 
@@ -303,6 +289,203 @@ public class CampusMap extends Pane {
             if (aux.data.getBuilding().equals(building)) {
                 return aux.data;
             }
+
+            aux = aux.next;
+        }
+
+        return null;
+    }
+
+    public void resetTraversal() {
+
+        Node<BuildingView> aux = buildingViews.getHead();
+
+        while(aux != null){
+
+            aux.data.unselect();
+
+            aux = aux.next;
+        }
+    }
+
+    public void clearPath() {
+
+        Node<ConnectionView> aux =
+                connections.getHead();
+
+        while(aux != null){
+
+            aux.data.clear();
+
+            aux = aux.next;
+        }
+
+        resetTraversal();
+    }
+
+    private void highlightConnection(
+            Building a,
+            Building b){
+
+        Node<ConnectionView> aux =
+                connections.getHead();
+
+        while(aux != null){
+
+            if(aux.data.connects(a,b)){
+
+                aux.data.highlight();
+                return;
+            }
+
+            aux = aux.next;
+        }
+    }
+
+    public void animatePath(
+            LinkedList<Building> path){
+
+        clearPath();
+
+        Timeline timeline = new Timeline();
+
+        Node<Building> aux = path.getHead();
+
+        int time = 0;
+
+        while(aux != null){
+
+            Building current = aux.data;
+
+            timeline.getKeyFrames().add(
+
+                    new KeyFrame(
+
+                            Duration.seconds(time),
+
+                            e -> {
+
+                                BuildingView view =
+                                        findView(current);
+
+                                if(view != null){
+
+                                    view.visit();
+                                }
+                            }
+                    )
+            );
+
+            if(aux.next != null){
+
+                Building next =
+                        aux.next.data;
+
+                timeline.getKeyFrames().add(
+
+                        new KeyFrame(
+
+                                Duration.seconds(time),
+
+                                e -> highlightConnection(
+                                        current,
+                                        next)
+                        )
+                );
+            }
+
+            time++;
+
+            aux = aux.next;
+        }
+
+        timeline.play();
+    }
+
+    public LinkedList<Building> shortestPath(Building origen, Building destino) throws Exception {
+        int start = graph.indexOf(origen);
+        int end = graph.indexOf(destino);
+        if (start == -1 || end == -1)
+            throw new Exception("Edificio no encontrado en grafo");
+
+        int n = graph.size();
+        int[] dist = new int[n];
+        int[] prev = new int[n];
+        boolean[] visited = new boolean[n];
+
+        for (int i = 0; i < n; i++) {
+            dist[i] = Integer.MAX_VALUE;
+            prev[i] = -1;
+            visited[i] = false;
+        }
+        dist[start] = 0;
+
+        for (int i = 0; i < n; i++) {
+            int u = -1;
+            int minDist = Integer.MAX_VALUE;
+
+            // Encontrar el nodo no visitado con menor distancia
+            for (int j = 0; j < n; j++) {
+                if (!visited[j] && dist[j] < minDist) {
+                    minDist = dist[j];
+                    u = j;
+                }
+            }
+            if (u == -1 || u == end) break;
+            visited[u] = true;
+
+            // Recorrer vecinos usando la lista de adyacencia
+            Node<Building> neighborNode = graph.getVertexByIndex(u).headNode;
+            while (neighborNode != null) {
+                Building vecino = neighborNode.data;
+                int v = graph.indexOf(vecino);
+
+                if (v != -1 && !visited[v]) {
+                    // Obtener el peso correctamente
+                    int weight = graph.getWeight(origen, vecino); // Esto es incorrecto, debe ser desde el nodo actual (u)
+                    // Corrección: Obtener peso entre u y v
+                    int pesoArista = graph.getWeight(graph.getVertexByIndex(u).data, vecino);
+
+                    if (dist[u] != Integer.MAX_VALUE && dist[u] + pesoArista < dist[v]) {
+                        dist[v] = dist[u] + pesoArista;
+                        prev[v] = u;
+                    }
+                }
+                neighborNode = neighborNode.neighbor;
+            }
+        }
+
+        // Reconstruir la ruta
+        LinkedList<Building> ruta = new LinkedList<>();
+        int at = end;
+        while (at != -1) {
+            ruta.addFirst(graph.getVertexByIndex(at).data);
+            at = prev[at];
+        }
+
+        if (ruta.size() == 0 || !ruta.getHead().data.equals(origen)) {
+            return null; // No hay camino
+        }
+
+        System.out.println("Ruta encontrada:");
+        Node<Building> curr = ruta.getHead();
+        while (curr != null) {
+            System.out.println(" - " + curr.data.getName());
+            curr = curr.next;
+        }
+
+        return ruta;
+    }
+
+    private Building findBuilding(String nombre){
+
+        Node<Building> aux =
+                buildings.getHead();
+
+        while(aux != null){
+
+            if(aux.data.getName().equals(nombre))
+                return aux.data;
 
             aux = aux.next;
         }

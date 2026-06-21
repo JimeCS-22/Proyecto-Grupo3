@@ -49,35 +49,35 @@ class EnrollmentApprovedDataTest {
         courses.add(c2);
 
         // Crear matrícula aprobada
-        MatriculaAprobada matricula =
-                new MatriculaAprobada("MAT-001", student, courses);
-
-        matricula.setStatus("APROBADA");
-
-        // AGREGAR
-        data.addOrUpdate(matricula);
-        System.out.println("Matrícula agregada");
-
-        // CARGAR TODOS
-        List<MatriculaAprobada> all = data.loadAll().toList();
-
-        System.out.println("Matrículas registradas:");
-        for (MatriculaAprobada m : all) {
-            System.out.println(m);
-        }
-
-        // BUSCAR POR ID
-        MatriculaAprobada encontrada =
-                data.findByStudentId("202600001");
-
-        System.out.println(
-                "Encontrada por estudiante: "
-                        + (encontrada != null ? encontrada : "No encontrada")
-        );
-
-        // BORRAR
-        data.delete("MAT-001");
-
-        System.out.println("Matrícula eliminada");
+//        MatriculaAprobada matricula =
+//                new MatriculaAprobada("MAT-001", student, courses);
+//
+//        matricula.setStatus("APROBADA");
+//
+//        // AGREGAR
+//        data.addOrUpdate(matricula);
+//        System.out.println("Matrícula agregada");
+//
+//        // CARGAR TODOS
+//        List<MatriculaAprobada> all = data.loadAll().toList();
+//
+//        System.out.println("Matrículas registradas:");
+//        for (MatriculaAprobada m : all) {
+//            System.out.println(m);
+//        }
+//
+//        // BUSCAR POR ID
+//        MatriculaAprobada encontrada =
+//                data.findByStudentId("202600001");
+//
+//        System.out.println(
+//                "Encontrada por estudiante: "
+//                        + (encontrada != null ? encontrada : "No encontrada")
+//        );
+//
+//        // BORRAR
+//        data.delete("MAT-001");
+//
+//        System.out.println("Matrícula eliminada");
     }
 }

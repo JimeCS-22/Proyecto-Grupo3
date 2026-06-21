@@ -94,7 +94,7 @@ public class AdjacencyMatrixGraph<T extends Comparable<T>> implements Graph<T> {
         }
     }
 
-    int indexOf(T element) {
+    public int indexOf(T element) {
         for (int i = 0; i < counter; i++) {
             if(element.equals(vertexList[i].data))return i;
         }return -1;//no encontró la data del vértice

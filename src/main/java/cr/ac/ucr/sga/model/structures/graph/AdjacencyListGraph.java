@@ -77,14 +77,14 @@ public class AdjacencyListGraph<T extends Comparable<T>> extends AdjacencyMatrix
 
     @Override
     public void addEdgeAndWeight(T a, T b, T weight) throws GraphException, ListException {
-        if(!containsVertex(a) || !containsVertex(b))
+        if (!containsVertex(a) || !containsVertex(b))
             throw new GraphException("Adjacency List Graph Not Contains Vertex");
-        if(!containsEdge(a, b)) {
+        if (!containsEdge(a, b)) {
             Vertex<T> vertexA = getVertex(a);
-            vertexA.headNode = addNeighbor(vertexA.headNode, b, weight);
-            if(!directed) {
+            vertexA.headNode = addNeighbor(vertexA.headNode, b, weight); // peso no nulo
+            if (!directed) {
                 Vertex<T> vertexB = getVertex(b);
-                vertexB.headNode =  addNeighbor(vertexB.headNode, a, weight);
+                vertexB.headNode = addNeighbor(vertexB.headNode, a, weight);
             }
         }
     }
@@ -377,19 +377,24 @@ public class AdjacencyListGraph<T extends Comparable<T>> extends AdjacencyMatrix
         return directed ? edges : edges / 2;
     }
 
-    public int getWeight(T a, T b) throws GraphException, ListException{
-
+    @Override
+    public int getWeight(T a, T b) throws GraphException, ListException {
         Vertex<T> vertex = getVertex(a);
+        if (vertex == null)
+            throw new GraphException("Vertex not found: " + a);
 
         Node<T> aux = vertex.headNode;
-
-        while(aux!=null){
-
-            if(aux.weight instanceof String)
-                return Integer.parseInt((String)aux.weight);
-}
-            return ((Number)aux.weight).intValue();
-
+        while (aux != null) {
+            if (aux.data.compareTo(b) == 0) {
+                if (aux.weight == null) {
+                    return Integer.MAX_VALUE; // No hay conexión o peso infinito
+                }
+                // Aquí está la corrección: asumimos que el peso es Integer
+                return (int) aux.weight;
+            }
+            aux = aux.neighbor;
+        }
+        return Integer.MAX_VALUE;
     }
 
     //para animar los recorridos
@@ -482,4 +487,35 @@ public class AdjacencyListGraph<T extends Comparable<T>> extends AdjacencyMatrix
 
         return recorrido;
     }
+
+
+    //Metodos para el US-16
+    public void addEdgeAndWeightInt(T a, T b, int weight) throws GraphException, ListException {
+        if (!containsVertex(a) || !containsVertex(b))
+            throw new GraphException("Adjacency List Graph Not Contains Vertex");
+        if (!containsEdge(a, b)) {
+            Vertex<T> vertexA = getVertex(a);
+            // Usamos el método que guarda el peso como Integer
+            vertexA.headNode = addNeighbor(vertexA.headNode, b, weight);
+            if (!directed) {
+                Vertex<T> vertexB = getVertex(b);
+                vertexB.headNode = addNeighbor(vertexB.headNode, a, weight);
+            }
+        }
+    }
+
+    private Node<T> addNeighborInt(Node<T> headNode, T element, int weight) {
+        Node<T> node = new Node<>(element, weight);
+        if (headNode == null)
+            headNode = node;
+        else {
+            Node<T> aux = headNode;
+            while (aux.neighbor != null)
+                aux = aux.neighbor;
+            aux.neighbor = node;
+        }
+        return headNode;
+    }
+
+
 }

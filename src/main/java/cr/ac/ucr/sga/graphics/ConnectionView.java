@@ -1,24 +1,52 @@
 package cr.ac.ucr.sga.graphics;
 
+import cr.ac.ucr.sga.model.entities.Building;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class ConnectionView extends Line{
+public class ConnectionView extends Line {
 
-    public ConnectionView(double x1,double y1,double x2,double y2){
+    private Building from;
+    private Building to;
 
-        setStartX(x1);
+    public ConnectionView(Building from, Building to) {
 
-        setStartY(y1);
+        this.from = from;
+        this.to = to;
 
-        setEndX(x2);
+        setStartX(from.getCenterX());
+        setStartY(from.getCenterY());
 
-        setEndY(y2);
+        setEndX(to.getCenterX());
+        setEndY(to.getCenterY());
 
         setStrokeWidth(3);
-
         setStroke(Color.web("#95A5A6"));
-
     }
 
+    public Building getFrom() {
+        return from;
+    }
+
+    public Building getTo() {
+        return to;
+    }
+
+    public boolean connects(Building a, Building b) {
+
+        return (from.equals(a) && to.equals(b))
+                || (from.equals(b) && to.equals(a));
+    }
+
+    public void highlight() {
+
+        setStroke(Color.RED);
+        setStrokeWidth(6);
+    }
+
+    public void clear() {
+
+        setStroke(Color.web("#95A5A6"));
+        setStrokeWidth(3);
+    }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -19,7 +20,14 @@
 
             <Label text="🏫 Campus Navigator" />
 
-            <Pane HBox.hgrow="ALWAYS" />
+            <Pane HBox.hgrow="ALWAYS">
+            <children>
+               <ComboBox fx:id="cmbOrigen" layoutX="22.0" layoutY="20.0" prefHeight="63.0" prefWidth="160.0" />
+               <ComboBox fx:id="cmbDestino" layoutX="201.0" layoutY="20.0" prefHeight="63.0" prefWidth="161.0" />
+               <Button fx:id="btnCalcularRuta" layoutX="382.0" layoutY="32.0" mnemonicParsing="false" text="Calcular Ruta" onAction="#calculateShortestPath"/>
+
+               <Label layoutX="24.0" layoutY="-7.0" text="Ruta más corta entre edificios" />
+            </children></Pane>
 
             <TextField fx:id="searchField" promptText="Buscar edificio..." />
 
@@ -47,7 +55,7 @@
     <!-- Centro -->
     <center>
 
-        <ScrollPane fitToHeight="true" fitToWidth="true">
+        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true">
 
             <Pane fx:id="mapPane" prefHeight="900" prefWidth="1400" />
 
