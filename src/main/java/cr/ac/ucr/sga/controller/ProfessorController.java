@@ -46,6 +46,7 @@ public class ProfessorController {
     private final ObservableList<Professor> professorList =
             FXCollections.observableArrayList();
 
+    private MainController mainController;
     // =========================
     // INIT (llamar desde FXML si quieres o Initializable)
     // =========================
@@ -57,6 +58,11 @@ public class ProfessorController {
         loadCareers();
         setupListeners();
     }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
 
     // =========================
     // TABLE
@@ -107,7 +113,6 @@ public class ProfessorController {
     // =========================
     @FXML
     public void addProfessor(ActionEvent actionEvent) {
-
         try {
             Career career = cmbCareer.getValue();
 
@@ -126,7 +131,6 @@ public class ProfessorController {
                     .setPassword(txtPassword.getText())
                     .build();
 
-            // 1. Guardar profesor
             Professor added = professorData.addProfessor(professor);
 
             if (added == null) {
@@ -136,18 +140,19 @@ public class ProfessorController {
                 return;
             }
 
-            // 2. CREAR USER (LOGIN)
             User user = new User(
                     professor.getUsername(),
                     professor.getPassword(),
                     Role.PROFESSOR
             );
-
             userData.addUser(user);
 
-            // 3. actualizar UI
             professorList.add(added);
             clearFields();
+
+            if (mainController != null) {
+                mainController.refreshCourseProfessorList();
+            }
 
             showAlert(Alert.AlertType.INFORMATION,
                     "Éxito",
@@ -199,6 +204,10 @@ public class ProfessorController {
             loadProfessors();
             clearFields();
 
+            if (mainController != null) {
+                mainController.refreshCourseProfessorList();
+            }
+
             showAlert(Alert.AlertType.INFORMATION,
                     "Actualizado",
                     "Profesor actualizado");
@@ -232,6 +241,10 @@ public class ProfessorController {
             removed = professorData.deleteProfessor(selected.getId());
         } catch (ListException e) {
             throw new RuntimeException(e);
+        }
+
+        if (mainController != null) {
+            mainController.refreshCourseProfessorList();
         }
 
         if (removed) {
@@ -285,6 +298,11 @@ public class ProfessorController {
                         cmbCareer.setValue(c);
                     }
                 });
+    }
+
+
+    public void refreshProfessors() {
+        loadProfessors();
     }
 
     // =========================

@@ -306,23 +306,29 @@ public class CourseData {
         return result;
     }
 
-    public DoublyLinkedList<Course> getCoursesByProfessor(String professorId)
+    public DoublyLinkedList<Course> getCoursesByProfessor(String username)
             throws ListException {
 
         DoublyLinkedList<Course> result = new DoublyLinkedList<>();
 
-        for(Course c : courses.toList()){
-
-            if(professorId.equals(c.getProfessorId())){
-
-                result.add(c);
-
-            }
-
+        if (username == null || username.trim().isEmpty()) {
+            return result;
         }
 
-        return result;
+        System.out.println("🔍 Buscando cursos para username: '" + username + "'");
 
+        for (Course c : courses.toList()) {
+            // Ahora professorId contiene el username del profesor
+            if (c.getProfessorId() != null &&
+                    c.getProfessorId().equalsIgnoreCase(username.trim())) {
+                result.add(c);
+                System.out.println("  ✅ Curso asignado: " + c.getId() + " - " + c.getName());
+            }
+        }
+
+        System.out.println("✅ Total cursos encontrados: " + result.size());
+        return result;
     }
+
 
 }

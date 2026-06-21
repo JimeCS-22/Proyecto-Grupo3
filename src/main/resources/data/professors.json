@@ -1,0 +1,32 @@
+{
+  "head": {
+    "data": {
+      "id": "203250704",
+      "name": "Laura Ramos",
+      "careerId": "CAR01",
+      "username": "LR",
+      "password": "1234"
+    },
+    "next": {
+      "data": {
+        "id": "23087",
+        "name": "Esteban M",
+        "careerId": "CAR04",
+        "username": "EM",
+        "password": "1234"
+      },
+      "visited": false
+    },
+    "visited": false
+  },
+  "tail": {
+    "data": {
+      "id": "119520051",
+      "name": "Jimena Calvo",
+      "careerId": "CAR01",
+      "username": "119520051",
+      "password": "1234"
+    },
+    "visited": false
+  }
+}

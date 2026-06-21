@@ -174,5 +174,53 @@
       "IF0007"
     ],
     "corequisitosIds": []
+  },
+  {
+    "id": "if-456",
+    "name": "Sistemas Operativos",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR01",
+    "professorId": "202660896",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "IF-985",
+    "name": "SISTEMAS",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR01",
+    "professorId": "203250704",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "ppp",
+    "name": "p",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR01",
+    "professorId": "LR",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "iiii",
+    "name": "iiii",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR01",
+    "professorId": "LR",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
   }
 ]

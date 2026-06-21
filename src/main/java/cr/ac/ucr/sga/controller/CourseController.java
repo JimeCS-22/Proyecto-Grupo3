@@ -3,6 +3,7 @@ package cr.ac.ucr.sga.controller;
 import cr.ac.ucr.sga.model.data.AcademicRecordData;
 import cr.ac.ucr.sga.model.data.CareerData;
 import cr.ac.ucr.sga.model.data.CourseData;
+import cr.ac.ucr.sga.model.data.ProfessorData;
 import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
@@ -68,6 +69,9 @@ public class CourseController implements Initializable {
     @FXML
     private ListView<String> lstCorequisitos;
 
+    @FXML
+    private ComboBox<Professor> cmbProfessor;
+
     // BOTONES
     @FXML
     private Button btnAdd;
@@ -90,6 +94,8 @@ public class CourseController implements Initializable {
     private final AcademicRecordData recordData = new AcademicRecordData();
 
     private final CareerData careerData = new CareerData();
+
+    private final ProfessorData professorData = new ProfessorData();
 
     private Course selectedCourse;
 
@@ -155,6 +161,9 @@ public class CourseController implements Initializable {
             }
         });
 
+        System.out.println("Inicializando CourseController...");
+        loadProfessors();
+        System.out.println("Profesores cargados en initialize");
         // Configurar ListViews para requisitos
         if (lstPrerequisitos != null) {
             lstPrerequisitos.setItems(prerequisitosSeleccionados);
@@ -515,13 +524,16 @@ public class CourseController implements Initializable {
                 return;
             }
 
+            Professor professor = cmbProfessor.getValue();
+
             Course course = new Course.Builder()
                     .setId(id)
                     .setName(name)
                     .setCredits(credits)
                     .setStatus(status)
                     .setSemestre(semestre)
-                    .setCareerId(career.getId())   // <-- cambio
+                    .setCareerId(career.getId())
+                    .setProfessorId(professor != null ? professor.getUsername() : null)
                     .setPrerequisitosIds(prerequisitos)
                     .setCorequisitosIds(corequisitos)
                     .build();
@@ -615,25 +627,19 @@ public class CourseController implements Initializable {
                 return;
             }
 
-            Course updatedCourse =
-                    new Course.Builder()
-                            .setId(selectedCourse.getId())
-                            .setName(txtName.getText())
-                            .setCredits(
-                                    Integer.parseInt(
-                                            txtCredits.getText()
-                                    )
-                            )
-                            .setStatus(cmbStatus.getValue())
-                            .setSemestre(
-                                    spnSemestre != null
-                                            ? spnSemestre.getValue()
-                                            : 1
-                            )
-                            .setCareerId(career.getId())
-                            .setPrerequisitosIds(prerequisitos)
-                            .setCorequisitosIds(corequisitos)
-                            .build();
+            Professor professor = cmbProfessor.getValue();
+
+            Course updatedCourse = new Course.Builder()
+                    .setId(selectedCourse.getId())
+                    .setName(txtName.getText())
+                    .setCredits(Integer.parseInt(txtCredits.getText()))
+                    .setStatus(cmbStatus.getValue())
+                    .setSemestre(spnSemestre != null ? spnSemestre.getValue() : 1)
+                    .setCareerId(career.getId())
+                    .setProfessorId(professor != null ? professor.getUsername() : null) // ← CAMBIO AQUÍ
+                    .setPrerequisitosIds(prerequisitos)
+                    .setCorequisitosIds(corequisitos)
+                    .build();
 
             boolean updated =
                     courseData.updateCourse(
@@ -643,6 +649,11 @@ public class CourseController implements Initializable {
             if (updated) {
 
                 loadCourses();
+
+                if (mainController != null) {
+                    mainController.refreshCourseProfessorList();
+                }
+
                 clearFields();
 
                 showAlert(
@@ -733,6 +744,13 @@ public class CourseController implements Initializable {
                 );
 
         cmbCareer.setValue(career);
+        // Buscar profesor por username en lugar de ID
+        if (course.getProfessorId() != null && !course.getProfessorId().isEmpty()) {
+            Professor professor = professorData.findProfessorByUsername(course.getProfessorId()); // ← NUEVO MÉTODO
+            cmbProfessor.setValue(professor);
+        } else {
+            cmbProfessor.setValue(null);
+        }
 
         // Cargar nuevos campos
         if (spnSemestre != null) {
@@ -818,6 +836,7 @@ public class CourseController implements Initializable {
         }
 
         cmbCareer.setValue(null);
+        cmbProfessor.setValue(null);
 
         if (cmbPrerequisitos != null) {
             cmbPrerequisitos.setValue(null);
@@ -851,4 +870,66 @@ public class CourseController implements Initializable {
 
         alert.showAndWait();
     }
+
+    public void loadProfessors() {
+        if (cmbProfessor == null) {
+            System.err.println("cmbProfessor es null, no se puede cargar profesores");
+            return;
+        }
+
+        try {
+            List<Professor> professors = professorData.getAllProfessors().toList();
+
+            ObservableList<Professor> professorObservableList = FXCollections.observableArrayList(professors);
+
+            cmbProfessor.setItems(professorObservableList);
+
+            if (cmbProfessor.getCellFactory() == null ||
+                    cmbProfessor.getCellFactory().toString().contains("ListView$")) {
+                cmbProfessor.setCellFactory(lv -> new ListCell<Professor>() {
+                    @Override
+                    protected void updateItem(Professor item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText("");
+                        } else {
+                            setText(item.getId() + " - " + item.getName());
+                        }
+                    }
+                });
+
+                cmbProfessor.setButtonCell(new ListCell<Professor>() {
+                    @Override
+                    protected void updateItem(Professor item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText("");
+                        } else {
+                            setText(item.getId() + " - " + item.getName());
+                        }
+                    }
+                });
+            }
+
+            if (professors.isEmpty()) {
+                cmbProfessor.setPlaceholder(new Label("No hay profesores disponibles"));
+            } else {
+                cmbProfessor.setPlaceholder(new Label("Seleccione un profesor"));
+            }
+
+            System.out.println("Profesores cargados: " + professors.size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR,
+                    "Error al cargar profesores",
+                    "No se pudieron cargar los profesores: " + e.getMessage());
+        }
+    }
+
+    public void refreshProfessors() {
+        loadProfessors();
+    }
+
+
 }

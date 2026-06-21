@@ -59,6 +59,8 @@ public class MainController implements Initializable, NotificationObserver {
     private CourseController courseController;
     private StudentController studentController;
     private TramiteReviewController tramiteReviewController;
+    private ProfessorController professorController;
+    private CourseProfessorController courseProfessorController;
     @FXML private Tab reportsTab;
     @FXML private AnchorPane reportsContent;
 
@@ -222,23 +224,68 @@ public class MainController implements Initializable, NotificationObserver {
             FXMLLoader loader;
 
             if (currentUser.getRole() == Role.STUDENT) {
-                loader = new FXMLLoader(getClass().getResource("/views/student-course-view.fxml"));
-            } else {
-                loader = new FXMLLoader(getClass().getResource("/views/course-view.fxml"));
+
+                loader = new FXMLLoader(
+                        getClass().getResource("/views/student-course-view.fxml")
+                );
+
+                Parent view = loader.load();
+
+                StudentCourseController controller = loader.getController();
+                controller.setUser(currentUser);
+
+                setFullAnchor(view, coursesContent);
+                return;
             }
+
+            if (currentUser.getRole() == Role.PROFESSOR) {
+
+                loader = new FXMLLoader(
+                        getClass().getResource("/views/professor-course-view.fxml")
+                );
+
+                Parent view = loader.load();
+
+                CourseProfessorController controller = loader.getController();
+                controller.setUser(currentUser);
+
+                setFullAnchor(view, coursesContent);
+                return;
+            }
+
+            // ADMIN (o default)
+            loader = new FXMLLoader(
+                    getClass().getResource("/views/course-view.fxml")
+            );
 
             Parent view = loader.load();
 
-            if (currentUser.getRole() == Role.STUDENT) {
-                StudentCourseController controller = loader.getController();
-                controller.setUser(currentUser);
-            } else {
-                courseController = loader.getController();
-                courseController.setUser(currentUser);
-                courseController.setMainController(this);
-            }
+            courseController = loader.getController();
+            courseController.setUser(currentUser);
+            courseController.setMainController(this);
 
             setFullAnchor(view, coursesContent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void loadProfessorView() {
+
+        if (professorTab == null) return;
+
+        try {
+
+            FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("/views/professor-view.fxml"));
+
+            Parent view = loader.load();
+
+            professorController = loader.getController();
+            professorController.setMainController(this);
+
+            professorTab.setContent(view);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -495,4 +542,22 @@ public class MainController implements Initializable, NotificationObserver {
             }
         }
     }
+
+    public void refreshCourseProfessorList() {
+        if (courseController != null) {
+            try {
+                courseController.loadProfessors();
+                System.out.println("Lista de profesores refrescada en CourseController");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Error al refrescar lista de profesores: " + e.getMessage());
+            }
+        } else {
+            System.err.println("courseController es null, no se puede refrescar");
+        }
+    }
 }
+
+
+
+

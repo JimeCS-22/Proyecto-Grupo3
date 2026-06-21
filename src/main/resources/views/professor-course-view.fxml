@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cr.ac.ucr.sga.controller.CourseProfessorController"
+            styleClass="root-pane"
+            stylesheets="@../styles.css">
+
+    <top>
+
+        <VBox spacing="10"
+              styleClass="panel">
+
+            <padding>
+                <Insets top="20"
+                        right="20"
+                        bottom="20"
+                        left="20"/>
+            </padding>
+
+            <Label text="Cursos Asignados"
+                   styleClass="panel-title"/>
+
+        </VBox>
+
+    </top>
+
+    <center>
+
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background-color: transparent;">
+
+            <content>
+
+                <FlowPane fx:id="coursesContainer"
+                          hgap="20"
+                          vgap="20"
+                          prefWrapLength="1000">
+
+                    <padding>
+                        <Insets top="20"
+                                right="20"
+                                bottom="20"
+                                left="20"/>
+                    </padding>
+
+                </FlowPane>
+
+            </content>
+
+        </ScrollPane>
+
+    </center>
+
+</BorderPane>

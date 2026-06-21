@@ -1,6 +1,5 @@
 package cr.ac.ucr.sga.model.data;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -15,157 +14,129 @@ import java.lang.reflect.Type;
 
 public class ProfessorData {
 
-    private final LinkedList<Professor> professors ;
-    private static final String FILE_PATH = "data/professor.json";
+    private final LinkedList<Professor> professors;
+
+    private static final String FILE_PATH = "src/main/resources/data/professors.json";
+
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .create();
 
     public ProfessorData() {
-
-        File file = new File(FILE_PATH);
-
-        File parent = file.getParentFile();
-        if (parent != null && !parent.exists()) {
-            parent.mkdirs();
+        File folder = new File("src/main/resources/data");
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
 
-        professors = loadProfessor();
+        professors = loadProfessors();
     }
 
-    private LinkedList<Professor> loadProfessor(){
-
+    /**
+     * LOAD - Igual que StudentData
+     */
+    private LinkedList<Professor> loadProfessors() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
-
-            Type listType =
-                    new TypeToken<LinkedList<Professor>>() {
-                    }.getType();
-
-            LinkedList<Professor> loadedProfessors   =
-                    gson.fromJson(reader, listType);
-
-            return (loadedProfessors != null)
-                    ? loadedProfessors
-                    : new LinkedList<>();
-
+            Type listType = new TypeToken<LinkedList<Professor>>() {}.getType();
+            LinkedList<Professor> loadedProfessors = gson.fromJson(reader, listType);
+            return (loadedProfessors != null) ? loadedProfessors : new LinkedList<>();
         } catch (Exception e) {
-
+            System.err.println("Error loading professors: " + e.getMessage());
             return new LinkedList<>();
         }
     }
 
-    private void saveProfessor() {
-
+    /**
+     * SAVE - Igual que StudentData
+     */
+    private void saveProfessors() {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
-
             gson.toJson(professors, writer);
-
             writer.flush();
-
         } catch (Exception e) {
-
-            System.out.println(
-                    "Error saving professors: "
-                            + e.getMessage()
-            );
+            System.err.println("Error saving professors: " + e.getMessage());
         }
     }
 
+    /**
+     * CREATE
+     */
     public Professor addProfessor(Professor professor) {
-
         Professor professorReturn = null;
-
-        if (professor != null
-                && findProfeesorById(professor.getId()) == null) {
-
+        if (professor != null && findProfessorById(professor.getId()) == null) {
             professors.add(professor);
-
-            saveProfessor();
-
-                professorReturn = professor;
+            saveProfessors();
+            professorReturn = professor;
         }
-
         return professorReturn;
     }
 
+    /**
+     * READ ALL
+     */
     public LinkedList<Professor> getAllProfessors() {
-
         return professors;
     }
 
-    public Professor findProfeesorById(String id) {
-
-        Professor professorReturn = null;
-
+    /**
+     * READ BY ID - CORREGIDO el typo
+     */
+    public Professor findProfessorById(String id) {
         for (Professor professor : professors.toList()) {
-
-            if (professor.getId()
-                    .equalsIgnoreCase(id)) {
-
-                professorReturn = professor;
-            }
-        }
-
-        return professorReturn;
-    }
-
-    public boolean updateProfessor(Professor updatedProfessor) throws ListException {
-
-        for (int i = 0; i < professors.size(); i++) {
-
-            if (professors.get(i)
-                    .getId()
-                    .equalsIgnoreCase(updatedProfessor.getId())) {
-
-                professors.add(i, updatedProfessor);
-
-                saveProfessor();
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean deleteProfessor(String id) throws ListException {
-
-        Professor professor = findProfeesorById(id);
-
-        if (professor != null) {
-
-            professors.remove(professor);
-
-            saveProfessor();
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public int getProfessorCount() throws ListException {
-
-        return professors.size();
-    }
-
-    public Professor findByUserName(String username) {
-
-        for (Professor professor : professors.toList()) {
-
-            if (
-                    professor.getUsername() != null
-                            &&
-                            professor.getUsername()
-                                    .equalsIgnoreCase(username)
-            ) {
-
+            if (professor.getId().equalsIgnoreCase(id)) {
                 return professor;
             }
         }
-
         return null;
     }
 
+    /**
+     * UPDATE
+     */
+    public boolean updateProfessor(Professor updatedProfessor) throws ListException {
+        for (int i = 0; i < professors.size(); i++) {
+            if (professors.get(i).getId().equalsIgnoreCase(updatedProfessor.getId())) {
+                professors.add(i, updatedProfessor);
+                saveProfessors();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * DELETE
+     */
+    public boolean deleteProfessor(String id) throws ListException {
+        Professor professor = findProfessorById(id);
+        if (professor != null) {
+            professors.remove(professor);
+            saveProfessors();
+            return true;
+        }
+        return false;
+    }
+
+
+    public int getProfessorCount() throws ListException {
+        return professors.size();
+    }
+
+
+    public Professor findProfessorByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            return null;
+        }
+
+        try {
+            for (Professor professor : professors.toList()) {
+                if (username.equalsIgnoreCase(professor.getUsername())) {
+                    return professor;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
