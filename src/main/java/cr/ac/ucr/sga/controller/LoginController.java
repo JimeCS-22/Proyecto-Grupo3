@@ -49,12 +49,7 @@ public class LoginController {
                                 )
                         );
 
-                Scene scene =
-                        new Scene(
-                                loader.load(),
-                                1100,
-                                720
-                        );
+                Scene scene = new Scene(loader.load());
                 MainController mainController = loader.getController();
                 mainController.setUser(user);
 

@@ -235,25 +235,43 @@ public class ProfessorController {
             return;
         }
 
-        boolean removed =
-                false;
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.setHeaderText("Eliminar profesor");
+        confirm.setContentText(
+                "¿Está seguro de que desea eliminar al profesor "
+                        + selected.getName() + "?"
+        );
+
+        if (confirm.showAndWait().orElse(ButtonType.CANCEL)
+                != ButtonType.OK) {
+            return;
+        }
+
         try {
-            removed = professorData.deleteProfessor(selected.getId());
+
+            boolean removed =
+                    professorData.deleteProfessor(selected.getId());
+
+            if (mainController != null) {
+                mainController.refreshCourseProfessorList();
+            }
+
+            if (removed) {
+
+                professorList.remove(selected);
+                clearFields();
+
+                showAlert(Alert.AlertType.INFORMATION,
+                        "Eliminado",
+                        "Profesor eliminado correctamente");
+            }
+
         } catch (ListException e) {
-            throw new RuntimeException(e);
-        }
 
-        if (mainController != null) {
-            mainController.refreshCourseProfessorList();
-        }
-
-        if (removed) {
-            professorList.remove(selected);
-            clearFields();
-
-            showAlert(Alert.AlertType.INFORMATION,
-                    "Eliminado",
-                    "Profesor eliminado");
+            showAlert(Alert.AlertType.ERROR,
+                    "Error",
+                    e.getMessage());
         }
     }
 

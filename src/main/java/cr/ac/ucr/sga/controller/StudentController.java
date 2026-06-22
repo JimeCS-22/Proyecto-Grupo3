@@ -171,16 +171,43 @@ public class StudentController implements Initializable {
 
     @FXML
     private void deleteStudent() throws ListException {
-        Student selected = tblStudents.getSelectionModel().getSelectedItem();
+
+        Student selected =
+                tblStudents.getSelectionModel().getSelectedItem();
+
         if (selected == null) {
-            showAlert(Alert.AlertType.WARNING, "Sin selección", "Seleccione un estudiante");
+            showAlert(
+                    Alert.AlertType.WARNING,
+                    "Sin selección",
+                    "Seleccione un estudiante"
+            );
             return;
         }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.setHeaderText("Eliminar estudiante");
+        confirm.setContentText(
+                "¿Está seguro de que desea eliminar al estudiante "
+                        + selected.getName() + "?"
+        );
+
+        if (confirm.showAndWait().orElse(ButtonType.CANCEL)
+                != ButtonType.OK) {
+            return;
+        }
+
         if (studentData.deleteStudent(selected.getId())) {
+
             studentList.remove(selected);
             clearFields();
             updateCount();
-            showAlert(Alert.AlertType.INFORMATION, "Eliminado", "Estudiante eliminado");
+
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Eliminado",
+                    "Estudiante eliminado correctamente"
+            );
         }
     }
 

@@ -400,13 +400,29 @@ public class MainController implements Initializable, NotificationObserver {
     @FXML
     private void logout() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/login-view.fxml"));
+
+            Stage stage =
+                    (Stage) rootPane.getScene().getWindow();
+
+            boolean maximized =
+                    stage.isMaximized();
+
+            FXMLLoader loader =
+                    new FXMLLoader(
+                            getClass().getResource("/views/login-view.fxml")
+                    );
+
             Parent root = loader.load();
-            Stage stage = (Stage) rootPane.getScene().getWindow();
+
             Scene scene = new Scene(root);
+
             stage.setScene(scene);
             stage.setTitle("Login");
+
+            stage.setMaximized(maximized);
+
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

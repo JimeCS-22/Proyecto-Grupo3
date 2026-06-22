@@ -304,14 +304,39 @@ public class CourseController implements Initializable {
 
     @FXML
     private void deleteCourse() throws ListException {
+
         if (selectedCourse == null) {
-            showAlert(Alert.AlertType.WARNING, "Sin selección", "Seleccione un curso");
+            showAlert(
+                    Alert.AlertType.WARNING,
+                    "Sin selección",
+                    "Seleccione un curso"
+            );
             return;
         }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.setHeaderText("Eliminar curso");
+        confirm.setContentText(
+                "¿Está seguro de que desea eliminar el curso "
+                        + selectedCourse.getId() + "?"
+        );
+
+        if (confirm.showAndWait().orElse(ButtonType.CANCEL)
+                != ButtonType.OK) {
+            return;
+        }
+
         if (courseData.removeCourse(selectedCourse.getId())) {
+
             loadCourses();
             clearFields();
-            showAlert(Alert.AlertType.INFORMATION, "Eliminado", "Curso eliminado correctamente");
+
+            showAlert(
+                    Alert.AlertType.INFORMATION,
+                    "Eliminado",
+                    "Curso eliminado correctamente"
+            );
         }
     }
 

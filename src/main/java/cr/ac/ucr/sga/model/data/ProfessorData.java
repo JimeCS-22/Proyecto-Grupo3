@@ -72,14 +72,21 @@ public class ProfessorData {
         return null;
     }
 
-    public boolean updateProfessor(Professor updatedProfessor) throws ListException {
-        for (int i = 0; i < professors.size(); i++) {
-            if (professors.get(i).getId().equalsIgnoreCase(updatedProfessor.getId())) {
-                professors.add(i, updatedProfessor);
-                saveProfessors();
-                return true;
-            }
+    public boolean updateProfessor(Professor updatedProfessor) {
+
+        Professor existing = findProfessorById(updatedProfessor.getId());
+
+        if (existing != null) {
+
+            existing.setName(updatedProfessor.getName());
+            existing.setCareerId(updatedProfessor.getCareerId());
+            existing.setUsername(updatedProfessor.getUsername());
+            existing.setPassword(updatedProfessor.getPassword());
+
+            saveProfessors();
+            return true;
         }
+
         return false;
     }
 
