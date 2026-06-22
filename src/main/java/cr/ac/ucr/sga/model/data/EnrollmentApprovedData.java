@@ -217,4 +217,28 @@ public class EnrollmentApprovedData {
         public String getStatus() { return status; }
         public void setStatus(String status) { this.status = status; }
     }
+
+    public LinkedList<MatriculaAprobada> getMatriculasByProfessor(String professorUsername) {
+        LinkedList<MatriculaAprobada> result = new LinkedList<>();
+        LinkedList<MatriculaAprobada> all = loadAll();
+
+        for (MatriculaAprobada mat : all.toList()) {
+            if (mat.getEnrollments() != null) {
+                // Verificar si alguno de los enrollments es de este profesor
+                boolean hasEnrollmentWithProfessor = false;
+                for (Enrollment e : mat.getEnrollments().toList()) {
+                    if (e.getProfessorId() != null &&
+                            e.getProfessorId().equalsIgnoreCase(professorUsername)) {
+                        hasEnrollmentWithProfessor = true;
+                        break;
+                    }
+                }
+                if (hasEnrollmentWithProfessor) {
+                    result.add(mat);
+                }
+            }
+        }
+
+        return result;
+    }
 }

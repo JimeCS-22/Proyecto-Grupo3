@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cr.ac.ucr.sga.controller.NotesCourseProfessor">
+
+    <!-- TOP -->
+    <top>
+        <Label text="📚 Gestión de Notas del Profesor"
+               style="-fx-font-size: 18px; -fx-padding: 10;" />
+    </top>
+
+    <!-- CENTER -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10;">
+
+            <Label fx:id="lblProfessorInfo" text="Profesor:" />
+
+            <TableView fx:id="tblEnrollments" editable="true">
+
+                <columns>
+
+                    <TableColumn fx:id="colStudent" text="Estudiante" prefWidth="180"/>
+                    <TableColumn fx:id="colCourse" text="Curso" prefWidth="150"/>
+                    <TableColumn fx:id="colGrade" text="Nota" prefWidth="100"/>
+                    <TableColumn fx:id="colStatus" text="Estado" prefWidth="120"/>
+
+                </columns>
+
+            </TableView>
+
+            <HBox spacing="10">
+                <Button text="Guardar cambios" onAction="#onSaveGrades"/>
+                <Button text="Recargar" onAction="#onReload"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -41,6 +41,8 @@ public class MainController implements Initializable, NotificationObserver {
     @FXML private Tab matriculaEstudianteTab;
     @FXML private Tab reviewStudentTab;
     @FXML private Tab tramiteTab;
+    @FXML private Tab recordTab;
+
     @FXML
     private Tab notificationTab;
 
@@ -143,6 +145,8 @@ public class MainController implements Initializable, NotificationObserver {
         loadNotifications();
         mostrarNombreEstudianteSiCorresponde();
         loadReportsView();
+        loadProfessorNotesView(); // ← Agregar esta línea
+
     }
 
     private void loadReportsView() {
@@ -189,8 +193,14 @@ public class MainController implements Initializable, NotificationObserver {
         }
 
         if (currentUser.getRole() == Role.PROFESSOR) {
+            removeTab(studentTab);
             removeTab(reviewStudentTab);
             removeTab(professorTab);
+            removeTab(recordTab);
+            removeTab(tramiteTab);
+            removeTab(notificationTab);
+            removeTab(preMatriculaTab);
+            removeTab(matriculaEstudianteTab);
         }
     }
 
@@ -554,6 +564,27 @@ public class MainController implements Initializable, NotificationObserver {
             }
         } else {
             System.err.println("courseController es null, no se puede refrescar");
+        }
+    }
+
+    private void loadProfessorNotesView() {
+        // Asegúrate de tener un Tab para las notas del profesor
+        // o puedes cargarlo en el tab de profesor
+        if (professorTab != null) {
+            try {
+                FXMLLoader loader =
+                        new FXMLLoader(getClass().getResource("/views/Notes.fxml"));
+                Parent view = loader.load();
+
+                NotesCourseProfessor controller = loader.getController();
+                controller.setUser(currentUser);
+
+                // Si el tab existe, asignar el contenido
+                professorTab.setContent(view);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
