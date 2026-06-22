@@ -131,6 +131,14 @@
                                                 "password": "1234",
                                                 "role": "STUDENT"
                                               },
+                                              "next": {
+                                                "data": {
+                                                  "username": "ana.silvia",
+                                                  "password": "montana12",
+                                                  "role": "PROFESSOR"
+                                                },
+                                                "visited": false
+                                              },
                                               "visited": false
                                             },
                                             "visited": false
@@ -177,9 +185,9 @@
   },
   "tail": {
     "data": {
-      "username": "leo.montoya",
-      "password": "1234",
-      "role": "STUDENT"
+      "username": "ana.silvia",
+      "password": "montana12",
+      "role": "PROFESSOR"
     },
     "visited": false
   }

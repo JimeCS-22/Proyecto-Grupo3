@@ -248,8 +248,23 @@
     "grade": 0.0,
     "status": "Activo",
     "careerId": "CAR02",
+    "professorId": "EM",
     "semestre": 3,
     "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "EI-0002",
+    "name": "Pedagogia 1",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR03",
+    "professorId": "EM",
+    "semestre": 2,
+    "prerequisitosIds": [
+      "EI70008"
+    ],
     "corequisitosIds": []
   }
 ]
