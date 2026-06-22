@@ -92,7 +92,7 @@ public class TramiteDetailsData {
     public void saveDetails(TramiteDetails details) throws ListException {
         LinkedList<TramiteDetails> all = getAllDetails();
 
-        for (int i = 0; i < all.size(); i++) {
+        for (int i = 1; i < all.size(); i++) {
             TramiteDetails current = all.get(i);
             if (current != null && details.getTramiteId().equals(current.getTramiteId())) {
                 all.add(i, details);

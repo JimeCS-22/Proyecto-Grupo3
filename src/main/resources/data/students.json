@@ -112,7 +112,7 @@
                         "next": {
                           "data": {
                             "id": "011",
-                            "name": "Leonardo Montoya Solis",
+                            "name": "Leonardo Montoya",
                             "carnet": "C5H512",
                             "age": 20,
                             "careerId": "CAR03",
@@ -146,7 +146,7 @@
   "tail": {
     "data": {
       "id": "011",
-      "name": "Leonardo Montoya Solis",
+      "name": "Leonardo Montoya",
       "carnet": "C5H512",
       "age": 20,
       "careerId": "CAR03",

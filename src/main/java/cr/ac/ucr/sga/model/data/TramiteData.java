@@ -96,7 +96,7 @@ public class TramiteData {
     public void updateTramite(Tramite tramiteActualizado) throws ListException {
         LinkedList<Tramite> tramites = getAllTramites();
 
-        for (int i = 0; i < tramites.size(); i++) {
+        for (int i = 1; i < tramites.size(); i++) {
             if (tramites.get(i).getId().equals(tramiteActualizado.getId())) {
                 tramites.add(i, tramiteActualizado);
                 saveAllTramites(tramites);

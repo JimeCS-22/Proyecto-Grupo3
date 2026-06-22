@@ -9,7 +9,26 @@
   "tail": {
     "data": {
       "tramiteId": "TRM-20260622-001",
-      "comentarios": {}
+      "comentarios": {
+        "head": {
+          "data": {
+            "autor": "Admin",
+            "contenido": "No se puede. Saludos",
+            "fecha": "2026-06-22T16:03:39",
+            "tipo": "RESOLUCION"
+          },
+          "visited": false
+        },
+        "tail": {
+          "data": {
+            "autor": "Admin",
+            "contenido": "No se puede. Saludos",
+            "fecha": "2026-06-22T16:03:39",
+            "tipo": "RESOLUCION"
+          },
+          "visited": false
+        }
+      }
     },
     "visited": false
   }
