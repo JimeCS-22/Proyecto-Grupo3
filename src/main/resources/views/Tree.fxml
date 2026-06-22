@@ -60,12 +60,8 @@
 
     <center>
         <SplitPane dividerPositions="0.75" orientation="VERTICAL">
-            <ScrollPane fx:id="scrollPane" fitToHeight="false" fitToWidth="false" pannable="true">
-                <content>
-                    <Group fx:id="canvasGroup">
-                        <Canvas fx:id="treeCanvas" height="2000" width="3000" />
-                    </Group>
-                </content>
+            <ScrollPane fx:id="scrollPane" pannable="true">
+                <Canvas fx:id="treeCanvas" width="3000" height="2000"/>
             </ScrollPane>
 
             <VBox spacing="5" style="-fx-padding:10;">

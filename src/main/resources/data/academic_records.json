@@ -216,6 +216,21 @@
                             },
                             "courses": []
                           },
+                          "next": {
+                            "data": {
+                              "student": {
+                                "id": "903660255",
+                                "name": "Emma Calvo",
+                                "carnet": "C4L9003",
+                                "age": 20,
+                                "careerId": "CAR01",
+                                "username": "Emma.C",
+                                "password": "1234"
+                              },
+                              "courses": []
+                            },
+                            "visited": false
+                          },
                           "visited": false
                         },
                         "visited": false
@@ -243,12 +258,12 @@
   "tail": {
     "data": {
       "student": {
-        "id": "011",
-        "name": "Leonardo Montoya",
-        "carnet": "C4H512",
+        "id": "903660255",
+        "name": "Emma Calvo",
+        "carnet": "C4L9003",
         "age": 20,
-        "careerId": "CAR03",
-        "username": "leo.montoya",
+        "careerId": "CAR01",
+        "username": "Emma.C",
         "password": "1234"
       },
       "courses": []

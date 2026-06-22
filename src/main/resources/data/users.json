@@ -137,6 +137,14 @@
                                                   "password": "montana12",
                                                   "role": "PROFESSOR"
                                                 },
+                                                "next": {
+                                                  "data": {
+                                                    "username": "Maria.S",
+                                                    "password": "1234",
+                                                    "role": "PROFESSOR"
+                                                  },
+                                                  "visited": false
+                                                },
                                                 "visited": false
                                               },
                                               "visited": false
@@ -185,8 +193,8 @@
   },
   "tail": {
     "data": {
-      "username": "ana.silvia",
-      "password": "montana12",
+      "username": "Maria.S",
+      "password": "1234",
       "role": "PROFESSOR"
     },
     "visited": false

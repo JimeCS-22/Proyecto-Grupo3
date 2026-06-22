@@ -32,7 +32,8 @@ import java.util.*;
 
 public class TreeVisualizerController {
 
-    @FXML private Canvas treeCanvas;
+    @FXML
+    private Canvas treeCanvas;
     private TreeRenderer renderer;
     private BTree<Course> currentTree;
     private BTree<Course> binaryTree;
@@ -40,13 +41,20 @@ public class TreeVisualizerController {
     private AVL<Course> avlTree;
     private TreeAnimationManager animator;
 
-    @FXML private TextField searchField;
-    @FXML private TextArea resultArea;
-    @FXML private ComboBox<String> treeTypeCombo;
-    @FXML private ComboBox<String> rotationCombo;
-    @FXML private ComboBox<String> cmbCarreras;
-    @FXML private ScrollPane scrollPane;
-    @FXML private Group canvasGroup;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private TextArea resultArea;
+    @FXML
+    private ComboBox<String> treeTypeCombo;
+    @FXML
+    private ComboBox<String> rotationCombo;
+    @FXML
+    private ComboBox<String> cmbCarreras;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private Group canvasGroup;
     private double scaleValue = 1.0;
     private Map<String, List<Course>> cursosPorCarrera;
     private Map<String, Career> mapaCarreras;
@@ -101,7 +109,9 @@ public class TreeVisualizerController {
         gc().fillText("Árbol: " + treeTypeCombo.getValue() + " | Carrera: " + nombreCarrera, 20, 20);
     }
 
-    private GraphicsContext gc() { return treeCanvas.getGraphicsContext2D(); }
+    private GraphicsContext gc() {
+        return treeCanvas.getGraphicsContext2D();
+    }
 
     private void initializeMouseEvents() {
         treeCanvas.setOnMouseClicked(event -> {
@@ -125,7 +135,9 @@ public class TreeVisualizerController {
         try {
             resultArea.setText(currentTree.inOrder());
             animator.animateNodes(currentTree.getInOrderNodes());
-        } catch (Exception e) { resultArea.setText(e.getMessage()); }
+        } catch (Exception e) {
+            resultArea.setText(e.getMessage());
+        }
     }
 
     @FXML
@@ -133,7 +145,9 @@ public class TreeVisualizerController {
         try {
             resultArea.setText(currentTree.preOrder());
             animator.animateNodes(currentTree.getPreOrderNodes());
-        } catch (Exception e) { resultArea.setText(e.getMessage()); }
+        } catch (Exception e) {
+            resultArea.setText(e.getMessage());
+        }
     }
 
     @FXML
@@ -141,7 +155,9 @@ public class TreeVisualizerController {
         try {
             resultArea.setText(currentTree.postOrder());
             animator.animateNodes(currentTree.getPostOrderNodes());
-        } catch (Exception e) { resultArea.setText(e.getMessage()); }
+        } catch (Exception e) {
+            resultArea.setText(e.getMessage());
+        }
     }
 
     @FXML
@@ -159,7 +175,9 @@ public class TreeVisualizerController {
                 return;
             }
             animator.animateSearchPath(path);
-        } catch (Exception ex) { resultArea.setText(ex.getMessage()); }
+        } catch (Exception ex) {
+            resultArea.setText(ex.getMessage());
+        }
     }
 
     @FXML
@@ -178,7 +196,9 @@ public class TreeVisualizerController {
         try {
             AVL<Course> avl = (AVL<Course>) currentTree;
             resultArea.setText(avl.getRebalancingInfo());
-        } catch (Exception e) { resultArea.setText(e.getMessage()); }
+        } catch (Exception e) {
+            resultArea.setText(e.getMessage());
+        }
     }
 
     @FXML
@@ -199,7 +219,9 @@ public class TreeVisualizerController {
             } else {
                 resultArea.setText("✗ Curso no encontrado: " + code);
             }
-        } catch (Exception e) { resultArea.setText(e.getMessage()); }
+        } catch (Exception e) {
+            resultArea.setText(e.getMessage());
+        }
     }
 
     private void loadCareerData() {
@@ -213,11 +235,14 @@ public class TreeVisualizerController {
             InputStream is = TreeVisualizerController.class.getResourceAsStream("/data/careers.json");
             if (is != null) {
                 InputStreamReader reader = new InputStreamReader(is);
-                Type listType = new TypeToken<ArrayList<Career>>(){}.getType();
+                Type listType = new TypeToken<ArrayList<Career>>() {
+                }.getType();
                 List<Career> listaCarreras = gson.fromJson(reader, listType);
                 for (Career c : listaCarreras) mapaCarreras.put(c.getId(), c);
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         for (Course c : cursos.toList()) {
             String idCarrera = c.getCareerId();
@@ -245,7 +270,9 @@ public class TreeVisualizerController {
                 bstTree.add(curso);
                 avlTree.add(curso);
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         updateCurrentTree();
     }
 
@@ -302,7 +329,9 @@ public class TreeVisualizerController {
             List<Course> cursosCarrera = cursosPorCarrera.getOrDefault(selectedCareerId, new ArrayList<>());
             animateRotation(rotationCombo.getValue(), cursosCarrera);
             resultArea.setText("Demostrando " + rotationCombo.getValue());
-        } catch (Exception ex) { resultArea.setText(ex.getMessage()); }
+        } catch (Exception ex) {
+            resultArea.setText(ex.getMessage());
+        }
     }
 
     private void animateRotation(String tipo, List<Course> cursos) {
@@ -322,7 +351,9 @@ public class TreeVisualizerController {
                     insertCourse(id, cursos);
                     currentTree = avlTree;
                     drawTree();
-                } catch (Exception ex) { ex.printStackTrace(); }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }));
         }
         timeline.play();

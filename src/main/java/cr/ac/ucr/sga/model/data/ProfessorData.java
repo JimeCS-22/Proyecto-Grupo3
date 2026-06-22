@@ -33,9 +33,21 @@ public class ProfessorData {
 
     private LinkedList<Professor> loadProfessors() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
-            Type listType = new TypeToken<LinkedList<Professor>>() {}.getType();
-            LinkedList<Professor> loadedProfessors = gson.fromJson(reader, listType);
-            return (loadedProfessors != null) ? loadedProfessors : new LinkedList<>();
+
+            Type listType = new TypeToken<java.util.List<Professor>>() {
+            }.getType();
+            java.util.List<Professor> tempList = gson.fromJson(reader, listType);
+
+            LinkedList<Professor> linkedList = new LinkedList<>();
+
+            if (tempList != null) {
+                for (Professor p : tempList) {
+                    linkedList.add(p);
+                }
+            }
+
+            return linkedList;
+
         } catch (Exception e) {
             return new LinkedList<>();
         }
@@ -43,11 +55,14 @@ public class ProfessorData {
 
     private void saveProfessors() {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
-            gson.toJson(professors, writer);
-            writer.flush();
+
+            gson.toJson(professors.toList(), writer);
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
     public Professor addProfessor(Professor professor) {
         Professor professorReturn = null;
@@ -116,3 +131,5 @@ public class ProfessorData {
         return null;
     }
 }
+
+
