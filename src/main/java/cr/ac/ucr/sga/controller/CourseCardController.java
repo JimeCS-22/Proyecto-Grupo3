@@ -49,8 +49,6 @@ public class CourseCardController {
 
         lblStatus.setText(course.getStatus());
 
-        // Imagen aleatoria
-
         Random random = new Random();
 
         int index = random.nextInt(images.length);

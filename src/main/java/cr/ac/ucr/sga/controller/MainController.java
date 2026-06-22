@@ -7,7 +7,6 @@ import cr.ac.ucr.sga.model.entities.User;
 import cr.ac.ucr.sga.model.services.NotificationObserver;
 import cr.ac.ucr.sga.model.services.NotificationService;
 import cr.ac.ucr.sga.model.services.SessionHistoryService;
-import cr.ac.ucr.sga.model.services.NotificationObserver;
 import cr.ac.ucr.sga.model.services.NotificationRepository;
 import cr.ac.ucr.sga.model.entities.Notification;
 import javafx.application.Platform;
@@ -32,9 +31,7 @@ public class MainController implements Initializable, NotificationObserver {
     @FXML private BorderPane rootPane;
     @FXML private TabPane mainTabs;
     @FXML private Label lblStudent;
-    @FXML
-    private ListView<String> lstNotifications;
-
+    @FXML private ListView<String> lstNotifications;
 
     @FXML private Tab studentTab;
     @FXML private Tab preMatriculaTab;
@@ -42,9 +39,7 @@ public class MainController implements Initializable, NotificationObserver {
     @FXML private Tab reviewStudentTab;
     @FXML private Tab tramiteTab;
     @FXML private Tab recordTab;
-
-    @FXML
-    private Tab notificationTab;
+    @FXML private Tab notificationTab;
 
     @FXML private AnchorPane studentContent;
     @FXML private AnchorPane coursesContent;
@@ -53,9 +48,6 @@ public class MainController implements Initializable, NotificationObserver {
     @FXML private AnchorPane expedienteContent;
     @FXML private Tab professorTab;
 
-    // =========================
-    // CONTROLLERS / MODELS
-    // =========================
     private User currentUser;
     private RecordController recordController;
     private CourseController courseController;
@@ -68,24 +60,17 @@ public class MainController implements Initializable, NotificationObserver {
 
     private ReportsController reportsController;
 
-    // =========================
-    // SERVICES / STATE
-    // =========================
     private final SessionHistoryService historyService = SessionHistoryService.getInstance();
     private boolean ignoreTabChange = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         mainTabs.getSelectionModel()
                 .selectedIndexProperty()
                 .addListener((obs, oldIndex, newIndex) -> {
-
                     if (!ignoreTabChange && newIndex != null) {
-
                         try {
                             historyService.addTabIndex(newIndex.intValue());
-
                         } catch (ListException e) {
                             e.printStackTrace();
                         }
@@ -95,24 +80,17 @@ public class MainController implements Initializable, NotificationObserver {
         mainTabs.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldTab, newTab) -> {
-
                     if (newTab != null
                             && "Expediente".equals(newTab.getText())
                             && currentUser != null) {
-
                         loadRecordView();
                     }
                 });
 
         NotificationService.getInstance()
                 .addObserver(this);
-
-
     }
 
-    // =========================
-    // GETTERS DE CONTROLADORES
-    // =========================
     public RecordController getRecordController() {
         return recordController;
     }
@@ -129,14 +107,11 @@ public class MainController implements Initializable, NotificationObserver {
         return tramiteReviewController;
     }
 
-
-    // =========================
-    // CONFIGURACIÓN DE USUARIO
-    // =========================
     public void setUser(User user) {
         this.currentUser = user;
 
         applyAccessByRole();
+
         loadCourseView();
         loadStudentView();
         loadEnrollmentStudentView();
@@ -145,8 +120,11 @@ public class MainController implements Initializable, NotificationObserver {
         loadNotifications();
         mostrarNombreEstudianteSiCorresponde();
         loadReportsView();
-        loadProfessorNotesView(); // ← Agregar esta línea
+        loadProfessorNotesView();
 
+        if (currentUser.getRole() == Role.ADMIN) {
+            loadProfessorView();
+        }
     }
 
     private void loadReportsView() {
@@ -167,9 +145,6 @@ public class MainController implements Initializable, NotificationObserver {
         }
     }
 
-    // =========================
-    // CONTROL DE ACCESO POR ROL
-    // =========================
     private void applyAccessByRole() {
         if (mainTabs == null || currentUser == null) {
             return;
@@ -191,7 +166,6 @@ public class MainController implements Initializable, NotificationObserver {
         if (currentUser.getRole() == Role.PROFESSOR) {
             removeTab(studentTab);
             removeTab(reviewStudentTab);
-
             removeTab(recordTab);
             removeTab(tramiteTab);
             removeTab(notificationTab);
@@ -201,9 +175,6 @@ public class MainController implements Initializable, NotificationObserver {
         }
     }
 
-    // =========================
-    // UTILIDADES DE UI
-    // =========================
     private void removeTab(Tab tab) {
         if (tab != null) {
             mainTabs.getTabs().remove(tab);
@@ -223,15 +194,11 @@ public class MainController implements Initializable, NotificationObserver {
         container.getChildren().add(view);
     }
 
-    // =========================
-    // CARGA DE VISTAS
-    // =========================
     private void loadCourseView() {
         try {
             FXMLLoader loader;
 
             if (currentUser.getRole() == Role.STUDENT) {
-
                 loader = new FXMLLoader(
                         getClass().getResource("/views/student-course-view.fxml")
                 );
@@ -246,7 +213,6 @@ public class MainController implements Initializable, NotificationObserver {
             }
 
             if (currentUser.getRole() == Role.PROFESSOR) {
-
                 loader = new FXMLLoader(
                         getClass().getResource("/views/professor-course-view.fxml")
                 );
@@ -260,7 +226,6 @@ public class MainController implements Initializable, NotificationObserver {
                 return;
             }
 
-            // ADMIN (o default)
             loader = new FXMLLoader(
                     getClass().getResource("/views/course-view.fxml")
             );
@@ -277,12 +242,11 @@ public class MainController implements Initializable, NotificationObserver {
             e.printStackTrace();
         }
     }
-    private void loadProfessorView() {
 
+    private void loadProfessorView() {
         if (professorTab == null) return;
 
         try {
-
             FXMLLoader loader =
                     new FXMLLoader(getClass().getResource("/views/professor-view.fxml"));
 
@@ -292,7 +256,6 @@ public class MainController implements Initializable, NotificationObserver {
             professorController.setMainController(this);
 
             professorTab.setContent(view);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -322,7 +285,6 @@ public class MainController implements Initializable, NotificationObserver {
             Parent tramiteView;
 
             if (currentUser.getRole() == Role.STUDENT) {
-                // Vista para estudiante: enviar trámites
                 tramiteLoader = new FXMLLoader(getClass().getResource("/views/tramite-student-view.fxml"));
                 tramiteView = tramiteLoader.load();
 
@@ -333,14 +295,12 @@ public class MainController implements Initializable, NotificationObserver {
                     controller.setMainController(this);
                 }
             } else {
-                // Vista para admin: gestionar/procesar trámites
                 tramiteLoader = new FXMLLoader(getClass().getResource("/views/tramite-view.fxml"));
                 tramiteView = tramiteLoader.load();
 
                 tramiteReviewController = tramiteLoader.getController();
             }
 
-            // Agregar vista al tab
             if (tramiteTab != null && mainTabs.getTabs().contains(tramiteTab)) {
                 tramiteTab.setContent(tramiteView);
             }
@@ -349,9 +309,6 @@ public class MainController implements Initializable, NotificationObserver {
         }
     }
 
-   //======================
-    // CARGAR VISTAS DE PRE-MATRICULA Y MATRICULA ESTUDIANTE
-    // =========================
     private void loadEnrollmentStudentView() {
         if (preMatriculaContent == null || currentUser.getRole() != Role.STUDENT) {
             return;
@@ -413,11 +370,6 @@ public class MainController implements Initializable, NotificationObserver {
         }
     }
 
-
-
-    // =========================
-    // NAVEGACIÓN ENTRE PESTAÑAS (Historial)
-    // =========================
     @FXML
     public void goBack() {
         try {
@@ -446,9 +398,6 @@ public class MainController implements Initializable, NotificationObserver {
         }
     }
 
-    // =========================
-    // LOGOUT
-    // =========================
     @FXML
     private void logout() {
         try {
@@ -464,9 +413,6 @@ public class MainController implements Initializable, NotificationObserver {
         }
     }
 
-    // =========================
-    // ESTUDIANTE
-    // =========================
     private void mostrarNombreEstudianteSiCorresponde() {
         if (lblStudent != null && currentUser != null && currentUser.getRole() == Role.STUDENT) {
             Student estudiante = new StudentData().findByUsername(currentUser.getUsername());
@@ -483,24 +429,19 @@ public class MainController implements Initializable, NotificationObserver {
 
     @Override
     public void onNotification(String studentId, String message) {
+        Student student = new StudentData().findByUsername(currentUser.getUsername());
 
-        Student student =
-                new StudentData()
-                        .findByUsername(currentUser.getUsername());
-
-        if(student == null){
+        if (student == null) {
             return;
         }
 
-        if(!student.getId().equals(studentId)){
+        if (!student.getId().equals(studentId)) {
             return;
         }
 
-        NotificationRepository repo =
-                NotificationRepository.getInstance();
+        NotificationRepository repo = NotificationRepository.getInstance();
 
-
-        if(repo.exists(studentId, message)) {
+        if (repo.exists(studentId, message)) {
             return;
         }
 
@@ -516,33 +457,22 @@ public class MainController implements Initializable, NotificationObserver {
     }
 
     private void loadNotifications() {
-
         if (lstNotifications == null || currentUser == null) {
             return;
         }
 
         lstNotifications.getItems().clear();
 
-        System.out.println("USERNAME = " + currentUser.getUsername());
-
-
-        Student student =
-                new StudentData()
-                        .findByUsername(currentUser.getUsername());
+        Student student = new StudentData().findByUsername(currentUser.getUsername());
 
         if (student == null) {
             return;
         }
 
-        System.out.println("ID = " + student.getId());
-
-
         String studentId = student.getId();
 
         for (Notification n : NotificationRepository.getInstance().getNotifications()) {
-
             if (n.getStudentId().equals(studentId)) {
-
                 lstNotifications.getItems().add(
                         n.getFecha() + " - " + n.getMensaje()
                 );
@@ -554,38 +484,25 @@ public class MainController implements Initializable, NotificationObserver {
         if (courseController != null) {
             try {
                 courseController.loadProfessors();
-                System.out.println("Lista de profesores refrescada en CourseController");
             } catch (Exception e) {
                 e.printStackTrace();
-                System.err.println("Error al refrescar lista de profesores: " + e.getMessage());
             }
-        } else {
-            System.err.println("courseController es null, no se puede refrescar");
         }
     }
 
     private void loadProfessorNotesView() {
-        // Asegúrate de tener un Tab para las notas del profesor
-        // o puedes cargarlo en el tab de profesor
         if (professorTab != null) {
             try {
-                FXMLLoader loader =
-                        new FXMLLoader(getClass().getResource("/views/Notes.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Notes.fxml"));
                 Parent view = loader.load();
 
                 NotesCourseProfessor controller = loader.getController();
                 controller.setUser(currentUser);
 
-                // Si el tab existe, asignar el contenido
                 professorTab.setContent(view);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 }
-
-
-
-

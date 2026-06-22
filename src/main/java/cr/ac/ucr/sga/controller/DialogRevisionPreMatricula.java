@@ -19,12 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import cr.ac.ucr.sga.model.services.NotificationService;
-
 import java.util.UUID;
 
-/**
- * Revisar la pre-matrícula
- */
 public class DialogRevisionPreMatricula extends Dialog<Void> {
     private final EnrollmentRequest request;
     private final EnrollmentRequestData requestData;
@@ -36,12 +32,10 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
         this.request = req;
         this.requestData = reqData;
         this.matriculaData = new EnrollmentApprovedData();
-
         initializeDialog();
     }
 
     private void initializeDialog() {
-
         this.setTitle("Revisar Pre-Matrícula");
         this.setResizable(true);
 
@@ -61,7 +55,7 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
         subtitle.setStyle("-fx-font-size: 11; -fx-text-fill: -fx-secondary-text;");
         headerTexts.getChildren().addAll(title, subtitle);
         header.getChildren().addAll(badge, headerTexts);
-        HBox.setMargin(headerTexts, new Insets(0,0,0,12));
+        HBox.setMargin(headerTexts, new Insets(0, 0, 0, 12));
         root.setTop(header);
 
         VBox content = new VBox(14);
@@ -79,7 +73,6 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
         lblCursos.setStyle("-fx-font-size: 14; -fx-font-weight: bold;");
         card.getChildren().add(lblCursos);
 
-        // Table
         tblCursos = new TableView<>();
         tblCursos.setPrefHeight(320);
 
@@ -128,7 +121,6 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
             try {
                 aceptarPreMatricula();
             } catch (ListException ex) {
-                ex.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Error", ex.getMessage());
             }
         });
@@ -136,7 +128,6 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
         Button btnRechazar = new Button("Rechazar Pre-Matrícula");
         btnRechazar.setStyle("-fx-background-color: #E85D75; -fx-text-fill: white; -fx-padding: 10 24; -fx-font-size: 13;");
         btnRechazar.setOnAction(e -> rechazarPreMatricula());
-
 
         actions.getChildren().addAll(btnRechazar, btnAceptar);
         content.getChildren().add(actions);
@@ -166,44 +157,30 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
     }
 
     private void aceptarPreMatricula() throws ListException {
-        // 1. Reconstruye la lista con los cursos que quedan
         LinkedList<Course> cursosFinales = new LinkedList<>();
         for (Course c : cursosEnSolicitud) {
             cursosFinales.add(c);
         }
         request.setCourses(cursosFinales);
-
-        // 2. Cambia estado a "APPROVED"
         request.setStatus("APPROVED");
         requestData.updateStatus(request, "APPROVED");
 
-        // 3. Crea una MatriculaAprobada para el estudiante
         LinkedList<Enrollment> enrollments = new LinkedList<>();
-
         for (int i = 1; i <= cursosFinales.size(); i++) {
-
             Course c = cursosFinales.get(i);
-
             Enrollment e = new Enrollment();
             e.setStudentId(request.getStudent().getId());
             e.setCourseId(c.getId());
             e.setStatus("APPROVED");
-
             enrollments.add(e);
         }
 
-        MatriculaAprobada matricula = new MatriculaAprobada(
-                UUID.randomUUID().toString(),
-                request.getStudent(),
-                enrollments
-        );
+        MatriculaAprobada matricula = new MatriculaAprobada(UUID.randomUUID().toString(), request.getStudent(), enrollments);
         matriculaData.addOrUpdate(matricula);
 
         NotificationService.getInstance().notifyObservers(
                 request.getStudent().getId(),
-                "✓ PRE-MATRÍCULA APROBADA\n"
-                        + "Tu solicitud de pre-matrícula fue aprobada correctamente.\n"
-                        + "Ya puedes continuar con el proceso de matrícula."
+                "✓ PRE-MATRÍCULA APROBADA\nTu solicitud fue aprobada correctamente."
         );
 
         showAlert(Alert.AlertType.INFORMATION, "Éxito", "Pre-matrícula aceptada correctamente");
@@ -211,13 +188,10 @@ public class DialogRevisionPreMatricula extends Dialog<Void> {
     }
 
     private void rechazarPreMatricula() {
-        // Simplemente elimina la solicitud
         requestData.deleteRequest(request);
         NotificationService.getInstance().notifyObservers(
                 request.getStudent().getId(),
-                "✗ PRE-MATRÍCULA RECHAZADA\n"
-                        + "Tu solicitud de pre-matrícula fue rechazada.\n"
-                        + "Puedes realizar una nueva solicitud."
+                "✗ PRE-MATRÍCULA RECHAZADA\nTu solicitud fue rechazada."
         );
         showAlert(Alert.AlertType.INFORMATION, "Rechazado", "Pre-matrícula rechazada y eliminada");
         this.close();

@@ -115,11 +115,6 @@
                     <AnchorPane fx:id="reportsContent"/>
                 </content>
             </Tab>
-            <Tab fx:id="notesTab"
-                 closable="false"
-                 text="Notas">
-                <fx:include source="Notes.fxml"/>
-            </Tab>
         </TabPane>
     </center>
 

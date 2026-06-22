@@ -4,8 +4,8 @@
     "studentId": "002",
     "courseId": "if-456",
     "professorId": "LR",
-    "grade": 0.0,
-    "status": "ENROLLED"
+    "grade": 90.0,
+    "status": "Aprobado"
   },
   {
     "id": "enrollment-002",

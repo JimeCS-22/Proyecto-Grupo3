@@ -24,12 +24,11 @@ public class CourseProfessorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Inicialización
+        //
     }
 
     public void setUser(User user) {
         this.currentUser = user;
-        System.out.println("👤 Profesor logueado: " + user.getUsername());
         loadCourses();
     }
 
@@ -40,7 +39,6 @@ public class CourseProfessorController implements Initializable {
             String username = currentUser.getUsername();
             System.out.println("🔍 Buscando cursos para profesor: " + username);
 
-            // Obtener solo los cursos asignados a este profesor
             DoublyLinkedList<Course> courses =
                     courseData.getCoursesByProfessor(username);
 
@@ -76,7 +74,6 @@ public class CourseProfessorController implements Initializable {
     }
 
     private void showNoCoursesMessage() {
-        // Mostrar mensaje de que no tiene cursos asignados
         Label label = new Label("No tiene cursos asignados");
         label.setStyle("-fx-font-size: 16px; -fx-text-fill: #666;");
         coursesContainer.getChildren().add(label);
