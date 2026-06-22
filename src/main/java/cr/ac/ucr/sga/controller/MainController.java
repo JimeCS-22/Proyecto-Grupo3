@@ -171,7 +171,6 @@ public class MainController implements Initializable, NotificationObserver {
             removeTab(notificationTab);
             removeTab(preMatriculaTab);
             removeTab(matriculaEstudianteTab);
-            removeTab(reportsTab);
         }
     }
 
