@@ -51,9 +51,10 @@ public class EnrollmentApprovedData {
                     LinkedList<Enrollment> enrollments = new LinkedList<>();
 
                     for (EnrollmentDTO dtoE : dto.getEnrollments().toList()) {
-
                         Enrollment e = new Enrollment();
 
+                        // ✅ ASIGNAR EL ID DEL DTO
+                        e.setId(dtoE.getId());
                         e.setStudentId(dto.getStudentId());
                         e.setCourseId(dtoE.getCourseId());
                         e.setProfessorId(dtoE.getProfessorId());
@@ -71,6 +72,7 @@ public class EnrollmentApprovedData {
             return result;
 
         } catch (Exception e) {
+            System.out.println("Error loading enrollment_approved: " + e.getMessage());
             return new LinkedList<>();
         }
     }
@@ -185,20 +187,22 @@ public class EnrollmentApprovedData {
         private String status;
 
         public MatriculaAprobadaDTO(MatriculaAprobada mat) {
-
             this.id = mat.getId();
-
-            this.studentId = (mat.getStudent() != null)
-                    ? mat.getStudent().getId()
-                    : null;
-
+            this.studentId = (mat.getStudent() != null) ? mat.getStudent().getId() : null;
             this.status = mat.getStatus();
-
             this.enrollments = new LinkedList<>();
 
             if (mat.getEnrollments() != null) {
                 for (Enrollment e : mat.getEnrollments().toList()) {
-                    enrollments.add(new EnrollmentDTO(e));
+                    // ✅ Crear EnrollmentDTO con todos los campos, incluyendo el ID
+                    EnrollmentDTO dto = new EnrollmentDTO();
+                    dto.setId(e.getId());
+                    dto.setStudentId(e.getStudentId());
+                    dto.setCourseId(e.getCourseId());
+                    dto.setProfessorId(e.getProfessorId());
+                    dto.setGrade(e.getGrade());
+                    dto.setStatus(e.getStatus());
+                    enrollments.add(dto);
                 }
             }
         }
@@ -221,24 +225,70 @@ public class EnrollmentApprovedData {
     public LinkedList<MatriculaAprobada> getMatriculasByProfessor(String professorUsername) {
         LinkedList<MatriculaAprobada> result = new LinkedList<>();
         LinkedList<MatriculaAprobada> all = loadAll();
+        CourseData courseData = new CourseData();
+
+        System.out.println("======== BUSCANDO MATRÍCULAS PARA PROFESOR: " + professorUsername + " ========");
+        try {
+            System.out.println("Total matrículas en archivo: " + all.size());
+        } catch (ListException e) {
+            throw new RuntimeException(e);
+        }
 
         for (MatriculaAprobada mat : all.toList()) {
-            if (mat.getEnrollments() != null) {
-                // Verificar si alguno de los enrollments es de este profesor
-                boolean hasEnrollmentWithProfessor = false;
-                for (Enrollment e : mat.getEnrollments().toList()) {
-                    if (e.getProfessorId() != null &&
-                            e.getProfessorId().equalsIgnoreCase(professorUsername)) {
-                        hasEnrollmentWithProfessor = true;
-                        break;
+            System.out.println("Matrícula ID: " + mat.getId() +
+                    ", Estudiante: " + (mat.getStudent() != null ? mat.getStudent().getName() : "null"));
+
+            if (mat.getEnrollments() == null) {
+                System.out.println("  Enrollments = NULL");
+                continue;
+            }
+
+            boolean foundMatch = false;
+
+            for (Enrollment e : mat.getEnrollments().toList()) {
+                // Verificar si el enrollment tiene profesorId
+                String enrollmentProfessor = e.getProfessorId();
+
+                // Si no tiene, buscar el profesor del curso
+                if (enrollmentProfessor == null || enrollmentProfessor.isEmpty()) {
+                    Course course = courseData.findCourseById(e.getCourseId());
+                    if (course != null && course.getProfessorId() != null) {
+                        enrollmentProfessor = course.getProfessorId();
+                        // Actualizar el enrollment con el profesor del curso
+                        e.setProfessorId(enrollmentProfessor);
+                        System.out.println("🔧 Reparando enrollment - Curso: " + e.getCourseId() +
+                                ", Profesor asignado: " + enrollmentProfessor);
                     }
                 }
-                if (hasEnrollmentWithProfessor) {
-                    result.add(mat);
+
+                System.out.println("  Enrollment - Curso: " + e.getCourseId() +
+                        ", Profesor guardado: " + e.getProfessorId());
+
+                if (enrollmentProfessor != null && enrollmentProfessor.equalsIgnoreCase(professorUsername)) {
+                    foundMatch = true;
+                    System.out.println("  ✅ MATCH ENCONTRADO!");
+                    break;
                 }
+            }
+
+            if (foundMatch) {
+                result.add(mat);
             }
         }
 
+        // Guardar los cambios si se repararon enrollments
+        try {
+            saveAll(all);
+            System.out.println("💾 Cambios guardados en enrollment_approved.json");
+        } catch (Exception e) {
+            System.out.println("Error al guardar: " + e.getMessage());
+        }
+
+        try {
+            System.out.println("Total matrículas encontradas: " + result.size());
+        } catch (ListException e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 }

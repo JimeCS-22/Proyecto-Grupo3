@@ -1,0 +1,18 @@
+[
+  {
+    "id": "enrollment-001",
+    "studentId": "002",
+    "courseId": "if-456",
+    "professorId": "LR",
+    "grade": 0.0,
+    "status": "ENROLLED"
+  },
+  {
+    "id": "enrollment-002",
+    "studentId": "002",
+    "courseId": "IF0002",
+    "professorId": "LR",
+    "grade": 0.0,
+    "status": "ENROLLED"
+  }
+]

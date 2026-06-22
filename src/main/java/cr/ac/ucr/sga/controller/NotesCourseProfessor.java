@@ -1,14 +1,11 @@
 package cr.ac.ucr.sga.controller;
 
+import cr.ac.ucr.sga.model.data.CourseData;
 import cr.ac.ucr.sga.model.data.EnrollmentApprovedData;
 import cr.ac.ucr.sga.model.data.EnrollmentData;
 import cr.ac.ucr.sga.model.data.StudentData;
-import cr.ac.ucr.sga.model.entities.Enrollment;
-import cr.ac.ucr.sga.model.entities.MatriculaAprobada;
-import cr.ac.ucr.sga.model.entities.Student;
-import cr.ac.ucr.sga.model.entities.User;
+import cr.ac.ucr.sga.model.entities.*;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
-import cr.ac.ucr.sga.model.structures.lists.ListException;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -47,6 +44,7 @@ public class NotesCourseProfessor implements Initializable {
     private final EnrollmentApprovedData enrollmentApprovedData = new EnrollmentApprovedData();
     private final EnrollmentData enrollmentData = new EnrollmentData();
     private final StudentData studentData = new StudentData();
+    private final CourseData courseData = new CourseData();
     private ObservableList<EnrollmentRow> enrollmentRows = FXCollections.observableArrayList();
 
     @Override
@@ -58,10 +56,12 @@ public class NotesCourseProfessor implements Initializable {
     public void setUser(User user) {
         this.currentUser = user;
         lblProfessorInfo.setText("📚 Profesor: " + user.getUsername());
+        System.out.println("Profesor logueado: " + currentUser.getUsername());
         loadEnrollments();
     }
 
     private void setupTableColumns() {
+        // Los nombres deben coincidir con los getters de EnrollmentRow
         colStudent.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         colCourse.setCellValueFactory(new PropertyValueFactory<>("courseName"));
         colGrade.setCellValueFactory(new PropertyValueFactory<>("grade"));
@@ -72,47 +72,40 @@ public class NotesCourseProfessor implements Initializable {
         // Habilitar edición en la tabla
         tblEnrollments.setEditable(true);
 
-        // Columna de nota editable
+        // ✅ Configurar la columna de nota para que sea editable
         colGrade.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         colGrade.setOnEditCommit(event -> {
+            // Obtener la fila y el nuevo valor
             EnrollmentRow row = event.getRowValue();
-            double newGrade = event.getNewValue();
+            Double newGrade = event.getNewValue();
+
+            System.out.println("📝 Editando nota para: " + row.getStudentName());
+            System.out.println("  - Valor anterior: " + row.getGrade());
+            System.out.println("  - Nuevo valor: " + newGrade);
 
             // Validar nota entre 0 y 100
-            if (newGrade < 0 || newGrade > 100) {
+            if (newGrade == null || newGrade < 0 || newGrade > 100) {
                 showAlert(Alert.AlertType.WARNING, "Nota inválida",
                         "La nota debe estar entre 0 y 100");
                 return;
             }
 
+            // ✅ Actualizar la nota en la fila
             row.setGrade(newGrade);
 
-            // Actualizar automáticamente el estado según la nota
-            String status = determineStatus(newGrade);
-            row.setStatus(status);
+            // El estado se actualiza automáticamente en setGrade()
+            String status = row.getStatus();
 
-            System.out.println("✅ Nota actualizada: " + row.getStudentName() +
-                    " - " + row.getCourseName() +
-                    " = " + newGrade + " (" + status + ")");
+            System.out.println("  ✅ Nota actualizada a: " + newGrade);
+            System.out.println("  ✅ Estado actualizado a: " + status);
+
+            // Forzar refresco de la tabla
+            tblEnrollments.refresh();
         });
 
-        // Columna de estado (solo lectura para el profesor, se actualiza automáticamente)
+        // La columna de estado NO es editable
         colStatus.setEditable(false);
-
-        // Agregar tooltip para explicar la escala
-        colGrade.setCellFactory(column -> new TextFieldTableCell<EnrollmentRow, Double>(new DoubleStringConverter()) {
-            @Override
-            public void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("%.2f", item));
-                }
-            }
-        });
     }
-
     private String determineStatus(double grade) {
         if (grade >= 70) {
             return "Aprobado";
@@ -125,12 +118,17 @@ public class NotesCourseProfessor implements Initializable {
 
     private void loadEnrollments() {
         try {
+            if (currentUser == null) {
+                System.out.println("⚠️ currentUser es null, no se pueden cargar matrículas");
+                tblEnrollments.setItems(FXCollections.observableArrayList());
+                return;
+            }
+
             enrollmentRows.clear();
 
             String professorUsername = currentUser.getUsername();
             System.out.println("🔍 Cargando matrículas para profesor: " + professorUsername);
 
-            // Obtener todas las matrículas aprobadas del profesor
             LinkedList<MatriculaAprobada> matriculas =
                     enrollmentApprovedData.getMatriculasByProfessor(professorUsername);
 
@@ -142,32 +140,38 @@ public class NotesCourseProfessor implements Initializable {
                 Student student = mat.getStudent();
                 if (student == null) continue;
 
-                // Obtener los enrollments del estudiante en esta matrícula
                 for (Enrollment enrollment : mat.getEnrollments().toList()) {
-                    // Solo mostrar los que son de este profesor
-                    if (enrollment.getProfessorId() != null &&
-                            enrollment.getProfessorId().equalsIgnoreCase(professorUsername)) {
+                    String studentName = student.getName() + " (" + student.getCarnet() + ")";
+                    String courseName = getCourseName(enrollment.getCourseId());
 
-                        // Obtener nombre del estudiante
-                        String studentName = student.getName() + " (" + student.getCarnet() + ")";
-                        String courseName = getCourseName(enrollment.getCourseId());
-
-                        EnrollmentRow row = new EnrollmentRow(
-                                enrollment.getId(),
-                                studentName,
-                                courseName,
-                                enrollment.getGrade(),
-                                enrollment.getStatus() != null ? enrollment.getStatus() : "Sin calificar"
-                        );
-
-                        enrollmentRows.add(row);
-                        totalEnrollments++;
+                    String status = enrollment.getStatus();
+                    if (status == null || status.isEmpty()) {
+                        status = determineStatus(enrollment.getGrade());
                     }
+
+                    EnrollmentRow row = new EnrollmentRow(
+                            enrollment.getId(),
+                            studentName,
+                            courseName,
+                            enrollment.getGrade(),
+                            status
+                    );
+
+                    enrollmentRows.add(row);
+                    totalEnrollments++;
+
+                    // Debug: imprimir cada fila agregada
+                    System.out.println("  ➕ Agregando fila: " + studentName + " - " + courseName + " - Nota: " + enrollment.getGrade());
                 }
             }
 
+            // ✅ FORZAR ACTUALIZACIÓN DE LA TABLA
+            tblEnrollments.setItems(null);
             tblEnrollments.setItems(enrollmentRows);
+            tblEnrollments.refresh();
+
             System.out.println("✅ Total inscripciones cargadas: " + totalEnrollments);
+            System.out.println("📊 Filas en la tabla: " + enrollmentRows.size());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,29 +179,39 @@ public class NotesCourseProfessor implements Initializable {
                     "Error al cargar las matrículas: " + e.getMessage());
         }
     }
-
     private String getCourseName(String courseId) {
-        // Aquí puedes obtener el nombre del curso desde CourseData
-        // Por ahora retornamos el ID
-        return courseId;
+        try {
+            CourseData courseData = new CourseData();
+            Course course = courseData.findCourseById(courseId);
+            return course != null ? course.getName() : courseId;
+        } catch (Exception e) {
+            return courseId;
+        }
     }
-
     // =========================
     // SAVE GRADES
     // =========================
     @FXML
     private void onSaveGrades() {
         try {
+            System.out.println("💾 Iniciando guardado de calificaciones...");
             int updated = 0;
 
             for (EnrollmentRow row : enrollmentRows) {
-                // Buscar el enrollment original
-                Enrollment enrollment = enrollmentData.findById(row.getEnrollmentId());
-                if (enrollment == null) continue;
+                System.out.println("🔍 Buscando enrollment con ID: " + row.getEnrollmentId());
 
-                // Actualizar nota y estado
+                Enrollment enrollment = enrollmentData.findById(row.getEnrollmentId());
+
+                if (enrollment == null) {
+                    System.out.println("⚠️ Enrollment no encontrado: " + row.getEnrollmentId());
+                    continue;
+                }
+
                 double currentGrade = enrollment.getGrade();
                 String currentStatus = enrollment.getStatus();
+
+                System.out.println("  - Nota actual: " + currentGrade + " -> Nueva: " + row.getGrade());
+                System.out.println("  - Estado actual: " + currentStatus + " -> Nuevo: " + row.getStatus());
 
                 if (Math.abs(row.getGrade() - currentGrade) > 0.001 ||
                         !row.getStatus().equals(currentStatus)) {
@@ -205,14 +219,24 @@ public class NotesCourseProfessor implements Initializable {
                     enrollment.setGrade(row.getGrade());
                     enrollment.setStatus(row.getStatus());
 
-                    if (enrollmentData.updateEnrollment(enrollment)) {
+                    boolean result = enrollmentData.updateEnrollment(enrollment);
+                    if (result) {
                         updated++;
+                        System.out.println("✅ Actualizado: " + row.getStudentName() +
+                                " - Nota: " + row.getGrade());
+                    } else {
+                        System.out.println("❌ Falló al actualizar: " + row.getStudentName());
                     }
+                } else {
+                    System.out.println("  ℹ️ Sin cambios para: " + row.getStudentName());
                 }
             }
 
             showAlert(Alert.AlertType.INFORMATION, "Éxito",
                     "✅ " + updated + " calificaciones actualizadas correctamente");
+
+            // Recargar para mostrar los cambios
+            loadEnrollments();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -226,6 +250,11 @@ public class NotesCourseProfessor implements Initializable {
     // =========================
     @FXML
     private void onReload() {
+        if (currentUser == null) {
+            showAlert(Alert.AlertType.WARNING, "Sin sesión",
+                    "No hay un profesor logueado. Por favor, inicie sesión.");
+            return;
+        }
         loadEnrollments();
         showAlert(Alert.AlertType.INFORMATION, "Recargado",
                 "Datos recargados correctamente");
@@ -261,15 +290,18 @@ public class NotesCourseProfessor implements Initializable {
             this.status = new SimpleStringProperty(status);
         }
 
+        // ✅ GETTERS (necesarios para PropertyValueFactory)
         public String getEnrollmentId() { return enrollmentId.get(); }
         public String getStudentName() { return studentName.get(); }
         public String getCourseName() { return courseName.get(); }
         public double getGrade() { return grade.get(); }
         public String getStatus() { return status.get(); }
 
+        // ✅ SETTERS
         public void setStudentName(String value) { studentName.set(value); }
         public void setCourseName(String value) { courseName.set(value); }
         public void setGrade(double value) {
+            System.out.println("📝 Setting grade to: " + value + " for: " + getStudentName());
             grade.set(value);
             // Actualizar automáticamente el estado
             if (value >= 70) {

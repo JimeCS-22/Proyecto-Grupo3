@@ -6,6 +6,7 @@
     "grade": 0.0,
     "status": "Activo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 1,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -17,6 +18,7 @@
     "grade": 0.0,
     "status": "Activo",
     "careerId": "CAR01",
+    "professorId": "LR",
     "semestre": 1,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -28,6 +30,7 @@
     "grade": 0.0,
     "status": "Activo",
     "careerId": "CAR01",
+    "professorId": "LR",
     "semestre": 1,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -39,6 +42,7 @@
     "grade": 0.0,
     "status": "Activo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 1,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -50,6 +54,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 2,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -61,6 +66,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 2,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -72,6 +78,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 2,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -83,6 +90,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "LR",
     "semestre": 2,
     "prerequisitosIds": [
       "IF0001"
@@ -96,6 +104,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 2,
     "prerequisitosIds": [
       "IF0003"
@@ -109,6 +118,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "EM",
     "semestre": 3,
     "prerequisitosIds": [
       "IF0004"
@@ -122,6 +132,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "EM",
     "semestre": 3,
     "prerequisitosIds": [
       "IF0004"
@@ -135,6 +146,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 3,
     "prerequisitosIds": [
       "IF0003"
@@ -148,6 +160,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "LR",
     "semestre": 3,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -159,6 +172,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "119520051",
     "semestre": 3,
     "prerequisitosIds": [],
     "corequisitosIds": []
@@ -170,6 +184,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "EM",
     "semestre": 4,
     "prerequisitosIds": [
       "IF0006"
@@ -183,6 +198,7 @@
     "grade": 0.0,
     "status": "Inactivo",
     "careerId": "CAR01",
+    "professorId": "EM",
     "semestre": 4,
     "prerequisitosIds": [
       "IF0007"
@@ -196,7 +212,7 @@
     "grade": 0.0,
     "status": "Activo",
     "careerId": "CAR01",
-    "professorId": "202660896",
+    "professorId": "LR",
     "semestre": 1,
     "prerequisitosIds": [],
     "corequisitosIds": []

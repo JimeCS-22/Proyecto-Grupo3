@@ -37,9 +37,15 @@ public class EnrollmentData {
             LinkedList<Enrollment> result = new LinkedList<>();
             if (list != null) {
                 for (Enrollment e : list) {
+                    // Asegurar que el enrollment tenga ID
+                    if (e.getId() == null || e.getId().isEmpty()) {
+                        e.setId(UUID.randomUUID().toString());
+                        System.out.println("🔧 Generando ID en loadAll: " + e.getId());
+                    }
                     result.add(e);
                 }
             }
+            System.out.println("📚 Cargados " + result.size() + " enrollments de " + FILE_PATH);
             return result;
 
         } catch (Exception e) {
@@ -54,8 +60,10 @@ public class EnrollmentData {
     private void saveAll(LinkedList<Enrollment> enrollments) {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(enrollments.toList(), writer);
+            System.out.println("💾 " + enrollments.size() + " enrollments guardados en " + FILE_PATH);
         } catch (Exception e) {
             System.out.println("Error saving enrollments: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -115,12 +123,22 @@ public class EnrollmentData {
     // FIND ENROLLMENT BY ID
     // =========================
     public Enrollment findById(String id) {
+        System.out.println("🔍 Buscando enrollment con ID: " + id);
         LinkedList<Enrollment> all = loadAll();
+        try {
+            System.out.println("📚 Total enrollments cargados: " + all.size());
+        } catch (ListException e) {
+            throw new RuntimeException(e);
+        }
+
         for (Enrollment e : all.toList()) {
+            System.out.println("  - Enrollment ID: " + e.getId());
             if (e.getId() != null && e.getId().equals(id)) {
+                System.out.println("  ✅ ENCONTRADO!");
                 return e;
             }
         }
+        System.out.println("  ❌ NO ENCONTRADO");
         return null;
     }
 
@@ -159,17 +177,25 @@ public class EnrollmentData {
     // UPDATE ENROLLMENT
     // =========================
     public boolean updateEnrollment(Enrollment updated) {
-        if (updated == null || updated.getId() == null) return false;
+        if (updated == null || updated.getId() == null) {
+            System.out.println("❌ Enrollment o ID es null");
+            return false;
+        }
+
+        System.out.println("🔄 Actualizando enrollment: " + updated.getId());
+        System.out.println("  - Nota nueva: " + updated.getGrade());
+        System.out.println("  - Estado nuevo: " + updated.getStatus());
 
         LinkedList<Enrollment> all = loadAll();
+        LinkedList<Enrollment> newList = new LinkedList<>();
         boolean found = false;
 
-        // Crear nueva lista con el elemento actualizado
-        LinkedList<Enrollment> newList = new LinkedList<>();
         for (Enrollment e : all.toList()) {
             if (e.getId() != null && e.getId().equals(updated.getId())) {
+                // Reemplazar con el enrollment actualizado
                 newList.add(updated);
                 found = true;
+                System.out.println("✅ Enrollment encontrado y actualizado en memoria");
             } else {
                 newList.add(e);
             }
@@ -177,9 +203,12 @@ public class EnrollmentData {
 
         if (found) {
             saveAll(newList);
+            System.out.println("💾 Cambios guardados en enrollments.json");
             return true;
+        } else {
+            System.out.println("❌ Enrollment no encontrado para actualizar");
+            return false;
         }
-        return false;
     }
 
     // =========================

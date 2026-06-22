@@ -171,7 +171,6 @@ public class MainController implements Initializable, NotificationObserver {
     // CONTROL DE ACCESO POR ROL
     // =========================
     private void applyAccessByRole() {
-
         if (mainTabs == null || currentUser == null) {
             return;
         }
@@ -181,6 +180,7 @@ public class MainController implements Initializable, NotificationObserver {
             removeTab(reviewStudentTab);
             removeTab(reportsTab);
             removeTab(professorTab);
+            removeTab(notificationTab);
             mainTabs.getSelectionModel().select(0);
             return;
         }
@@ -188,16 +188,16 @@ public class MainController implements Initializable, NotificationObserver {
         removeTab(preMatriculaTab);
         removeTab(matriculaEstudianteTab);
 
-
         if (currentUser.getRole() == Role.PROFESSOR) {
             removeTab(studentTab);
             removeTab(reviewStudentTab);
-            removeTab(professorTab);
+
             removeTab(recordTab);
             removeTab(tramiteTab);
             removeTab(notificationTab);
             removeTab(preMatriculaTab);
             removeTab(matriculaEstudianteTab);
+            removeTab(reportsTab);
         }
     }
 

@@ -304,40 +304,37 @@ public class EnrollmentController implements Initializable {
             MatriculaAprobada matriculaActualExistente =
                     matriculaData.findByStudentId(currentStudent.getId());
 
+            // Crear nuevos enrollments
+            LinkedList<Enrollment> nuevos = new LinkedList<>();
+            for (Course c : cursosAMatricular) {
+                Enrollment e = new Enrollment();
+                e.setId(UUID.randomUUID().toString());
+                e.setStudentId(currentStudent.getId());
+                e.setCourseId(c.getId());
+
+                // **IMPORTANTE: Asignar el professorId correctamente**
+                // Si Course tiene el username del profesor:
+                e.setProfessorId(c.getProfessorId());
+
+                // Si no, necesitas obtenerlo de otra manera
+                // Por ejemplo, si el profesor está en el sistema:
+                // e.setProfessorId(getProfessorUsernameForCourse(c.getId()));
+
+                e.setGrade(0.0);
+                e.setStatus("ENROLLED");
+                System.out.println("✅ Creando enrollment - Curso: " + c.getId() +
+                        ", Profesor: " + e.getProfessorId());
+                nuevos.add(e);
+            }
+
             if (matriculaActualExistente != null) {
-                // Actualizar cursos y estado sin cambiar ID
-                LinkedList<Course> cursosFinales = new LinkedList<>();
-                for (Course c : cursosAMatricular) {
-                    cursosFinales.add(c);
-                }
-                LinkedList<Enrollment> nuevos = new LinkedList<>();
-
-                for (Course c : cursosAMatricular) {
-                    Enrollment e = new Enrollment();
-                    e.setStudentId(currentStudent.getId());
-                    e.setCourseId(c.getId());
-                    e.setStatus("ENROLLED");
-                    nuevos.add(e);
-                }
-
+                // Actualizar existente
                 matriculaActualExistente.setEnrollments(nuevos);
                 matriculaActualExistente.setStatus("MATRICULATED");
                 matriculaData.addOrUpdate(matriculaActualExistente);
-
             } else {
-                // Crear nueva matrícula con nuevo ID si no existe aún
-                LinkedList<Enrollment> nuevos = new LinkedList<>();
-
-                for (Course c : cursosAMatricular) {
-                    Enrollment e = new Enrollment();
-                    e.setStudentId(currentStudent.getId());
-                    e.setCourseId(c.getId());
-                    e.setStatus("ENROLLED");
-                    nuevos.add(e);
-                }
-
+                // Crear nueva
                 String id = UUID.randomUUID().toString();
-
                 MatriculaAprobada nuevaMatricula = new MatriculaAprobada(
                         id,
                         currentStudent,

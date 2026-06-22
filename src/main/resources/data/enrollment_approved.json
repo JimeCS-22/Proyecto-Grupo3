@@ -1,0 +1,42 @@
+[
+  {
+    "id": "b735d584-8093-4de2-a9cc-916f2e9d7cb9",
+    "studentId": "002",
+    "enrollments": {
+      "head": {
+        "data": {
+          "id": "enrollment-001",
+          "studentId": "002",
+          "courseId": "if-456",
+          "professorId": "LR",
+          "grade": 0.0,
+          "status": "ENROLLED"
+        },
+        "next": {
+          "data": {
+            "id": "enrollment-002",
+            "studentId": "002",
+            "courseId": "IF0002",
+            "professorId": "LR",
+            "grade": 0.0,
+            "status": "ENROLLED"
+          },
+          "visited": false
+        },
+        "visited": false
+      },
+      "tail": {
+        "data": {
+          "id": "enrollment-002",
+          "studentId": "002",
+          "courseId": "IF0002",
+          "professorId": "LR",
+          "grade": 0.0,
+          "status": "ENROLLED"
+        },
+        "visited": false
+      }
+    },
+    "status": "MATRICULATED"
+  }
+]
