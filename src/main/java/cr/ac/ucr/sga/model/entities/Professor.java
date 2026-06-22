@@ -118,4 +118,9 @@ public class Professor {
 
 
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

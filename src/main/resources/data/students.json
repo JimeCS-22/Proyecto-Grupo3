@@ -102,12 +102,24 @@
                       "next": {
                         "data": {
                           "id": "010",
-                          "name": "Gabriel Rodriguez",
+                          "name": "Gabriel Solano",
                           "carnet": "C27849",
                           "age": 22,
                           "careerId": "CAR04",
                           "username": "gabo.rodriguez",
                           "password": "1234"
+                        },
+                        "next": {
+                          "data": {
+                            "id": "011",
+                            "name": "Leonardo Montoya Solis",
+                            "carnet": "C5H512",
+                            "age": 20,
+                            "careerId": "CAR03",
+                            "username": "leo.montoya",
+                            "password": "1234"
+                          },
+                          "visited": false
                         },
                         "visited": false
                       },
@@ -133,12 +145,12 @@
   },
   "tail": {
     "data": {
-      "id": "010",
-      "name": "Gabriel Rodriguez",
-      "carnet": "C27849",
-      "age": 22,
-      "careerId": "CAR04",
-      "username": "gabo.rodriguez",
+      "id": "011",
+      "name": "Leonardo Montoya Solis",
+      "carnet": "C5H512",
+      "age": 20,
+      "careerId": "CAR03",
+      "username": "leo.montoya",
       "password": "1234"
     },
     "visited": false

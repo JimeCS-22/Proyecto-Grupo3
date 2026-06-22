@@ -125,6 +125,14 @@
                                               "password": "1234",
                                               "role": "STUDENT"
                                             },
+                                            "next": {
+                                              "data": {
+                                                "username": "leo.montoya",
+                                                "password": "1234",
+                                                "role": "STUDENT"
+                                              },
+                                              "visited": false
+                                            },
                                             "visited": false
                                           },
                                           "visited": false
@@ -169,7 +177,7 @@
   },
   "tail": {
     "data": {
-      "username": "gabo.rodriguez",
+      "username": "leo.montoya",
       "password": "1234",
       "role": "STUDENT"
     },

@@ -228,5 +228,28 @@
     "semestre": 1,
     "prerequisitosIds": [],
     "corequisitosIds": []
+  },
+  {
+    "id": "EI70008",
+    "name": "Linguistica 1",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR03",
+    "professorId": "LR",
+    "semestre": 2,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "EM-852",
+    "name": "MATEMATICA 3",
+    "credits": 3,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR02",
+    "semestre": 3,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
   }
 ]

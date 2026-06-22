@@ -23,7 +23,44 @@
           "username": "cami.montoya",
           "password": "1234"
         },
-        "courses": []
+        "courses": [
+          {
+            "id": "EG-I",
+            "name": "HUMANIDADES I",
+            "credits": 6,
+            "grade": 0.0,
+            "status": "Activo",
+            "careerId": "CAR01",
+            "professorId": "119520051",
+            "semestre": 1,
+            "prerequisitosIds": [],
+            "corequisitosIds": []
+          },
+          {
+            "id": "IF0001",
+            "name": "DESARROLLO DE SOFTWARE I",
+            "credits": 4,
+            "grade": 0.0,
+            "status": "Activo",
+            "careerId": "CAR01",
+            "professorId": "LR",
+            "semestre": 1,
+            "prerequisitosIds": [],
+            "corequisitosIds": []
+          },
+          {
+            "id": "IF0002",
+            "name": "INTRODUCCIÓN A LA INFORMÁTICA EMPRESARIAL",
+            "credits": 3,
+            "grade": 0.0,
+            "status": "Activo",
+            "careerId": "CAR01",
+            "professorId": "LR",
+            "semestre": 1,
+            "prerequisitosIds": [],
+            "corequisitosIds": []
+          }
+        ]
       },
       "next": {
         "data": {
@@ -166,6 +203,21 @@
                           },
                           "courses": []
                         },
+                        "next": {
+                          "data": {
+                            "student": {
+                              "id": "011",
+                              "name": "Leonardo Montoya",
+                              "carnet": "C4H512",
+                              "age": 20,
+                              "careerId": "CAR03",
+                              "username": "leo.montoya",
+                              "password": "1234"
+                            },
+                            "courses": []
+                          },
+                          "visited": false
+                        },
                         "visited": false
                       },
                       "visited": false
@@ -191,12 +243,12 @@
   "tail": {
     "data": {
       "student": {
-        "id": "010",
-        "name": "Gabriel Rodriguez",
-        "carnet": "C27849",
-        "age": 22,
-        "careerId": "CAR04",
-        "username": "gabo.rodriguez",
+        "id": "011",
+        "name": "Leonardo Montoya",
+        "carnet": "C4H512",
+        "age": 20,
+        "careerId": "CAR03",
+        "username": "leo.montoya",
         "password": "1234"
       },
       "courses": []

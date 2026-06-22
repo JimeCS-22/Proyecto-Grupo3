@@ -1,5 +1,11 @@
 package cr.ac.ucr.sga.controller;
 
+import cr.ac.ucr.sga.model.data.CareerData;
+import cr.ac.ucr.sga.model.data.CourseData;
+import cr.ac.ucr.sga.model.data.ProfessorData;
+import cr.ac.ucr.sga.model.entities.Career;
+import cr.ac.ucr.sga.model.entities.Course;
+import cr.ac.ucr.sga.model.entities.Professor;
 import cr.ac.ucr.sga.model.entities.ReportRow;
 import cr.ac.ucr.sga.model.services.ReportService;
 import javafx.beans.property.SimpleObjectProperty;
@@ -47,13 +53,13 @@ public class ReportsController implements Initializable {
     private ComboBox<String> cbPeriodo;
 
     @FXML
-    private ComboBox<String> cbCarrera;
+    private ComboBox<Career> cbCarrera;
 
     @FXML
-    private ComboBox<String> cbCurso;
+    private ComboBox<Course> cbCurso;
 
     @FXML
-    private ComboBox<String> cbProfesor;
+    private ComboBox<Professor> cbProfesor;
 
     @FXML
     private Label lblEstudiantes;
@@ -92,6 +98,9 @@ public class ReportsController implements Initializable {
     
     private final ReportService reportService = new ReportService();
 
+    private CourseData courseData = new CourseData();
+    private CareerData careerData = new CareerData();
+    private ProfessorData professorData = new ProfessorData();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -131,7 +140,7 @@ public class ReportsController implements Initializable {
 
         lblPromedio.setText(
                 String.format("%.2f",m.average));
-
+        actualizarMetricas(reportService.getReportRows());
     }
 
     private String getFormatoSeleccionado() {
@@ -172,27 +181,30 @@ public class ReportsController implements Initializable {
 
         cbPeriodo.setItems(FXCollections.observableArrayList("2025-I", "2025-II", "2026-I"));
 
-        cbCarrera.setItems(FXCollections.observableArrayList(
-                "Todas",
-                "Informática Empresarial",
-                "Computación",
-                "Ingeniería de Software"
-        ));
+        Career todas = new Career();
+        todas.setId("ALL");
+        todas.setName("Todas");
 
-        cbCurso.setItems(FXCollections.observableArrayList(
-                "Todos",
-                "Programación I",
-                "Programación II",
-                "Estructuras de Datos",
-                "Bases de Datos"
-        ));
+        cbCarrera.getItems().add(todas);
+        cbCarrera.getItems().addAll(careerData.getAllCareers().toList());
+        //Curso
+        Course todosCursos = new Course();
+        todosCursos.setName("Todos");
+        todosCursos.setId("ALL");
 
-        cbProfesor.setItems(FXCollections.observableArrayList(
-                "Todos",
-                "Juan Pérez",
-                "María López",
-                "Carlos Rojas"
-        ));
+        cbCurso.getItems().add(todosCursos);
+        cbCurso.getItems().addAll(courseData.getAllCourses().toList());
+       // Profesor
+
+        Professor todosProfes = new Professor.Builder()
+                .setId("ALL")
+                .setName("Todos")
+                .setUsername("-")
+                .setPassword("-")
+                .build();
+
+        cbProfesor.getItems().add(todosProfes);
+        cbProfesor.getItems().addAll(professorData.getAllProfessors().toList());
 
         cbCarrera.getSelectionModel().selectFirst();
         cbCurso.getSelectionModel().selectFirst();
@@ -230,37 +242,34 @@ public class ReportsController implements Initializable {
     // BUSCAR
     // =========================
     @FXML
-    private void buscar(){
+    private void buscar() {
 
-        ObservableList<ReportRow> rows=
+        ObservableList<ReportRow> rows =
+                FXCollections.observableArrayList(reportService.getObservableRows());
 
-                reportService.getObservableRows();
+        Career carrera = cbCarrera.getValue();
+        Course curso = cbCurso.getValue();
+        Professor profesor = cbProfesor.getValue();
 
-        String carrera=cbCarrera.getValue();
+        rows.removeIf(r ->
 
-        String curso=cbCurso.getValue();
-
-        String profesor=cbProfesor.getValue();
-
-        rows.removeIf(r->
-
-                (!carrera.equals("Todas")
-                        &&!r.getCarrera().equals(carrera))
+                (!carrera.getName().equals("Todas")
+                        && !r.getCarrera().equals(carrera.getName()))
 
                         ||
 
-                        (!curso.equals("Todos")
-                                &&!r.getCurso().equals(curso))
+                        (!curso.getName().equals("Todos")
+                                && !r.getCurso().equals(curso.getName()))
 
                         ||
 
-                        (!profesor.equals("Todos")
-                                &&!r.getProfesor().equals(profesor))
-
+                        (!profesor.getName().equals("Todos")
+                                && !r.getProfesor().equals(profesor.getName()))
         );
 
         tblReportes.setItems(rows);
 
+        actualizarMetricas(rows);
     }
 
     // =========================
