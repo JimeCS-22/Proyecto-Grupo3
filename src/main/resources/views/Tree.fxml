@@ -21,7 +21,6 @@
         <VBox spacing="10" style="-fx-padding:15;">
             <Label style="-fx-font-size:24px; -fx-font-weight:bold;" text="Visualizador de Árboles de Cursos" />
 
-
             <HBox spacing="10">
                 <Label text="Tipo de Árbol:" />
                 <ComboBox fx:id="treeTypeCombo" onAction="#onTreeTypeChanged" prefWidth="180" />
@@ -60,8 +59,13 @@
 
     <center>
         <SplitPane dividerPositions="0.75" orientation="VERTICAL">
-            <ScrollPane fx:id="scrollPane" pannable="true">
-                <Canvas fx:id="treeCanvas" width="3000" height="2000"/>
+
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true">
+                <content>
+                    <Group fx:id="canvasGroup">
+                        <Canvas fx:id="treeCanvas" width="3000" height="2000" />
+                    </Group>
+                </content>
             </ScrollPane>
 
             <VBox spacing="5" style="-fx-padding:10;">

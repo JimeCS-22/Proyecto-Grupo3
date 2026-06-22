@@ -17,7 +17,6 @@ class TramiteDataTest {
 
         TramiteData data = new TramiteData();
 
-        // Crear estudiante
         Student student = new Student.Builder()
                 .setId("202600003")
                 .setName("María López")
@@ -27,59 +26,35 @@ class TramiteDataTest {
                 .setPassword("123")
                 .build();
 
-        // Crear trámite
-        Tramite tramite =
-                new Tramite(
-                        "Retiro de curso",
-                        "Necesito retirar el curso IF3001",
-                        student
-                );
+        Tramite tramite = new Tramite(
+                "TR-001",
+                "Retiro de curso",
+                student
+        );
 
         // ADD
         data.addTramite(tramite);
 
-        System.out.println(
-                "Trámite agregado: "
-                        + tramite.getId()
-        );
+        System.out.println("\nTrámite agregado: " + tramite.getId());
 
         // GET ALL
-        LinkedList<Tramite> all =
-                data.getAllTramites();
-
-        System.out.println("Todos los trámites:");
-
-        for (Tramite t : all.toList()) {
+        System.out.println("\nTodos los trámites:");
+        for (Tramite t : data.getAllTramites().toList()) {
             System.out.println(t);
         }
 
-        // GET PENDIENTES
-        LinkedList<Tramite> pendientes =
-                data.getTramitesPendientes();
-
-        System.out.println("Trámites pendientes:");
-
+        // PENDIENTES
+        System.out.println("\nTrámites pendientes:");
+        LinkedList<Tramite> pendientes = data.getTramitesPendientes();
         for (Tramite t : pendientes.toList()) {
             System.out.println(t);
         }
 
-        // UPDATE
-        tramite.procesar();
 
-        data.updateTramite(tramite);
+        // FIND
+        Tramite encontrado = data.getTramiteById("TR-001");
 
-        System.out.println(
-                "Estado actualizado a: "
-                        + tramite.getNombreEstado()
-        );
-
-        // FIND BY ID
-        Tramite encontrado =
-                data.getTramiteById(tramite.getId());
-
-        System.out.println(
-                "Encontrado por ID: "
-                        + (encontrado != null ? encontrado : "No encontrado")
-        );
+        System.out.println("\nEncontrado:");
+        System.out.println(encontrado);
     }
 }

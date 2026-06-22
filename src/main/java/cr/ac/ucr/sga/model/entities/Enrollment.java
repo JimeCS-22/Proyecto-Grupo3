@@ -74,4 +74,15 @@ public class Enrollment {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return
+                "id='" + id + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", courseId='" + courseId + '\'' +
+                ", professorId='" + professorId + '\'' +
+                ", grade=" + grade +
+                ", status='" + status + '\'';
+    }
 }

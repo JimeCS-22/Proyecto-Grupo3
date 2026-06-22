@@ -88,16 +88,31 @@ public class TreeVisualizerController {
             String selected = cmbCarreras.getValue();
             resultArea.setText("Mostrando carrera: " + (selected != null ? selected : "N/A"));
         });
-
-        scrollPane.setOnScroll(event -> {
+        scrollPane.addEventFilter(javafx.scene.input.ScrollEvent.SCROLL, event -> {
             double zoomFactor = 1.05;
-            scaleValue = (event.getDeltaY() < 0) ? scaleValue / zoomFactor : scaleValue * zoomFactor;
+            if (event.getDeltaY() < 0) {
+                scaleValue /= zoomFactor;
+            } else {
+                scaleValue *= zoomFactor;
+            }
+
             scaleValue = Math.min(Math.max(scaleValue, 0.2), 3.0);
+
+
             canvasGroup.setScaleX(scaleValue);
             canvasGroup.setScaleY(scaleValue);
+
             canvasGroup.layout();
+            scrollPane.layout();
+            scrollPane.setVvalue(scrollPane.getVvalue());
+            scrollPane.setHvalue(scrollPane.getHvalue());
+
             event.consume();
         });
+
+        if (canvasGroup != null) {
+            canvasGroup.layout();
+        }
     }
 
     private void drawTree() {
