@@ -110,7 +110,20 @@
               "username": "alex.leon",
               "password": "1234"
             },
-            "courses": []
+            "courses": [
+              {
+                "id": "p",
+                "name": "p",
+                "credits": 4,
+                "grade": 0.0,
+                "status": "Activo",
+                "careerId": "CAR01",
+                "professorId": "LR",
+                "semestre": 1,
+                "prerequisitosIds": [],
+                "corequisitosIds": []
+              }
+            ]
           },
           "next": {
             "data": {

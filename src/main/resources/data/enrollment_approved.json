@@ -34,5 +34,34 @@
       }
     },
     "status": "MATRICULATED"
+  },
+  {
+    "id": "05111a8d-82c9-43a1-ab1e-b286dee6226b",
+    "studentId": "003",
+    "enrollments": {
+      "head": {
+        "data": {
+          "id": "4a704513-e97a-4259-8cfc-de679766e54f",
+          "studentId": "003",
+          "courseId": "p",
+          "professorId": "LR",
+          "grade": 70.0,
+          "status": "Aprobado"
+        },
+        "visited": false
+      },
+      "tail": {
+        "data": {
+          "id": "4a704513-e97a-4259-8cfc-de679766e54f",
+          "studentId": "003",
+          "courseId": "p",
+          "professorId": "LR",
+          "grade": 70.0,
+          "status": "Aprobado"
+        },
+        "visited": false
+      }
+    },
+    "status": "MATRICULATED"
   }
 ]

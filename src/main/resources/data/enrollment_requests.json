@@ -1,6 +1,5 @@
 [
   {
-    "studentId": "002",
     "courseCodes": {
       "head": {
         "data": "if-456",
@@ -12,6 +11,21 @@
       },
       "tail": {
         "data": "IF0002",
+        "visited": false
+      }
+    },
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "003",
+    "courseCodes": {
+      "head": {
+        "data": "p",
+        "visited": false
+      },
+      "tail": {
+        "data": "p",
         "visited": false
       }
     },

@@ -266,5 +266,17 @@
       "EI70008"
     ],
     "corequisitosIds": []
+  },
+  {
+    "id": "p",
+    "name": "p",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR01",
+    "professorId": "LR",
+    "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
   }
 ]

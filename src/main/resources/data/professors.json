@@ -5,5 +5,12 @@
     "careerId": "CAR01",
     "username": "P",
     "password": "1234"
+  },
+  {
+    "id": "203650236",
+    "name": "Laura Ramos",
+    "careerId": "CAR01",
+    "username": "LR",
+    "password": "1234"
   }
 ]
