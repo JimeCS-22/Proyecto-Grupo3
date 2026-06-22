@@ -25,8 +25,7 @@ public class HelloApplication extends Application {
                         )
                 );
 
-        Scene scene = new Scene(loader.load());
-
+        Scene scene = new Scene( loader.load(), 900, 600 );
         scene.getStylesheets().add(
                 HelloApplication.class
                         .getResource("/styles.css")

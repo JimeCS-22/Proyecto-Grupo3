@@ -49,12 +49,7 @@
     </top>
 
     <center>
-        <TabPane fx:id="mainTabs"
-                 styleClass="main-tabs"
-                 maxWidth="Infinity"
-                 maxHeight="Infinity"
-                 prefWidth="Infinity"
-                 prefHeight="Infinity">
+        <TabPane fx:id="mainTabs" styleClass="main-tabs">
 
             <Tab fx:id="studentTab" closable="false" text="Estudiantes">
                 <AnchorPane fx:id="studentContent"/>
