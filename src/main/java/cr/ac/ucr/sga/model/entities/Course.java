@@ -224,6 +224,7 @@ public class Course implements Comparable<Course> {
         private List<String> corequisitosIds;
         private String careerId;
         private  String professorId;
+        private String career;
 
         public Builder setId(String id) {
             this.id = id;
@@ -306,6 +307,12 @@ public class Course implements Comparable<Course> {
 
             return new Course(this);
         }
+
+        public Builder setCareer(String career) {
+            this.career = career; return this;
+        }
+
+        public String getCareer() { return career; }
 
         @Override
         public String toString() {

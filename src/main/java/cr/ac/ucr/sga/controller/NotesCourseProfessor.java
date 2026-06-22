@@ -169,11 +169,6 @@ public class NotesCourseProfessor implements Initializable {
             tblEnrollments.setItems(enrollmentRows);
             System.out.println("✅ Total inscripciones cargadas: " + totalEnrollments);
 
-            if (totalEnrollments == 0) {
-                showAlert(Alert.AlertType.INFORMATION, "Sin estudiantes",
-                        "No hay estudiantes matriculados en tus cursos");
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error",

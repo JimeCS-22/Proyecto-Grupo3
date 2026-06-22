@@ -3,6 +3,7 @@ package cr.ac.ucr.sga.model.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import cr.ac.ucr.sga.model.Node;
 import cr.ac.ucr.sga.model.entities.Student;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 import cr.ac.ucr.sga.model.structures.lists.ListException;
@@ -132,23 +133,42 @@ public class StudentData {
     /**
      * UPDATE
      */
-    public boolean updateStudent(Student updatedStudent) throws ListException {
+    /**
+     * UPDATE (CORREGIDO PARA GUARDAR EN JSON)
+     */
+    public boolean updateStudent(Student updatedStudent) {
+        // Obtenemos la lista actual de estudiantes
+        java.util.ArrayList<Student> list = students.toList();
 
-        for (int i = 0; i < students.size(); i++) {
-
-            if (students.get(i)
-                    .getId()
-                    .equalsIgnoreCase(updatedStudent.getId())) {
-
-                students.add(i, updatedStudent);
-
-                saveStudents();
-
-                return true;
+        // Buscamos la posición del estudiante por ID
+        int index = -1;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId().equalsIgnoreCase(updatedStudent.getId())) {
+                index = i;
+                break;
             }
         }
 
-        return false;
+        // Si no se encontró, retornamos false
+        if (index == -1) {
+            return false;
+        }
+
+        // Reemplazamos el estudiante en la lista temporal
+        list.set(index, updatedStudent);
+
+        // 1. Limpiamos la lista enlazada actual
+        students.clear();
+
+        // 2. Volvemos a llenar la lista enlazada con la lista temporal actualizada
+        for (Student s : list) {
+            students.add(s);
+        }
+
+        // 3. Guardamos en JSON
+        saveStudents();
+
+        return true;
     }
 
     /**

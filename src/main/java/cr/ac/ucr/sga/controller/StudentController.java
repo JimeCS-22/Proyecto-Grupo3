@@ -85,50 +85,39 @@ public class StudentController implements Initializable {
             FXCollections.observableArrayList();
 
     private MainController mainController;
+    private boolean isLoaded = false;
 
 
-    @Override
+    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupStudentController();
         initializeTable();
-
         loadStudents();
-
         tableListener();
-        cmbCareer.getItems().addAll(
-                careerData.getAllCareers().toList()
-        );
 
-        cmbCareer.setCellFactory(lv -> new ListCell<>() {
-            @Override
-            protected void updateItem(Career career, boolean empty) {
-                super.updateItem(career, empty);
+        // Solo cargar carreras si no se ha hecho antes
+        if (!isLoaded) {
+            cmbCareer.getItems().clear();
+            cmbCareer.getItems().addAll(careerData.getAllCareers().toList());
 
-                if (empty || career == null) {
-                    setText("");
-                } else {
-                    setText(career.getName());
+            cmbCareer.setCellFactory(lv -> new ListCell<>() {
+                @Override
+                protected void updateItem(Career career, boolean empty) {
+                    super.updateItem(career, empty);
+                    setText(empty || career == null ? "" : career.getName());
                 }
-            }
-        });
+            });
 
-        cmbCareer.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(Career career, boolean empty) {
-                super.updateItem(career, empty);
-
-                if (empty || career == null) {
-                    setText("");
-                } else {
-                    setText(career.getName());
+            cmbCareer.setButtonCell(new ListCell<>() {
+                @Override
+                protected void updateItem(Career career, boolean empty) {
+                    super.updateItem(career, empty);
+                    setText(empty || career == null ? "" : career.getName());
                 }
-            }
-        });
+            });
 
-        cmbCareer.getItems().addAll(
-                careerData.getAllCareers().toList()
-        );
-
+            isLoaded = true;
+        }
         System.out.println("StudentController iniciado");
     }
 

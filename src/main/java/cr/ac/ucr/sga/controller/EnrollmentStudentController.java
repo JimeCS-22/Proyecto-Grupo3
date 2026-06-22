@@ -101,46 +101,51 @@ public class EnrollmentStudentController implements Initializable {
     // CARGA DE CURSOS
     // =========================
     private void loadCourses() {
-
         try {
+            if (cmbCourses == null) return;
+            cmbCourses.getItems().clear();
 
-            if (cmbCourses == null) {
+            if (currentStudent == null) {
+                for (Course c : courseData.getAllCourses().toList()) {
+                    cmbCourses.getItems().add(c);
+                }
                 return;
             }
 
-            cmbCourses.getItems().clear();
+            // 1. Obtener el ID de la carrera del estudiante
+            String studentCareerId = currentStudent.getCareerId();
 
-            int size = courseData.getAllCourses().size();
+            // 2. Obtener todos los cursos y filtrar solo los de su carrera
+            java.util.ArrayList<Course> allCourses = courseData.getAllCourses().toList();
 
-            for (int i = 1; i <= size; i++) {
-
-                Course course =
-                        courseData.getAllCourses().get(i);
-
-                if (currentStudent == null) {
-
-                    cmbCourses.getItems().add(course);
-
+            for (Course course : allCourses) {
+                // FILTRO: Solo cursos de su carrera
+                if (!course.getCareerId().equals(studentCareerId)) {
                     continue;
                 }
 
-                if (
-                        !cursoAprobado(course.getId())
-                                &&
-                                !cursoYaSeleccionado(course.getId())
-                                &&
-                                cumplePrerequisitos(course)
-                                &&
-                                cumpleSemestre(course)
-                ) {
+                // FILTROS DE VALIDACIÓN
+                boolean isApproved = cursoAprobado(course.getId());
+                boolean isSelected = cursoYaSeleccionado(course.getId());
+                boolean meetsPrereqs = cumplePrerequisitos(course);
+                boolean meetsSemester = cumpleSemestre(course);
 
+                if (!isApproved && !isSelected && meetsPrereqs && meetsSemester) {
                     cmbCourses.getItems().add(course);
                 }
             }
 
-        } catch (Exception e) {
+            System.out.println("✅ Cursos disponibles para " + currentStudent.getName() + ": " + cmbCourses.getItems().size());
 
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+
+
+        if (cmbCourses.getItems().isEmpty()) {
+            cmbCourses.setPromptText("No hay cursos disponibles");
+        } else {
+            cmbCourses.setPromptText("Seleccione un curso");
         }
     }
 

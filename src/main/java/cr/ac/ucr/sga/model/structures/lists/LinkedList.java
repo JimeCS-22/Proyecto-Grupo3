@@ -148,37 +148,30 @@ public class LinkedList<T> implements List<T> {
         if (isEmpty())
             throw new ListException("Linked List is empty");
 
-        // Caso 1: Cuando el elemento a suprimir es el primero en la listaq
+        // Caso 1: El elemento es el primero de la lista (HEAD)
         if (equals(head.data, element)) {
             head = head.next;
-            if (head == null) tail = null; // si quedó vacía
+            if (head == null) {
+                tail = null; // La lista quedó vacía
+            }
             return;
         }
-        //Caso general: El elemento a suprimir puede estar en el medio o al final
-        else {
-            Node<T> prev = head;
-            while (prev != null && prev.next != null) {
-                if (equals(prev.next.data, element)) {
 
-                    //Ya encontre el elemnto a eliminar
-                    Node<T> removed = prev.next;
+        // Caso 2: El elemento está en el medio o al final
+        Node<T> prev = head;
+        while (prev != null && prev.next != null) {
+            if (equals(prev.next.data, element)) {
+                // Encontramos el nodo a eliminar
+                Node<T> removed = prev.next;
+                prev.next = removed.next; // Saltamos el nodo
 
-                    //Desenlazo el nodo
-                    prev.next = removed.next;//Se brinca el nodo a suprimir
-
+                // Si eliminamos el último nodo, actualizamos tail
+                if (removed == tail) {
+                    tail = prev;
                 }
-
-                prev = prev.next;
-                if (prev == null) break;
-
-
+                return;
             }
-
-            //Al final dejamos tail en el ultimo nodo
-            //  Si la lista queda vacia, se asigna nulo
-            tail = tail != null ? getNodeByIndex(indexOf(getLast())) : null;
-
-
+            prev = prev.next;
         }
     }
 

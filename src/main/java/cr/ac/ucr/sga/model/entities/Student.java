@@ -8,7 +8,7 @@ public class Student {
     private String name;
     private String carnet;
     private int age;
-    private String careerId;
+    private String careerId;  // <--- Campo persistente
     private transient AcademicRecord academicRecord;
     private String username;
     private String password;
@@ -18,7 +18,6 @@ public class Student {
     // =========================
 
     public Student() {
-
     }
 
     // =========================
@@ -26,17 +25,13 @@ public class Student {
     // =========================
 
     private Student(Builder builder) {
-
         this.id = builder.id;
         this.name = builder.name;
         this.carnet = builder.carnet;
         this.age = builder.age;
-
         this.username = builder.username;
         this.password = builder.password;
-
-        // siempre inicializar academicRecord
-        //this.academicRecord = new AcademicRecord(this);
+        this.careerId = builder.careerId;  // <--- Se asigna el careerId
     }
 
     // =========================
@@ -50,7 +45,6 @@ public class Student {
     public String getName() {
         return name;
     }
-
 
     public String getCarnet() {
         return carnet;
@@ -68,19 +62,9 @@ public class Student {
         return password;
     }
 
-    public AcademicRecord getAcademicRecord() {
-        if (this.academicRecord == null) {
-            AcademicRecordData data = new AcademicRecordData();
-            AcademicRecord record = data.findByStudentId(this.id);
-            if (record != null) {
-                this.academicRecord = record;
-            } else {
-                // Si no existe, se crea en blanco para evitar NullPointer
-                this.academicRecord = new AcademicRecord(this);
-            }
-        }
-        return this.academicRecord;
-    }
+    // =========================
+    // GETTER Y SETTER PARA CAREERID (NUEVOS)
+    // =========================
 
     public String getCareerId() {
         return careerId;
@@ -88,6 +72,23 @@ public class Student {
 
     public void setCareerId(String careerId) {
         this.careerId = careerId;
+    }
+
+    // =========================
+    // ACADEMIC RECORD
+    // =========================
+
+    public AcademicRecord getAcademicRecord() {
+        if (this.academicRecord == null) {
+            AcademicRecordData data = new AcademicRecordData();
+            AcademicRecord record = data.findByStudentId(this.id);
+            if (record != null) {
+                this.academicRecord = record;
+            } else {
+                this.academicRecord = new AcademicRecord(this);
+            }
+        }
+        return this.academicRecord;
     }
 
     public void setAcademicRecord(AcademicRecord academicRecord) {
@@ -113,11 +114,9 @@ public class Student {
         private String name;
         private String carnet;
         private int age;
-
         private String username;
         private String password;
-
-        private String careerId;
+        private String careerId;  // <--- Campo en el Builder
 
         public Builder setId(String id) {
             this.id = id;
@@ -128,8 +127,6 @@ public class Student {
             this.name = name;
             return this;
         }
-
-
 
         public Builder setCarnet(String carnet) {
             this.carnet = carnet;
@@ -157,23 +154,18 @@ public class Student {
         }
 
         public Student build() {
-
             if (id == null || id.isBlank()) {
                 throw new IllegalArgumentException("El ID no puede estar vacío");
             }
-
             if (name == null || name.isBlank()) {
                 throw new IllegalArgumentException("El nombre no puede estar vacío");
             }
-
             if (username == null || username.isBlank()) {
                 throw new IllegalArgumentException("El usuario no puede estar vacío");
             }
-
             if (password == null || password.isBlank()) {
                 throw new IllegalArgumentException("La contraseña no puede estar vacía");
             }
-
             return new Student(this);
         }
 
@@ -181,6 +173,5 @@ public class Student {
         public String toString() {
             return name;
         }
-
     }
 }

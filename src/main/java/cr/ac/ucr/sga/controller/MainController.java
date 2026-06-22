@@ -188,9 +188,6 @@ public class MainController implements Initializable, NotificationObserver {
         removeTab(preMatriculaTab);
         removeTab(matriculaEstudianteTab);
 
-        if (currentUser.getRole() == Role.ADMIN) {
-            removeTab(reviewStudentTab);
-        }
 
         if (currentUser.getRole() == Role.PROFESSOR) {
             removeTab(studentTab);
