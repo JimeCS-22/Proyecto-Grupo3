@@ -17,41 +17,27 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
-/**
- * CRUD de solicitudes de matrícula usando JSON
- */
 public class EnrollmentRequestData {
 
     private static PriorityLinkedQueue<EnrollmentRequest> requests;
 
-    private static final String FILE_PATH =
-            "src/main/resources/data/enrollment_requests.json";
+    private static final String FILE_PATH = "src/main/resources/data/enrollment_requests.json";
 
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .create();
 
-    // =========================
-    // CONSTRUCTOR
-    // =========================
-
     public EnrollmentRequestData() {
-
         File folder = new File("src/main/resources/data");
-
         if (requests == null) {
             requests = loadRequests();
         }
-
         if (!folder.exists()) {
             folder.mkdirs();
         }
-
         requests = loadRequests();
     }
 
-    // LOAD Requests
     private PriorityLinkedQueue<EnrollmentRequest> loadRequests() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
             Type listType = new TypeToken<ArrayList<EnrollmentRequestDTO>>() {}.getType();
@@ -62,7 +48,6 @@ public class EnrollmentRequestData {
                 StudentData studentData = new StudentData();
                 CourseData courseData = new CourseData();
                 for (EnrollmentRequestDTO dto : list) {
-                    // BUSCA el estudiante por su id
                     Student student = studentData.findStudentById(dto.getStudentId());
                     LinkedList<Course> courses = new LinkedList<>();
                     if (dto.getCourseCodes() != null) {
@@ -88,10 +73,6 @@ public class EnrollmentRequestData {
         }
     }
 
-
-    // =========================
-    // SAVE
-    // =========================
     private void saveRequests() {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             ArrayList<EnrollmentRequestDTO> list = new ArrayList<>();
@@ -103,69 +84,39 @@ public class EnrollmentRequestData {
             gson.toJson(list, writer);
 
         } catch (Exception e) {
-            System.out.println("Error saving requests: " + e.getMessage());
         }
     }
 
-
-    // =========================
-    // CREATE
-    // =========================
-
     public EnrollmentRequest addRequest(EnrollmentRequest request) {
-
         if (request == null) return null;
-
         try {
             requests.enQueue(request, request.getPriority());
             saveRequests();
             return request;
-
         } catch (Exception e) {
-            System.out.println("Error adding request: " + e.getMessage());
             return null;
         }
     }
-
-    // =========================
-    // READ ALL
-    // =========================
 
     public PriorityLinkedQueue<EnrollmentRequest> getAllRequests() {
         return requests;
     }
 
-    // =========================
-    // FIND BY STUDENT ID
-    // =========================
-
-
-
-    // =========================
-    // UPDATE STATUS
-    // =========================
-
     public boolean updateStatus(EnrollmentRequest request, String status) {
-
         if (request == null) return false;
-
         try {
             request.setStatus(status);
             saveRequests();
             return true;
-
         } catch (Exception e) {
-            System.out.println("Error updating status: " + e.getMessage());
             return false;
         }
     }
-
 
     public boolean deleteRequest(EnrollmentRequest request) {
         if (request == null) {
             return false;
         }
-
         try {
             PriorityLinkedQueue<EnrollmentRequest> updated = new PriorityLinkedQueue<>();
             boolean removed = false;
@@ -175,16 +126,13 @@ public class EnrollmentRequestData {
                     removed = true;
                     continue;
                 }
-
                 updated.enQueue(current, current.getPriority());
             }
 
             requests = updated;
             saveRequests();
             return removed;
-
         } catch (Exception e) {
-            System.out.println("Error deleting request: " + e.getMessage());
             return false;
         }
     }
@@ -194,33 +142,19 @@ public class EnrollmentRequestData {
                 && Objects.equals(a.getStatus(), b.getStatus());
     }
 
-    // =========================
-    // CLEAR ALL
-    // =========================
-
     public void clearAll() {
-
         try {
             requests.clear();
             saveRequests();
-
         } catch (Exception e) {
-            System.out.println("Error clearing requests: " + e.getMessage());
         }
     }
-
-    // =========================
-    // COUNT
-    // =========================
 
     public int getRequestsCount() throws ListException {
         return requests.size();
     }
 
-
-        public Iterable<EnrollmentRequest> getRequests() {
-            return requests.toList();
-        }
-
+    public Iterable<EnrollmentRequest> getRequests() {
+        return requests.toList();
     }
-
+}

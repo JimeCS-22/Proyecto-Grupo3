@@ -2,18 +2,11 @@ package cr.ac.ucr.sga.model.entities;
 
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
 
-/**
- * Representa los cursos aprobados en pre-matrícula, listos para ser matriculados por el estudiante.
- */
 public class MatriculaAprobada {
-    private String id; // ID de la solicitud aprobada
+    private String id;
     private Student student;
     private LinkedList<Enrollment> enrollments;
     private String status;
-
-    public MatriculaAprobada() {
-        enrollments = new LinkedList<>();
-    }
 
     public MatriculaAprobada(String id,
                              Student student,

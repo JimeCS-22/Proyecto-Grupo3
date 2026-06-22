@@ -22,7 +22,7 @@ public class EnrollmentRequestDTO {
         this.courseCodes = new LinkedList<>();
         LinkedList<Course> courses = req.getCourses();
         if (courses != null && !courses.isEmpty()) {
-            for (int i = 1; i <= courses.size(); i++) { // LinkedList es 1-based
+            for (int i = 1; i <= courses.size(); i++) {
                 Course course = courses.get(i);
                 if (course != null) {
                     this.courseCodes.add(course.getId());
@@ -31,10 +31,8 @@ public class EnrollmentRequestDTO {
         }
     }
 
-    // Constructor vacío para GSON
     public EnrollmentRequestDTO() {}
 
-    // Getters y setters
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
 

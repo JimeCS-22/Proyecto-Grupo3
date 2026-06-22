@@ -12,10 +12,6 @@ public class EnrollmentRequest {
 
     private LinkedList<Course> courses;
 
-    public EnrollmentRequest() {
-        this.courses = new LinkedList<>();
-    }
-
     public EnrollmentRequest(Student student, int priority, String status, LinkedList<Course> courses) {
         this.student = student;
         this.priority = priority;
@@ -59,7 +55,4 @@ public class EnrollmentRequest {
         return (student != null) ? student.getId() : null;
     }
 
-    public String getCourseCode() throws ListException {
-       return courses.getFirst().getId();
-    }
 }

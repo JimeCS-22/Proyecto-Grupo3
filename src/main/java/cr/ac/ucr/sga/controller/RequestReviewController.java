@@ -28,9 +28,6 @@ public class RequestReviewController implements Initializable {
     @FXML private TableColumn<EnrollmentRequest, String> colStatus;
     @FXML private TableColumn<EnrollmentRequest, EnrollmentRequest> colActions;
 
-    // =========================
-    // DATA / STATE
-    // =========================
     private final EnrollmentRequestData requestData = new EnrollmentRequestData();
     private final ObservableList<EnrollmentRequest> requests = FXCollections.observableArrayList();
 
@@ -40,122 +37,68 @@ public class RequestReviewController implements Initializable {
         loadPendingRequests();
     }
 
-    // =========================
-    // CONFIGURACIÓN DE LA TABLA
-    // =========================
     private void initializeTable() {
         colStudent.setCellValueFactory(data -> {
             Student student = data.getValue().getStudent();
-            String text = student != null
-                    ? student.getName() + " (" + student.getCarnet() + ")"
-                    : "";
-            return new SimpleStringProperty(text);
+            return new SimpleStringProperty(student != null ? student.getName() + " (" + student.getCarnet() + ")" : "");
         });
 
-        colCourses.setCellValueFactory(data ->
-                new SimpleStringProperty(buildCoursesText(data.getValue()))
-        );
-
-        colPriority.setCellValueFactory(data ->
-                new SimpleStringProperty(String.valueOf(data.getValue().getPriority()))
-        );
-
-        colStatus.setCellValueFactory(data ->
-                new SimpleStringProperty(translateStatus(data.getValue().getStatus()))
-        );
+        colCourses.setCellValueFactory(data -> new SimpleStringProperty(buildCoursesText(data.getValue())));
+        colPriority.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getPriority())));
+        colStatus.setCellValueFactory(data -> new SimpleStringProperty(translateStatus(data.getValue().getStatus())));
 
         colActions.setCellFactory(param -> new TableCell<>() {
             private final Button btnRevisar = new Button("Revisar");
             private final HBox panel = new HBox(15, btnRevisar);
-
             {
                 btnRevisar.setMinWidth(120);
-                btnRevisar.setMaxWidth(Double.MAX_VALUE);
                 btnRevisar.setStyle("-fx-background-color: #2DBE8D; -fx-text-fill: white;");
-                btnRevisar.setOnAction(event -> revisarSolicitud());
+                btnRevisar.setOnAction(event -> {
+                    EnrollmentRequest req = getTableView().getItems().get(getIndex());
+                    new DialogRevisionPreMatricula(req, requestData).showAndWait();
+                    loadPendingRequests();
+                });
             }
-
-            // =========================
-            // REVISAR SOLICITUD
-            // =========================
-            private void revisarSolicitud() {
-                EnrollmentRequest req = getTableView().getItems().get(getIndex());
-                DialogRevisionPreMatricula dialog = new DialogRevisionPreMatricula(req, requestData);
-                dialog.showAndWait();
-                loadPendingRequests();
-            }
-
             @Override
             protected void updateItem(EnrollmentRequest req, boolean empty) {
                 super.updateItem(req, empty);
                 setGraphic(empty ? null : panel);
             }
         });
-
         colActions.setPrefWidth(150);
         tblRequests.setItems(requests);
     }
 
-    // =========================
-    // UTILIDADES DE TEXTO DE CURSOS
-    // =========================
     private String buildCoursesText(EnrollmentRequest req) {
         try {
-            if (req.getCourses() == null || req.getCourses().size() == 0) {
-                return "Ninguno";
-            }
-
+            if (req.getCourses() == null || req.getCourses().size() == 0) return "Ninguno";
             StringBuilder names = new StringBuilder();
             for (int i = 1; i <= req.getCourses().size(); i++) {
                 Course course = req.getCourses().get(i);
                 if (course != null) {
-                    names.append(course.getName());
-                    if (i < req.getCourses().size()) {
-                        names.append(", ");
-                    }
+                    names.append(course.getName()).append(i < req.getCourses().size() ? ", " : "");
                 }
             }
-
             return names.toString();
-        } catch (ListException e) {
-            return "Error";
-        }
+        } catch (ListException e) { return "Error"; }
     }
 
-    // =========================
-    // TRADUCCIÓN DE ESTADO
-    // =========================
     private String translateStatus(String status) {
-        if (status == null) {
-            return "";
-        }
-
-        if ("PENDING".equalsIgnoreCase(status) || "PENDIENTE".equalsIgnoreCase(status)) {
-            return "PENDIENTE";
-        }
-        if ("APPROVED".equalsIgnoreCase(status) || "APROBADO".equalsIgnoreCase(status)) {
-            return "APROBADO";
-        }
-        if ("REJECTED".equalsIgnoreCase(status) || "RECHAZADO".equalsIgnoreCase(status)) {
-            return "RECHAZADO";
-        }
+        if (status == null) return "";
+        if (status.equalsIgnoreCase("PENDING") || status.equalsIgnoreCase("PENDIENTE")) return "PENDIENTE";
+        if (status.equalsIgnoreCase("APPROVED") || status.equalsIgnoreCase("APROBADO")) return "APROBADO";
+        if (status.equalsIgnoreCase("REJECTED") || status.equalsIgnoreCase("RECHAZADO")) return "RECHAZADO";
         return status;
     }
 
-    // =========================
-    // CARGA DE SOLICITUDES PENDIENTES
-    // =========================
     private void loadPendingRequests() {
         requests.clear();
-
         for (EnrollmentRequest req : requestData.getRequests()) {
             String status = req.getStatus() == null ? "" : req.getStatus().toUpperCase();
-            if ("PENDING".equals(status) || "PENDIENTE".equals(status)) {
+            if (status.equals("PENDING") || status.equals("PENDIENTE")) {
                 requests.add(req);
             }
         }
-
-        tblRequests.setItems(requests);
         tblRequests.refresh();
     }
 }

@@ -26,45 +26,17 @@ import java.util.ResourceBundle;
 
 public class TramiteStudentController implements Initializable {
 
-    // =========================
-    // CAMPOS DEL FORMULARIO
-    // =========================
-    @FXML
-    private TextField txtTipo;
+    @FXML private TextField txtTipo;
+    @FXML private TextArea txtDescripcion;
+    @FXML private Button btnEnviar;
+    @FXML private Button btnLimpiar;
+    @FXML private TableView<Tramite> tblMisTramites;
+    @FXML private TableColumn<Tramite, String> colTipo;
+    @FXML private TableColumn<Tramite, String> colDescripcion;
+    @FXML private TableColumn<Tramite, String> colEstado;
+    @FXML private TableColumn<Tramite, String> colFecha;
+    @FXML private TableColumn<Tramite, Tramite> colAcciones;
 
-    @FXML
-    private TextArea txtDescripcion;
-
-    @FXML
-    private Button btnEnviar;
-
-    @FXML
-    private Button btnLimpiar;
-
-    // =========================
-    // TABLA DE MIS TRAMITES
-    // =========================
-    @FXML
-    private TableView<Tramite> tblMisTramites;
-
-    @FXML
-    private TableColumn<Tramite, String> colTipo;
-
-    @FXML
-    private TableColumn<Tramite, String> colDescripcion;
-
-    @FXML
-    private TableColumn<Tramite, String> colEstado;
-
-    @FXML
-    private TableColumn<Tramite, String> colFecha;
-
-    @FXML
-    private TableColumn<Tramite, Tramite> colAcciones;
-
-    // =========================
-    // ESTADO DEL CONTROLADOR
-    // =========================
     private Student estudiante;
     private MainController mainController;
     private final ObservableList<Tramite> misTramites = FXCollections.observableArrayList();
@@ -73,10 +45,7 @@ public class TramiteStudentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Configurar tabla
         setupTableColumns();
-
-        // Configurar botones
         btnEnviar.setOnAction(e -> {
             try {
                 enviarTramite();
@@ -85,46 +54,23 @@ public class TramiteStudentController implements Initializable {
             }
         });
         btnLimpiar.setOnAction(e -> limpiarCampos());
-
-        // Asignar lista de trámites a la tabla
         tblMisTramites.setItems(misTramites);
-
-        System.out.println("✓ TramiteStudentController inicializado");
     }
 
-    // =========================
-    // CONFIGURAR TABLA
-    // =========================
     private void setupTableColumns() {
-        colTipo.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getTipo())
-        );
-
-        colDescripcion.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getDescripcion())
-        );
-
-        colEstado.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getNombreEstado())
-        );
-
-        colFecha.setCellValueFactory(data ->
-                new SimpleStringProperty(data.getValue().getFechaEnvio())
-        );
+        colTipo.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTipo()));
+        colDescripcion.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescripcion()));
+        colEstado.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNombreEstado()));
+        colFecha.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFechaEnvio()));
 
         if (colAcciones != null) {
             colAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
             colAcciones.setCellFactory(param -> new TableCell<>() {
                 private final Button btnDetalles = new Button("Ver Detalles");
                 private final HBox panel = new HBox(10, btnDetalles);
-
                 {
-                    btnDetalles.setOnAction(event -> {
-                        Tramite tramite = getTableView().getItems().get(getIndex());
-                        abrirDetalles(tramite);
-                    });
+                    btnDetalles.setOnAction(event -> abrirDetalles(getTableView().getItems().get(getIndex())));
                 }
-
                 @Override
                 protected void updateItem(Tramite item, boolean empty) {
                     super.updateItem(item, empty);
@@ -134,159 +80,74 @@ public class TramiteStudentController implements Initializable {
         }
     }
 
-    // =========================
-    // SETTERS
-    // =========================
     public void setEstudiante(Student estudiante) {
         this.estudiante = estudiante;
-        System.out.println("✓ Estudiante establecido: " + estudiante.getName());
-
         cargarMisTramitesDelJSON();
     }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
-        System.out.println("✓ MainController establecido en TramiteStudentController");
     }
 
-    // =========================
-    // CARGAR MIS TRAMITES DEL JSON
-    // =========================
     private void cargarMisTramitesDelJSON() {
-        if (estudiante == null) {
-            return;
-        }
-
+        if (estudiante == null) return;
         misTramites.clear();
         List<Tramite> todosTramites = tramiteData.getAllTramites().toList();
-
-        // Filtrar solo los trámites del estudiante actual
         for (Tramite t : todosTramites) {
             if (t.getEstudiante().getId().equals(estudiante.getId())) {
                 t.setDetalles(tramiteDetailsData.getDetailsByTramiteId(t.getId()));
                 misTramites.add(t);
             }
         }
-
-        System.out.println("✓ Mis trámites cargados del JSON. Total: " + misTramites.size());
     }
 
-    // =========================
-    // US-05: ENVIAR TRAMITE EN ESTADO PENDIENTE
-    // =========================
     @FXML
     private void enviarTramite() throws ListException {
-        // Validar que el estudiante esté establecido
         if (estudiante == null) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error",
-                    "No hay estudiante en sesión. Por favor, inicia sesión nuevamente.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No hay estudiante en sesión.");
             return;
         }
-
-        // Obtener datos del formulario
         String tipo = txtTipo.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
-        // Validar campos no vacíos
-        if (tipo.isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Campo requerido",
-                    "Por favor ingresa el tipo de solicitud.");
-            txtTipo.requestFocus();
+        if (tipo.isEmpty() || descripcion.isEmpty()) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Campo requerido", "Todos los campos son obligatorios.");
             return;
         }
 
-        if (descripcion.isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Campo requerido",
-                    "Por favor ingresa una descripción detallada.");
-            txtDescripcion.requestFocus();
-            return;
-        }
-
-        // =========================
-        // 1. CREAR TRAMITE EN ESTADO PENDIENTE
-        // =========================
         Tramite nuevoTramite = new Tramite(tipo, descripcion, estudiante);
-        System.out.println("✓ Trámite creado: " + nuevoTramite.getId() + " - Estado: " + nuevoTramite.getNombreEstado());
-
-        // =========================
-        // 2. GUARDAR EN JSON (persistencia)
-        // =========================
         tramiteData.addTramite(nuevoTramite);
         tramiteDetailsData.saveDetails(nuevoTramite.getDetalles());
-        System.out.println("✓ Trámite guardado en JSON");
-
-        // =========================
-        // 3. AGREGAR A LISTA LOCAL (tabla del estudiante)
-        // =========================
         misTramites.add(nuevoTramite);
-        System.out.println("✓ Trámite agregado a la lista local del estudiante");
 
-        // =========================
-        // 4. AGREGAR A PILA DEL SISTEMA (para que lo vea el admin)
-        // =========================
         if (mainController != null) {
             TramiteReviewController tramiteReviewController = mainController.getTramiteReviewController();
             if (tramiteReviewController != null) {
                 tramiteReviewController.pushTramite(nuevoTramite);
-                System.out.println("✓ Trámite agregado a la pila del sistema");
-            } else {
-                System.out.println("⚠️ Advertencia: TramiteReviewController no está disponible");
             }
         }
 
-        // =========================
-        // 5. NOTIFICAR AL ESTUDIANTE (Patrón Observer)
-        // =========================
+        NotificationService.getInstance().notifyObservers(estudiante.getId(),
+                "SOLICITUD ENVIADA: " + tipo + " (ID: " + nuevoTramite.getId() + ")");
 
-        NotificationService.getInstance().notifyObservers(
-                estudiante.getId(),
-                "✓ SOLICITUD ENVIADA\n"
-                        + "Tu trámite '" + tipo
-                        + "' fue enviado correctamente.\n"
-                        + "ID: " + nuevoTramite.getId()
-        );
-
-
-        // =========================
-        // 6. MOSTRAR CONFIRMACIÓN
-        // =========================
-        mostrarAlerta(Alert.AlertType.INFORMATION, "✓ Solicitud Enviada",
-                "Tu solicitud de trámite ha sido enviada correctamente.\n\n" +
-                        "Tipo: " + tipo + "\n" +
-                        "Estado: PENDIENTE\n" +
-                        "ID: " + nuevoTramite.getId() + "\n\n" +
-                        "Podrás ver el progreso en la tabla de abajo."
-        );
-
-        // =========================
-        // 7. LIMPIAR FORMULARIO
-        // =========================
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Solicitud Enviada", "La solicitud fue enviada correctamente.");
         limpiarCampos();
     }
 
-    // =========================
-    // LIMPIAR CAMPOS
-    // =========================
     @FXML
     private void limpiarCampos() {
         txtTipo.clear();
         txtDescripcion.clear();
         txtTipo.requestFocus();
-        System.out.println("✓ Campos limpiados");
     }
 
     private void abrirDetalles(Tramite tramite) {
-        if (tramite == null) {
-            return;
-        }
-
+        if (tramite == null) return;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tramite-details-view.fxml"));
             Parent root = loader.load();
-
             TramiteDetailsController controller = loader.getController();
             controller.setContext(tramite, true);
-
             Stage stage = new Stage();
             stage.setTitle("Detalles del Trámite");
             stage.setScene(new Scene(root));
@@ -296,14 +157,10 @@ public class TramiteStudentController implements Initializable {
             }
             stage.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudieron abrir los detalles del trámite.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudieron abrir los detalles.");
         }
     }
 
-    // =========================
-    // MOSTRAR ALERTAS
-    // =========================
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -312,9 +169,6 @@ public class TramiteStudentController implements Initializable {
         alert.showAndWait();
     }
 
-    // =========================
-    // GETTER DE MIS TRAMITES
-    // =========================
     public ObservableList<Tramite> getMisTramites() {
         return misTramites;
     }

@@ -105,13 +105,4 @@ public class TramiteDetailsData {
         saveAllDetails(all);
     }
 
-    public void addComentario(String tramiteId, Comentario comentario) throws ListException {
-        TramiteDetails details = getDetailsByTramiteId(tramiteId);
-        details.agregarComentario(comentario);
-        saveDetails(details);
-    }
-
-    public LinkedList<Comentario> getComentariosByTramiteId(String tramiteId) {
-        return  getDetailsByTramiteId(tramiteId).getComentarios();
-    }
 }

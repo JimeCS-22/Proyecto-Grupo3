@@ -1,6 +1,5 @@
 package cr.ac.ucr.sga.model.entities;
 
-import cr.ac.ucr.sga.model.structures.lists.DoublyLinkedList;
 
 public class Career {
     private String id;

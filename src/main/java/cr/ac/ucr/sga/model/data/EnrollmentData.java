@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import cr.ac.ucr.sga.model.entities.Enrollment;
 import cr.ac.ucr.sga.model.structures.lists.LinkedList;
-import cr.ac.ucr.sga.model.structures.lists.ListException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -26,9 +25,6 @@ public class EnrollmentData {
         }
     }
 
-    // =========================
-    // LOAD ALL ENROLLMENTS
-    // =========================
     public LinkedList<Enrollment> loadAll() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
             Type listType = new TypeToken<ArrayList<Enrollment>>() {}.getType();
@@ -37,59 +33,39 @@ public class EnrollmentData {
             LinkedList<Enrollment> result = new LinkedList<>();
             if (list != null) {
                 for (Enrollment e : list) {
-                    // Asegurar que el enrollment tenga ID
                     if (e.getId() == null || e.getId().isEmpty()) {
                         e.setId(UUID.randomUUID().toString());
-                        System.out.println("🔧 Generando ID en loadAll: " + e.getId());
                     }
                     result.add(e);
                 }
             }
-            System.out.println("📚 Cargados " + result.size() + " enrollments de " + FILE_PATH);
             return result;
-
         } catch (Exception e) {
-            System.out.println("No se pudo cargar enrollments: " + e.getMessage());
             return new LinkedList<>();
         }
     }
 
-    // =========================
-    // SAVE ALL ENROLLMENTS
-    // =========================
     private void saveAll(LinkedList<Enrollment> enrollments) {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             gson.toJson(enrollments.toList(), writer);
-            System.out.println("💾 " + enrollments.size() + " enrollments guardados en " + FILE_PATH);
         } catch (Exception e) {
-            System.out.println("Error saving enrollments: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // =========================
-    // GET ENROLLMENTS BY PROFESSOR
-    // =========================
     public LinkedList<Enrollment> getEnrollmentsByProfessor(String professorUsername) {
         LinkedList<Enrollment> result = new LinkedList<>();
         LinkedList<Enrollment> all = loadAll();
 
         for (Enrollment e : all.toList()) {
-            if (e.getProfessorId() != null &&
-                    e.getProfessorId().equalsIgnoreCase(professorUsername)) {
+            if (e.getProfessorId() != null && e.getProfessorId().equalsIgnoreCase(professorUsername)) {
                 result.add(e);
             }
         }
-
         return result;
     }
 
-    // =========================
-    // GET ENROLLMENTS BY COURSE AND PROFESSOR
-    // =========================
-    public LinkedList<Enrollment> getEnrollmentsByCourseAndProfessor(
-            String courseId, String professorUsername) {
-
+    public LinkedList<Enrollment> getEnrollmentsByCourseAndProfessor(String courseId, String professorUsername) {
         LinkedList<Enrollment> result = new LinkedList<>();
         LinkedList<Enrollment> all = loadAll();
 
@@ -99,13 +75,9 @@ public class EnrollmentData {
                 result.add(e);
             }
         }
-
         return result;
     }
 
-    // =========================
-    // GET ENROLLMENTS BY STUDENT
-    // =========================
     public LinkedList<Enrollment> getEnrollmentsByStudent(String studentId) {
         LinkedList<Enrollment> result = new LinkedList<>();
         LinkedList<Enrollment> all = loadAll();
@@ -115,36 +87,19 @@ public class EnrollmentData {
                 result.add(e);
             }
         }
-
         return result;
     }
 
-    // =========================
-    // FIND ENROLLMENT BY ID
-    // =========================
     public Enrollment findById(String id) {
-        System.out.println("🔍 Buscando enrollment con ID: " + id);
         LinkedList<Enrollment> all = loadAll();
-        try {
-            System.out.println("📚 Total enrollments cargados: " + all.size());
-        } catch (ListException e) {
-            throw new RuntimeException(e);
-        }
-
         for (Enrollment e : all.toList()) {
-            System.out.println("  - Enrollment ID: " + e.getId());
             if (e.getId() != null && e.getId().equals(id)) {
-                System.out.println("  ✅ ENCONTRADO!");
                 return e;
             }
         }
-        System.out.println("  ❌ NO ENCONTRADO");
         return null;
     }
 
-    // =========================
-    // FIND ENROLLMENT BY STUDENT AND COURSE
-    // =========================
     public Enrollment findByStudentAndCourse(String studentId, String courseId) {
         LinkedList<Enrollment> all = loadAll();
         for (Enrollment e : all.toList()) {
@@ -156,13 +111,9 @@ public class EnrollmentData {
         return null;
     }
 
-    // =========================
-    // ADD ENROLLMENT
-    // =========================
     public Enrollment addEnrollment(Enrollment enrollment) {
         if (enrollment == null) return null;
 
-        // Generar ID si no tiene
         if (enrollment.getId() == null || enrollment.getId().isEmpty()) {
             enrollment.setId(UUID.randomUUID().toString());
         }
@@ -173,18 +124,10 @@ public class EnrollmentData {
         return enrollment;
     }
 
-    // =========================
-    // UPDATE ENROLLMENT
-    // =========================
     public boolean updateEnrollment(Enrollment updated) {
         if (updated == null || updated.getId() == null) {
-            System.out.println("❌ Enrollment o ID es null");
             return false;
         }
-
-        System.out.println("🔄 Actualizando enrollment: " + updated.getId());
-        System.out.println("  - Nota nueva: " + updated.getGrade());
-        System.out.println("  - Estado nuevo: " + updated.getStatus());
 
         LinkedList<Enrollment> all = loadAll();
         LinkedList<Enrollment> newList = new LinkedList<>();
@@ -192,10 +135,8 @@ public class EnrollmentData {
 
         for (Enrollment e : all.toList()) {
             if (e.getId() != null && e.getId().equals(updated.getId())) {
-                // Reemplazar con el enrollment actualizado
                 newList.add(updated);
                 found = true;
-                System.out.println("✅ Enrollment encontrado y actualizado en memoria");
             } else {
                 newList.add(e);
             }
@@ -203,17 +144,11 @@ public class EnrollmentData {
 
         if (found) {
             saveAll(newList);
-            System.out.println("💾 Cambios guardados en enrollments.json");
             return true;
-        } else {
-            System.out.println("❌ Enrollment no encontrado para actualizar");
-            return false;
         }
+        return false;
     }
 
-    // =========================
-    // UPDATE GRADE
-    // =========================
     public boolean updateGrade(String enrollmentId, double grade, String status) {
         Enrollment enrollment = findById(enrollmentId);
         if (enrollment == null) return false;
@@ -223,14 +158,11 @@ public class EnrollmentData {
         return updateEnrollment(enrollment);
     }
 
-    // =========================
-    // DELETE ENROLLMENT
-    // =========================
     public boolean deleteEnrollment(String id) {
         LinkedList<Enrollment> all = loadAll();
         LinkedList<Enrollment> newList = new LinkedList<>();
-
         boolean found = false;
+
         for (Enrollment e : all.toList()) {
             if (e.getId() != null && e.getId().equals(id)) {
                 found = true;
@@ -246,9 +178,6 @@ public class EnrollmentData {
         return false;
     }
 
-    // =========================
-    // DELETE ENROLLMENTS BY STUDENT
-    // =========================
     public boolean deleteEnrollmentsByStudent(String studentId) {
         LinkedList<Enrollment> all = loadAll();
         LinkedList<Enrollment> newList = new LinkedList<>();
@@ -258,14 +187,10 @@ public class EnrollmentData {
                 newList.add(e);
             }
         }
-
         saveAll(newList);
         return true;
     }
 
-    // =========================
-    // GET ENROLLMENTS BY STATUS
-    // =========================
     public LinkedList<Enrollment> getEnrollmentsByStatus(String status) {
         LinkedList<Enrollment> result = new LinkedList<>();
         LinkedList<Enrollment> all = loadAll();
@@ -275,7 +200,6 @@ public class EnrollmentData {
                 result.add(e);
             }
         }
-
         return result;
     }
 }

@@ -32,90 +32,48 @@ import java.util.*;
 
 public class TreeVisualizerController {
 
-    @FXML
-    private Canvas treeCanvas;
-
+    @FXML private Canvas treeCanvas;
     private TreeRenderer renderer;
-
     private BTree<Course> currentTree;
-
     private BTree<Course> binaryTree;
-
     private BST<Course> bstTree;
-
     private AVL<Course> avlTree;
-
     private TreeAnimationManager animator;
 
-    @FXML
-    private TextField searchField;
-    @FXML
-    private TextArea resultArea;
-    @FXML
-    private ComboBox<String> treeTypeCombo;
-    @FXML
-    private ComboBox<String> rotationCombo;
-
-    @FXML
-    private ComboBox<String> cmbCarreras;
-
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private Group canvasGroup;
-    private double scaleValue = 1.0;  // escala inicial
-
-    // Mapas para filtrar los cursos por carrera
+    @FXML private TextField searchField;
+    @FXML private TextArea resultArea;
+    @FXML private ComboBox<String> treeTypeCombo;
+    @FXML private ComboBox<String> rotationCombo;
+    @FXML private ComboBox<String> cmbCarreras;
+    @FXML private ScrollPane scrollPane;
+    @FXML private Group canvasGroup;
+    private double scaleValue = 1.0;
     private Map<String, List<Course>> cursosPorCarrera;
     private Map<String, Career> mapaCarreras;
-
     private User currentUser;
 
     @FXML
     public void initialize() {
-
-        GraphicsContext gc =
-                treeCanvas.getGraphicsContext2D();
-
-        renderer =
-                new TreeRenderer(gc);
-
-        // 1. Cargar datos de carreras y cursos UNA SOLA VEZ al iniciar
+        GraphicsContext gc = treeCanvas.getGraphicsContext2D();
+        renderer = new TreeRenderer(gc);
         loadCareerData();
-
-        // 2. Configurar ComboBoxes de tipo de árbol y rotaciones
         treeTypeCombo.getItems().addAll("Binary Tree", "BST", "AVL");
         rotationCombo.getItems().addAll("LL - Derecha", "RR - Izquierda", "LR - Izquierda-Derecha", "RL - Derecha-Izquierda");
         rotationCombo.getSelectionModel().selectFirst();
         treeTypeCombo.getSelectionModel().select("AVL");
 
-        // 3. Poblar el ComboBox de Carreras si hay datos
         if (!mapaCarreras.isEmpty()) {
             List<Career> carrerasOrdenadas = new ArrayList<>(mapaCarreras.values());
             carrerasOrdenadas.sort(Comparator.comparing(Career::getName));
-
-            for (Career c : carrerasOrdenadas) {
-                cmbCarreras.getItems().add(c.getName());
-            }
-            // Seleccionar la primera por defecto (esto se sobrescribirá en setUser si es necesario)
+            for (Career c : carrerasOrdenadas) cmbCarreras.getItems().add(c.getName());
             cmbCarreras.getSelectionModel().selectFirst();
         }
 
-        // 4. Inicializar el árbol con la primera carrera y dibujar
         updateCurrentTree();
-
-        animator =
-                new TreeAnimationManager(
-                        renderer,
-                        treeCanvas,
-                        this::drawTree
-                );
-
+        animator = new TreeAnimationManager(renderer, treeCanvas, this::drawTree);
         drawTree();
-
         initializeMouseEvents();
 
-        // Listener para cuando se cambia la carrera (solo aplica si está habilitado)
         cmbCarreras.setOnAction(e -> {
             loadSelectedCareer();
             drawTree();
@@ -123,47 +81,27 @@ public class TreeVisualizerController {
             resultArea.setText("Mostrando carrera: " + (selected != null ? selected : "N/A"));
         });
 
-        // Listener para zoom con rueda del ratón
         scrollPane.setOnScroll(event -> {
             double zoomFactor = 1.05;
-            if (event.getDeltaY() < 0) {
-                scaleValue /= zoomFactor;
-            } else {
-                scaleValue *= zoomFactor;
-            }
+            scaleValue = (event.getDeltaY() < 0) ? scaleValue / zoomFactor : scaleValue * zoomFactor;
             scaleValue = Math.min(Math.max(scaleValue, 0.2), 3.0);
-
             canvasGroup.setScaleX(scaleValue);
             canvasGroup.setScaleY(scaleValue);
-
             canvasGroup.layout();
-
             event.consume();
         });
     }
 
     private void drawTree() {
         gc().clearRect(0, 0, treeCanvas.getWidth(), treeCanvas.getHeight());
-
-        if (currentTree == null || currentTree.getRoot() == null) {
-            return;
-        }
-
+        if (currentTree == null || currentTree.getRoot() == null) return;
         renderer.render(avlTree, currentTree.getRoot());
-
         gc().setFill(Color.WHITE);
-
         String nombreCarrera = cmbCarreras.getValue() != null ? cmbCarreras.getValue() : "N/A";
-        gc().fillText(
-                "Árbol: " + treeTypeCombo.getValue() + " | Carrera: " + nombreCarrera,
-                20,
-                20
-        );
+        gc().fillText("Árbol: " + treeTypeCombo.getValue() + " | Carrera: " + nombreCarrera, 20, 20);
     }
 
-    private GraphicsContext gc() {
-        return treeCanvas.getGraphicsContext2D();
-    }
+    private GraphicsContext gc() { return treeCanvas.getGraphicsContext2D(); }
 
     private void initializeMouseEvents() {
         treeCanvas.setOnMouseClicked(event -> {
@@ -172,37 +110,13 @@ public class TreeVisualizerController {
                 if (course != null) showCourseDialog(course);
             }
         });
-
-        scrollPane.addEventFilter(javafx.scene.input.ScrollEvent.SCROLL, event -> {
-            double zoomFactor = 1.05;
-            double delta = event.getDeltaY();
-
-            if (delta < 0) {
-                scaleValue /= zoomFactor;
-            } else if (delta > 0) {
-                scaleValue *= zoomFactor;
-            }
-
-            scaleValue = Math.max(0.2, Math.min(scaleValue, 3.0));
-
-            canvasGroup.setScaleX(scaleValue);
-            canvasGroup.setScaleY(scaleValue);
-
-            event.consume();
-        });
     }
 
     private void showCourseDialog(Course course) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Información del Curso");
         alert.setHeaderText(course.getId());
-
-        StringBuilder info = new StringBuilder();
-        info.append("Nombre: ").append(course.getName()).append("\n\n");
-        info.append("Créditos: ").append(course.getCredits()).append("\n\n");
-        info.append("Estado: ").append(course.getStatus());
-
-        alert.setContentText(info.toString());
+        alert.setContentText("Nombre: " + course.getName() + "\n\nCréditos: " + course.getCredits() + "\n\nEstado: " + course.getStatus());
         alert.showAndWait();
     }
 
@@ -238,19 +152,12 @@ public class TreeVisualizerController {
                 resultArea.setText("Ingrese un código de curso.");
                 return;
             }
-
-            Course target = new Course.Builder()
-                    .setId(code)
-                    .setName("TEMP")
-                    .setCredits(0)
-                    .build();
-
+            Course target = new Course.Builder().setId(code).setName("TEMP").setCredits(0).build();
             List<BTreeNode<Course>> path = currentTree.getSearchPath(target);
             if (path == null || path.isEmpty()) {
                 resultArea.setText("✗ Curso no encontrado");
                 return;
             }
-
             animator.animateSearchPath(path);
         } catch (Exception ex) { resultArea.setText(ex.getMessage()); }
     }
@@ -282,15 +189,8 @@ public class TreeVisualizerController {
                 resultArea.setText("Ingrese un código de curso.");
                 return;
             }
-
-            Course target = new Course.Builder()
-                    .setId(code)
-                    .setName("TEMP")
-                    .setCredits(0)
-                    .build();
-
+            Course target = new Course.Builder().setId(code).setName("TEMP").setCredits(0).build();
             boolean found = currentTree.contains(target);
-
             if (found) {
                 BTreeNode<Course> node = renderer.findNodeByCourse(currentTree.getRoot(), target);
                 renderer.setFoundNode(node);
@@ -302,74 +202,39 @@ public class TreeVisualizerController {
         } catch (Exception e) { resultArea.setText(e.getMessage()); }
     }
 
-    // ==========================================
-    // LÓGICA DE CARRERAS Y CURSOS
-    // ==========================================
-
     private void loadCareerData() {
         CourseData courseData = new CourseData();
         DoublyLinkedList<Course> cursos = courseData.getAllCourses();
-
         cursosPorCarrera = new HashMap<>();
         mapaCarreras = new HashMap<>();
 
         try {
             Gson gson = new Gson();
             InputStream is = TreeVisualizerController.class.getResourceAsStream("/data/careers.json");
-
             if (is != null) {
                 InputStreamReader reader = new InputStreamReader(is);
                 Type listType = new TypeToken<ArrayList<Career>>(){}.getType();
                 List<Career> listaCarreras = gson.fromJson(reader, listType);
-
-                for (Career c : listaCarreras) {
-                    mapaCarreras.put(c.getId(), c);
-                }
-                System.out.println("✅ Carreras cargadas correctamente. Total: " + listaCarreras.size());
-            } else {
-                System.out.println("⚠️ No se encontró el archivo careers.json en target/classes/data/");
+                for (Career c : listaCarreras) mapaCarreras.put(c.getId(), c);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
 
-        // Agrupar los cursos por ID de carrera
         for (Course c : cursos.toList()) {
             String idCarrera = c.getCareerId();
-            if (idCarrera == null || idCarrera.isEmpty()) {
-                continue;
-            }
-            if (!cursosPorCarrera.containsKey(idCarrera)) {
-                cursosPorCarrera.put(idCarrera, new ArrayList<>());
-            }
-            cursosPorCarrera.get(idCarrera).add(c);
+            if (idCarrera == null || idCarrera.isEmpty()) continue;
+            cursosPorCarrera.computeIfAbsent(idCarrera, k -> new ArrayList<>()).add(c);
         }
     }
 
     private void loadSelectedCareer() {
         String nombreCarreraSeleccionada = cmbCarreras.getValue();
+        if (nombreCarreraSeleccionada == null) return;
+        String selectedCareerId = mapaCarreras.entrySet().stream()
+                .filter(e -> e.getValue().getName().equals(nombreCarreraSeleccionada))
+                .map(Map.Entry::getKey).findFirst().orElse(null);
 
-        if (nombreCarreraSeleccionada == null) {
-            return;
-        }
-
-        String selectedCareerId = null;
-        for (Map.Entry<String, Career> entry : mapaCarreras.entrySet()) {
-            if (entry.getValue().getName().equals(nombreCarreraSeleccionada)) {
-                selectedCareerId = entry.getKey();
-                break;
-            }
-        }
-
-        if (selectedCareerId == null) {
-            return;
-        }
-
-        List<Course> cursosDeEstaCarrera = cursosPorCarrera.get(selectedCareerId);
-        if (cursosDeEstaCarrera == null) {
-            cursosDeEstaCarrera = new ArrayList<>();
-        }
-
+        if (selectedCareerId == null) return;
+        List<Course> cursosDeEstaCarrera = cursosPorCarrera.getOrDefault(selectedCareerId, new ArrayList<>());
         binaryTree = new BTree<>();
         bstTree = new BST<>();
         avlTree = new AVL<>();
@@ -380,68 +245,42 @@ public class TreeVisualizerController {
                 bstTree.add(curso);
                 avlTree.add(curso);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        } catch (Exception e) { e.printStackTrace(); }
         updateCurrentTree();
     }
 
     private void updateCurrentTree() {
         String selected = treeTypeCombo.getValue();
-        switch (selected) {
-            case "Binary Tree": currentTree = binaryTree; break;
-            case "BST": currentTree = bstTree; break;
-            case "AVL": currentTree = avlTree; break;
-            default: currentTree = avlTree;
-        }
+        currentTree = switch (selected) {
+            case "Binary Tree" -> binaryTree;
+            case "BST" -> bstTree;
+            default -> avlTree;
+        };
     }
-
-    // ==========================================
-    // NUEVO: SET USER Y RESTRICCIÓN DE ROLES
-    // ==========================================
 
     public void setUser(User user) {
         this.currentUser = user;
-
         if (user.getRole().equals("STUDENT")) {
-
-            String careerId = null;
             StudentData studentData = new StudentData();
             Student student = studentData.findByUsername(user.getUsername());
-            if (student != null) {
-                careerId = student.getCareerId();
-            }
-
+            String careerId = (student != null) ? student.getCareerId() : null;
             if (careerId != null && mapaCarreras.containsKey(careerId)) {
                 String nombreCarrera = mapaCarreras.get(careerId).getName();
-
-
                 cmbCarreras.getItems().clear();
                 cmbCarreras.getItems().add(nombreCarrera);
-
                 cmbCarreras.setValue(nombreCarrera);
-                cmbCarreras.setDisable(true); // Bloquear para que no pueda cambiar
-
-                // Cargar el árbol de su carrera
+                cmbCarreras.setDisable(true);
                 loadSelectedCareer();
                 drawTree();
                 resultArea.setText("Mostrando tu carrera: " + nombreCarrera);
             } else {
                 resultArea.setText("⚠️ No se encontró tu carrera asignada.");
             }
-
         } else {
-
             cmbCarreras.setDisable(false);
-
             cmbCarreras.getItems().clear();
-            List<Career> carrerasOrdenadas = new ArrayList<>(mapaCarreras.values());
-            carrerasOrdenadas.sort(Comparator.comparing(Career::getName));
-            for (Career c : carrerasOrdenadas) {
-                cmbCarreras.getItems().add(c.getName());
-            }
-
+            mapaCarreras.values().stream().sorted(Comparator.comparing(Career::getName))
+                    .forEach(c -> cmbCarreras.getItems().add(c.getName()));
             if (!cmbCarreras.getItems().isEmpty()) {
                 cmbCarreras.getSelectionModel().selectFirst();
                 loadSelectedCareer();
@@ -451,59 +290,30 @@ public class TreeVisualizerController {
         }
     }
 
-    // ==========================================
-    // DEMOSTRACIÓN DE ROTACIONES
-    // ==========================================
-
     @FXML
     private void onRotationDemo() {
         try {
             avlTree = new AVL<>();
             currentTree = avlTree;
-
             String nombreCarreraSeleccionada = cmbCarreras.getValue();
-
-            String selectedCareerId = null;
-            for (Map.Entry<String, Career> entry : mapaCarreras.entrySet()) {
-                if (entry.getValue().getName().equals(nombreCarreraSeleccionada)) {
-                    selectedCareerId = entry.getKey();
-                    break;
-                }
-            }
-
-            List<Course> cursosCarrera = cursosPorCarrera.get(selectedCareerId);
-            if (cursosCarrera == null) {
-                cursosCarrera = new ArrayList<>();
-            }
-
+            String selectedCareerId = mapaCarreras.entrySet().stream()
+                    .filter(e -> e.getValue().getName().equals(nombreCarreraSeleccionada))
+                    .map(Map.Entry::getKey).findFirst().orElse(null);
+            List<Course> cursosCarrera = cursosPorCarrera.getOrDefault(selectedCareerId, new ArrayList<>());
             animateRotation(rotationCombo.getValue(), cursosCarrera);
             resultArea.setText("Demostrando " + rotationCombo.getValue());
-
-        } catch (Exception ex) {
-            resultArea.setText(ex.getMessage());
-        }
+        } catch (Exception ex) { resultArea.setText(ex.getMessage()); }
     }
 
     private void animateRotation(String tipo, List<Course> cursos) {
         Timeline timeline = new Timeline();
-        String[] ids;
-
-        switch (tipo) {
-            case "LL - Derecha":
-                ids = new String[]{"IF0003", "IF0002", "IF0001"};
-                break;
-            case "RR - Izquierda":
-                ids = new String[]{"IF0001", "IF0002", "IF0003"};
-                break;
-            case "LR - Izquierda-Derecha":
-                ids = new String[]{"IF0003", "IF0001", "IF0002"};
-                break;
-            case "RL - Derecha-Izquierda":
-                ids = new String[]{"IF0001", "IF0003", "IF0002"};
-                break;
-            default:
-                return;
-        }
+        String[] ids = switch (tipo) {
+            case "LL - Derecha" -> new String[]{"IF0003", "IF0002", "IF0001"};
+            case "RR - Izquierda" -> new String[]{"IF0001", "IF0002", "IF0003"};
+            case "LR - Izquierda-Derecha" -> new String[]{"IF0003", "IF0001", "IF0002"};
+            case "RL - Derecha-Izquierda" -> new String[]{"IF0001", "IF0003", "IF0002"};
+            default -> new String[]{};
+        };
 
         for (int i = 0; i < ids.length; i++) {
             String id = ids[i];
@@ -512,9 +322,7 @@ public class TreeVisualizerController {
                     insertCourse(id, cursos);
                     currentTree = avlTree;
                     drawTree();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                } catch (Exception ex) { ex.printStackTrace(); }
             }));
         }
         timeline.play();

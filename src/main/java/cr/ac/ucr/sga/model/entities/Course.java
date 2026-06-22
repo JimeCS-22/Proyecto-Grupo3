@@ -20,20 +20,12 @@ public class Course implements Comparable<Course> {
     private String careerId;
     @Expose
     private String professorId;
-
-    // =========================
-    // NUEVOS CAMPOS
-    // =========================
     @Expose
-    private int semestre; // 1-8 (semestre académico)
+    private int semestre;
     @Expose
-    private List<String> prerequisitosIds; // IDs de cursos prerequisito
+    private List<String> prerequisitosIds;
     @Expose
-    private List<String> corequisitosIds;  // IDs de cursos corequisito
-
-    // =========================
-    // CONSTRUCTORES
-    // =========================
+    private List<String> corequisitosIds;
 
     public Course(String id, String name, int credits, double grade, String status) {
         this.id = id;
@@ -63,10 +55,6 @@ public class Course implements Comparable<Course> {
         this.prerequisitosIds = new ArrayList<>();
         this.corequisitosIds = new ArrayList<>();
     }
-
-    // =========================
-    // GETTERS
-    // =========================
 
     public String getId() {
         return id;
@@ -140,16 +128,6 @@ public class Course implements Comparable<Course> {
         this.professorId = professorId;
     }
 
-    public void addPrerequisito(String courseId) {
-        if (!this.prerequisitosIds.contains(courseId)) {
-            this.prerequisitosIds.add(courseId);
-        }
-    }
-
-    public void removePrerequisito(String courseId) {
-        this.prerequisitosIds.remove(courseId);
-    }
-
     public List<String> getCorequisitosIds() {
         return corequisitosIds;
     }
@@ -158,37 +136,21 @@ public class Course implements Comparable<Course> {
         this.corequisitosIds = ids;
     }
 
-    public void addCorequisito(String courseId) {
-        if (!this.corequisitosIds.contains(courseId)) {
-            this.corequisitosIds.add(courseId);
-        }
-    }
 
-    public void removeCorequisito(String courseId) {
-        this.corequisitosIds.remove(courseId);
-    }
-
-    // =========================
-    // TO STRING
-    // =========================
 
     @Override
     public String toString() {
         return name + " [ID: " + id + "]";
     }
 
-    // =========================
-    // COMPARABLE
-    // =========================
+
 
     @Override
     public int compareTo(Course o) {
         return this.id.compareToIgnoreCase(o.id);
     }
 
-    // =========================
-    // EQUALS Y HASHCODE
-    // =========================
+
 
     @Override
     public boolean equals(Object obj) {
@@ -208,9 +170,7 @@ public class Course implements Comparable<Course> {
         return id.toLowerCase().hashCode();
     }
 
-    // =========================
-    // BUILDER
-    // =========================
+
 
     public static class Builder {
 
