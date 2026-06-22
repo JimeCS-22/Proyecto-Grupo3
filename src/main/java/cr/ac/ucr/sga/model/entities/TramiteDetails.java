@@ -31,10 +31,6 @@ public class TramiteDetails {
         return comentarios;
     }
 
-    public void setComentarios(LinkedList<Comentario> comentarios) {
-        this.comentarios = comentarios;
-    }
-
     public void agregarComentario(Comentario comentario) {
         if (comentario == null) {
             return;

@@ -22,12 +22,8 @@ public class SessionHistoryService {
         return instance;
     }
 
-    // =========================
-    // AGREGAR NUEVA PESTAÑA
-    // =========================
     public void addTabIndex(int index) throws ListException {
 
-        // Evita duplicados consecutivos
         if (!history.isEmpty()) {
             Integer currentTab = history.get(current);
 
@@ -38,13 +34,9 @@ public class SessionHistoryService {
 
         history.add(index);
 
-        // El current siempre apunta al último agregado
         current = history.size();
     }
 
-    // =========================
-    // IR HACIA ATRÁS (CIRCULAR)
-    // =========================
     public Integer backTab() throws ListException {
 
         if (history.isEmpty()) {
@@ -53,7 +45,6 @@ public class SessionHistoryService {
 
         current--;
 
-        // Si pasa del inicio → vuelve al final
         if (current < 1) {
             current = history.size();
         }
@@ -61,9 +52,6 @@ public class SessionHistoryService {
         return history.get(current);
     }
 
-    // =========================
-    // IR HACIA ADELANTE (CIRCULAR)
-    // =========================
     public Integer forwardTab() throws ListException {
 
         if (history.isEmpty()) {
@@ -72,19 +60,10 @@ public class SessionHistoryService {
 
         current++;
 
-        // Si pasa del final → vuelve al inicio
         if (current > history.size()) {
             current = 1;
         }
 
         return history.get(current);
-    }
-
-    // =========================
-    // DEBUG
-    // =========================
-    public void printHistory() {
-        System.out.println(history);
-        System.out.println("Current index: " + current);
     }
 }

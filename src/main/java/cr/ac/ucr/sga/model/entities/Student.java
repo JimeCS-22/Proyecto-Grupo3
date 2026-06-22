@@ -8,21 +8,13 @@ public class Student {
     private String name;
     private String carnet;
     private int age;
-    private String careerId;  // <--- Campo persistente
+    private String careerId;
     private transient AcademicRecord academicRecord;
     private String username;
     private String password;
 
-    // =========================
-    // CONSTRUCTOR VACÍO (GSON)
-    // =========================
-
     public Student() {
     }
-
-    // =========================
-    // BUILDER CONSTRUCTOR
-    // =========================
 
     private Student(Builder builder) {
         this.id = builder.id;
@@ -31,12 +23,8 @@ public class Student {
         this.age = builder.age;
         this.username = builder.username;
         this.password = builder.password;
-        this.careerId = builder.careerId;  // <--- Se asigna el careerId
+        this.careerId = builder.careerId;
     }
-
-    // =========================
-    // GETTERS
-    // =========================
 
     public String getId() {
         return id;
@@ -62,10 +50,6 @@ public class Student {
         return password;
     }
 
-    // =========================
-    // GETTER Y SETTER PARA CAREERID (NUEVOS)
-    // =========================
-
     public String getCareerId() {
         return careerId;
     }
@@ -73,10 +57,6 @@ public class Student {
     public void setCareerId(String careerId) {
         this.careerId = careerId;
     }
-
-    // =========================
-    // ACADEMIC RECORD
-    // =========================
 
     public AcademicRecord getAcademicRecord() {
         if (this.academicRecord == null) {
@@ -95,18 +75,10 @@ public class Student {
         this.academicRecord = academicRecord;
     }
 
-    // =========================
-    // TO STRING
-    // =========================
-
     @Override
     public String toString() {
         return "[" + id + "] " + name + " - " + carnet + " - " + age + " - " + username;
     }
-
-    // =========================
-    // BUILDER
-    // =========================
 
     public static class Builder {
 
@@ -116,7 +88,7 @@ public class Student {
         private int age;
         private String username;
         private String password;
-        private String careerId;  // <--- Campo en el Builder
+        private String careerId;
 
         public Builder setId(String id) {
             this.id = id;
