@@ -29,5 +29,36 @@
     "professorId": "LR",
     "grade": 70.0,
     "status": "Aprobado"
+  },
+  {
+    "id": "ad26e339-6c81-4df8-b8c9-95341edf9207",
+    "studentId": "003",
+    "courseId": "IF0002",
+    "grade": 0.0,
+    "status": "APPROVED"
+  },
+  {
+    "id": "9fe3ca7b-6f52-4ee7-bb60-78e77d3344ba",
+    "studentId": "003",
+    "courseId": "IF0002",
+    "professorId": "LR",
+    "grade": 0.0,
+    "status": "APPROVED"
+  },
+  {
+    "id": "8be7d017-5ed9-499c-a2d8-e4302c14c63d",
+    "studentId": "003",
+    "courseId": "IF0002",
+    "professorId": "LR",
+    "grade": 0.0,
+    "status": "APPROVED"
+  },
+  {
+    "id": "0de34fda-20ca-433b-a9c3-3862435fdad0",
+    "studentId": "003",
+    "courseId": "IF0002",
+    "professorId": "LR",
+    "grade": 90.0,
+    "status": "Aprobado"
   }
 ]

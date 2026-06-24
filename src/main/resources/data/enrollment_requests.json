@@ -19,17 +19,38 @@
   },
   {
     "studentId": "003",
+    "courseCodes": {},
+    "priority": 4,
+    "status": "APPROVED"
+  },
+  {
+    "studentId": "003",
     "courseCodes": {
       "head": {
-        "data": "p",
+        "data": "IF0002",
         "visited": false
       },
       "tail": {
-        "data": "p",
+        "data": "IF0002",
         "visited": false
       }
     },
     "priority": 4,
     "status": "APPROVED"
+  },
+  {
+    "studentId": "003",
+    "courseCodes": {
+      "head": {
+        "data": "IF0003",
+        "visited": false
+      },
+      "tail": {
+        "data": "IF0003",
+        "visited": false
+      }
+    },
+    "priority": 4,
+    "status": "PENDING"
   }
 ]

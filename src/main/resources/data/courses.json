@@ -268,14 +268,39 @@
     "corequisitosIds": []
   },
   {
-    "id": "p",
-    "name": "p",
+    "id": "EM-001",
+    "name": "Nivelacion",
     "credits": 4,
     "grade": 0.0,
     "status": "Activo",
-    "careerId": "CAR01",
-    "professorId": "LR",
+    "careerId": "CAR02",
     "semestre": 1,
+    "prerequisitosIds": [],
+    "corequisitosIds": []
+  },
+  {
+    "id": "em-99",
+    "name": "Mate Basica",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR02",
+    "professorId": "E.C",
+    "semestre": 2,
+    "prerequisitosIds": [
+      "EM-001"
+    ],
+    "corequisitosIds": []
+  },
+  {
+    "id": "EM-055",
+    "name": "a",
+    "credits": 4,
+    "grade": 0.0,
+    "status": "Activo",
+    "careerId": "CAR02",
+    "professorId": "E.C",
+    "semestre": 2,
     "prerequisitosIds": [],
     "corequisitosIds": []
   }

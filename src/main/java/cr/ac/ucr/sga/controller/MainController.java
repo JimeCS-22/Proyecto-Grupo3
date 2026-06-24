@@ -504,4 +504,16 @@ public class MainController implements Initializable, NotificationObserver {
             }
         }
     }
+
+    @FXML
+    private void toggleTheme() {
+        Scene scene = rootPane.getScene();
+        if (scene != null) {
+            if (rootPane.getStyleClass().contains("dark-mode")) {
+                rootPane.getStyleClass().remove("dark-mode");
+            } else {
+                rootPane.getStyleClass().add("dark-mode");
+            }
+        }
+    }
 }

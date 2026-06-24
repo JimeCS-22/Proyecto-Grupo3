@@ -27,19 +27,19 @@
   "tail": {
     "data": {
       "id": "TRM-20260622-001",
-      "tipo": "Consulta",
-      "descripcion": "Puedo matricular Programación 1 si no he aprobado Programación 2",
+      "tipo": "Cambio de Horario",
+      "descripcion": "Necesito un cambio del horario",
       "estadoNombre": "Pendiente",
       "estudiante": {
-        "id": "001",
-        "name": "Camila Montoya",
-        "carnet": "C4H457",
+        "id": "003",
+        "name": "Alexander León",
+        "carnet": "C24249",
         "age": 21,
         "careerId": "CAR01",
-        "username": "cami.montoya",
+        "username": "alex.leon",
         "password": "1234"
       },
-      "fechaEnvio": "2026-06-22T14:13:49",
+      "fechaEnvio": "2026-06-22T18:25:42",
       "fecha": "20260622",
       "contador": 2,
       "detalles": {

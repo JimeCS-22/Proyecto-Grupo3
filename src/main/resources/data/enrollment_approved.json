@@ -36,27 +36,27 @@
     "status": "MATRICULATED"
   },
   {
-    "id": "05111a8d-82c9-43a1-ab1e-b286dee6226b",
+    "id": "8de9ea12-797d-4f37-8cc3-ce0c577dfae0",
     "studentId": "003",
     "enrollments": {
       "head": {
         "data": {
-          "id": "4a704513-e97a-4259-8cfc-de679766e54f",
+          "id": "0de34fda-20ca-433b-a9c3-3862435fdad0",
           "studentId": "003",
-          "courseId": "p",
+          "courseId": "IF0002",
           "professorId": "LR",
-          "grade": 70.0,
+          "grade": 90.0,
           "status": "Aprobado"
         },
         "visited": false
       },
       "tail": {
         "data": {
-          "id": "4a704513-e97a-4259-8cfc-de679766e54f",
+          "id": "0de34fda-20ca-433b-a9c3-3862435fdad0",
           "studentId": "003",
-          "courseId": "p",
+          "courseId": "IF0002",
           "professorId": "LR",
-          "grade": 70.0,
+          "grade": 90.0,
           "status": "Aprobado"
         },
         "visited": false

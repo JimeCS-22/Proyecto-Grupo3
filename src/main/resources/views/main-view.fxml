@@ -9,8 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.ListView?>
+
 <BorderPane fx:id="rootPane"
             styleClass="root-pane"
             stylesheets="@../styles.css"
@@ -34,6 +34,11 @@
 
             <Label fx:id="lblStudent" styleClass="header-user"/>
 
+            <!-- BOTÓN DE CAMBIO DE TEMA -->
+            <Button text="🌓"
+                    onAction="#toggleTheme"
+                    styleClass="btn-theme-toggle"/>
+
             <Button text="Atras"
                     onAction="#goBack"
                     styleClass="btn-gray"/>
@@ -54,16 +59,15 @@
             <Tab fx:id="studentTab" closable="false" text="Estudiantes">
                 <AnchorPane fx:id="studentContent"/>
             </Tab>
+
             <Tab fx:id="professorTab"
                  closable="false"
                  text="Profesor">
-
                 <content>
                     <fx:include
                             fx:id="professorView"
                             source="professor-view.fxml"/>
                 </content>
-
             </Tab>
 
             <Tab fx:id="coursesTab" closable="false" text="Cursos">
@@ -89,20 +93,17 @@
             <Tab fx:id="tramiteTab" text="Tramites (LIFO)" closable="false">
                 <fx:include source="tramite-view.fxml"/>
             </Tab>
+
             <Tab text="🔔 Notificaciones" closable="false">
                 <content>
                     <VBox spacing="10" style="-fx-padding: 15;">
-
                         <Label text="Historial de Notificaciones"
-                               style="-fx-font-size: 16px;
-                          -fx-font-weight: bold;" />
-
-                        <ListView fx:id="lstNotifications"
-                                  VBox.vgrow="ALWAYS"/>
-
+                               style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <ListView fx:id="lstNotifications" VBox.vgrow="ALWAYS"/>
                     </VBox>
                 </content>
             </Tab>
+
             <Tab fx:id="treeCoursesTab" text="Árbol Prerrequisitos" closable="false">
                 <fx:include source="Tree.fxml"/>
             </Tab>
@@ -110,6 +111,7 @@
             <Tab fx:id="CampusTab" text="Campus(grafos)" closable="false">
                 <fx:include source="campus-view.fxml"/>
             </Tab>
+
             <Tab fx:id="reportsTab" text="Reportes">
                 <content>
                     <AnchorPane fx:id="reportsContent"/>

@@ -143,6 +143,30 @@
                                                     "password": "1234",
                                                     "role": "PROFESSOR"
                                                   },
+                                                  "next": {
+                                                    "data": {
+                                                      "username": "E.C",
+                                                      "password": "1234",
+                                                      "role": "PROFESSOR"
+                                                    },
+                                                    "next": {
+                                                      "data": {
+                                                        "username": "JCS",
+                                                        "password": "1234",
+                                                        "role": "STUDENT"
+                                                      },
+                                                      "next": {
+                                                        "data": {
+                                                          "username": "SC",
+                                                          "password": "1234",
+                                                          "role": "PROFESSOR"
+                                                        },
+                                                        "visited": false
+                                                      },
+                                                      "visited": false
+                                                    },
+                                                    "visited": false
+                                                  },
                                                   "visited": false
                                                 },
                                                 "visited": false
@@ -193,7 +217,7 @@
   },
   "tail": {
     "data": {
-      "username": "Maria.S",
+      "username": "SC",
       "password": "1234",
       "role": "PROFESSOR"
     },

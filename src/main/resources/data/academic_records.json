@@ -115,6 +115,18 @@
                 "id": "p",
                 "name": "p",
                 "credits": 4,
+                "grade": 70.0,
+                "status": "Aprobado",
+                "careerId": "CAR01",
+                "professorId": "LR",
+                "semestre": 1,
+                "prerequisitosIds": [],
+                "corequisitosIds": []
+              },
+              {
+                "id": "IF0002",
+                "name": "INTRODUCCIÓN A LA INFORMÁTICA EMPRESARIAL",
+                "credits": 3,
                 "grade": 0.0,
                 "status": "Activo",
                 "careerId": "CAR01",
@@ -242,6 +254,51 @@
                               },
                               "courses": []
                             },
+                            "next": {
+                              "data": {
+                                "student": {
+                                  "id": "906360855",
+                                  "name": "Mia Calvo",
+                                  "carnet": "C5L098",
+                                  "age": 20,
+                                  "careerId": "CAR01",
+                                  "username": "M.C",
+                                  "password": "1234"
+                                },
+                                "courses": []
+                              },
+                              "next": {
+                                "data": {
+                                  "student": {
+                                    "id": "119520051",
+                                    "name": "Jimena Calvo",
+                                    "carnet": "C4L408",
+                                    "age": 20,
+                                    "careerId": "CAR01",
+                                    "username": "JCS",
+                                    "password": "1234"
+                                  },
+                                  "courses": []
+                                },
+                                "next": {
+                                  "data": {
+                                    "student": {
+                                      "id": "255885",
+                                      "name": "Karla Mendez",
+                                      "carnet": "C4L094",
+                                      "age": 23,
+                                      "careerId": "CAR01",
+                                      "username": "KM",
+                                      "password": "1234"
+                                    },
+                                    "courses": []
+                                  },
+                                  "visited": false
+                                },
+                                "visited": false
+                              },
+                              "visited": false
+                            },
                             "visited": false
                           },
                           "visited": false
@@ -271,12 +328,12 @@
   "tail": {
     "data": {
       "student": {
-        "id": "903660255",
-        "name": "Emma Calvo",
-        "carnet": "C4L9003",
-        "age": 20,
+        "id": "255885",
+        "name": "Karla Mendez",
+        "carnet": "C4L094",
+        "age": 23,
         "careerId": "CAR01",
-        "username": "Emma.C",
+        "username": "KM",
         "password": "1234"
       },
       "courses": []

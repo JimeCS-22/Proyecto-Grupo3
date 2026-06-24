@@ -1,16 +1,30 @@
 [
   {
-    "id": "3056507041",
-    "name": "P",
-    "careerId": "CAR01",
-    "username": "P",
-    "password": "1234"
-  },
-  {
     "id": "203650236",
     "name": "Laura Ramos",
     "careerId": "CAR01",
     "username": "LR",
+    "password": "1234"
+  },
+  {
+    "id": "203650789",
+    "name": "Evelyn Cubero",
+    "careerId": "CAR02",
+    "username": "E.C",
+    "password": "1234"
+  },
+  {
+    "id": "698970",
+    "name": "Esteban M",
+    "careerId": "CAR02",
+    "username": "EM",
+    "password": "1234"
+  },
+  {
+    "id": "59898",
+    "name": "Shirley Calvo",
+    "careerId": "CAR01",
+    "username": "SC",
     "password": "1234"
   }
 ]
